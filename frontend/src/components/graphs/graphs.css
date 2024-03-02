@@ -1,0 +1,36 @@
+
+.bar-graph{
+    /* background: rgb(189, 103, 103); */
+
+    box-shadow: 2px 2px 10px black;
+    width: 25rem;
+    height: 30rem;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 30px;
+
+}
+
+.bar-graph  h3{
+    color: #005312;
+    position: relative;
+    /* margin: 10px auto; */
+    text-align: center;
+    /* left: 50%; */
+}
+
+.bar-graph input{
+    padding: 7px;
+    margin: 10px;
+    border: 1px solid #0A7D00;
+    position: relative;
+    /* top: 100px; */
+    left: 15px;
+}
+
+.bar-graph button{
+    background: #0A7D00;
+    color: white;
+    padding: 10px;
+}
