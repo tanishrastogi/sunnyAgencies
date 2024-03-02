@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { BACKEND_URL } from "../../api.config"
+import { BACKEND_URL } from "../../api.config.js"
 import { useNavigate } from "react-router-dom"
-import './graphs.css'
+import "./graphs.css"
 
 const BarGraph = () => {
 
@@ -72,7 +72,7 @@ const BarGraph = () => {
             <input name="year" value={details.year} onChange={addData} required placeholder="Enter year" />
 
             <button onClick={getGraph}>GENERATE</button>
-            <img src={image}></img>
+            {image.length ===0 ?<div className="graph-img">Click on the GENERATE button to generate graph</div>:<img src={image} />}
         </div>
     </>
 }
