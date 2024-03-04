@@ -1,0 +1,38 @@
+.bar-graph{
+    /* background: #000; */
+    /* height: 35rem; */
+    /* display: flex; */
+    /* justify-content: space-evenly; */
+    /* width: 40rem; */
+}
+
+/* .bar-graph h3{
+    text-align: left;
+    padding: 0px 30px ;
+} */
+
+.find-peak-sale-table{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.find-peak-sale-table p{
+    font-size: 0.1rem;
+}
+
+.find-peak-sale-table input{
+    /* margin: 30px 80px; */
+    margin: 0 0 0 -30px ;
+}
+
+
+.bar-graph input{
+    height: 20px;
+
+}
+
+.bar-graph .graph-img-tables{
+
+
+
+}

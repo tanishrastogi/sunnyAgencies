@@ -10,7 +10,9 @@ const BarGraph = () => {
         year: ""
     })
 
-    const [file_create, setFileCreate] = useState(false)
+    
+
+    // const [file_create, setFileCreate] = useState(false)
 
     const [image, setImage] = useState("");
 
@@ -22,7 +24,7 @@ const BarGraph = () => {
 
         console.log(name, value, checked)
 
-        if (value === 'fileCreate') { setFileCreate(!file_create) }
+        // if (value === 'fileCreate') { setFileCreate(!file_create) }
 
         setDetails(() => {
             return {
@@ -41,8 +43,8 @@ const BarGraph = () => {
             },
             body: JSON.stringify({
                 itemCode: details.itemCode,
-                year: details.year,
-                file_create: file_create
+                year: details.year
+                // file_create: file_create
             })
         })
 
@@ -66,7 +68,7 @@ const BarGraph = () => {
 
 
     return <>
-        <div className="bar-graph">
+        <div className="bar-graph" style={{right:'-0%'}}>
             <h3>GRAPH GENERATOR</h3>
             <input name="itemCode" value={details.itemCode} onChange={addData} required placeholder="Enter item code" />
             <input name="year" value={details.year} onChange={addData} required placeholder="Enter year" />
