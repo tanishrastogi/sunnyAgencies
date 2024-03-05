@@ -32,6 +32,7 @@ const peak_sale_by_month = async (req, res) => {
 
 const same_peak_every_year = async (req, res) => {
     const { month, accuracy } = req.body;
+    console.log(req.body)
     try {
         const products = await ItemSale.find({})
         const toBeSent = [];

@@ -68,7 +68,7 @@ const BarGraph = () => {
 
 
     return <>
-        <div className="bar-graph" style={{right:'-0%'}}>
+        <div className="bar-graph" style={{right:'-100%'}}>
             <h3>GRAPH GENERATOR</h3>
             <input name="itemCode" value={details.itemCode} onChange={addData} required placeholder="Enter item code" />
             <input name="year" value={details.year} onChange={addData} required placeholder="Enter year" />
