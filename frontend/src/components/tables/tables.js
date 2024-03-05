@@ -55,7 +55,7 @@ const Best_sale_by_month = () => {
                 <input name='month' onChange={handleChange} value={details.month} placeholder='MONTH NAME' />
                 <input name='accuracy' onChange={handleChange} value={details.accuracy} placeholder='ACCURACY' />
             </div>
-            {saleData ? <div>
+            {saleData ? <div className='table-container'>
                 <table className='table'>
                     <thead>
                         <tr>
