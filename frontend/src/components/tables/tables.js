@@ -29,6 +29,11 @@ const Best_sale_by_month = () => {
 
     const fetchData = async () => {
 
+        if(details.month.length ===0 || details.accuracy.length === 0){
+            alert('Please provide month and accuracy first!')
+            return ;
+        }
+
         const res = await fetch(`${BACKEND_URL}/api/sales/peaksale/every-year-same-month`, {
             method: 'post',
             headers: {
@@ -64,6 +69,7 @@ const Best_sale_by_month = () => {
                             <th>AVG SALE</th>
                             <th>YEARS CHECKED</th>
                             <th>SAME MONTH YEARS</th>
+                            <th>YEARS CHECKED</th>
                         </tr>
                     </thead>
                     {saleData.map((item) => {
@@ -73,6 +79,7 @@ const Best_sale_by_month = () => {
                             <td>{item.avg_sale_this_month}</td>
                             <td>{item.total_attempts}</td>
                             <td>{item.correct_attempts}</td>
+                            <td>{item.years_checked.join(" , ")}</td>
                         </tr>
                     })}
                 </table>

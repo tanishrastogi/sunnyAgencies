@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const saleSchema = new mongoose.Schema({
     year: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     monthly_sale: {
         January: {
@@ -79,13 +79,33 @@ const saleSchema = new mongoose.Schema({
             }
         }
     },
-    peak_sale_month:[
+    peak_sale_month: [
         {
-            month_name:String,
-            sale:Number
+            month_name: String,
+            sale: Number
         }
     ]
 
+})
+
+const sale_rate_schema = new mongoose.Schema({
+    mrp: {
+        type: String
+    },
+    rate: {
+        type: String
+    },
+    quantity: String,
+    discount: {
+        deal: {
+            type: String,
+            default: '0+0'
+        },
+        disc: {
+            type: String,
+            default: '0'
+        }
+    }
 })
 
 const item_saleSchema = new mongoose.Schema({
@@ -98,9 +118,12 @@ const item_saleSchema = new mongoose.Schema({
         required: true
     },
     item_sale_data: [saleSchema],
-    
+    sale_rate: mongoose.Schema.Types.ObjectId
 })
 
 
+
 const ItemSale = new mongoose.model('itemsales', item_saleSchema);
-export { ItemSale };
+const SaleRate = new mongoose.model('sale_rates', sale_rate_schema);
+
+export { ItemSale, SaleRate };
