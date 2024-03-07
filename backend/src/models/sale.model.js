@@ -92,9 +92,10 @@ const sale_rate_schema = new mongoose.Schema({
     mrp: {
         type: String
     },
-    rate: {
+    pur_rate: {
         type: String
     },
+    sale_rate: String,
     quantity: String,
     discount: {
         deal: {
@@ -105,7 +106,9 @@ const sale_rate_schema = new mongoose.Schema({
             type: String,
             default: '0'
         }
-    }
+    },
+    bill_number: String,
+    bill_date:String
 })
 
 const item_saleSchema = new mongoose.Schema({
