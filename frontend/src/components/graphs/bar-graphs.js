@@ -3,14 +3,16 @@ import { BACKEND_URL } from "../../api.config.js"
 import { useNavigate } from "react-router-dom"
 import "./graphs.css"
 
-const BarGraph = () => {
+const BarGraph = (props) => {
+
+    const { styles } = props
 
     const [details, setDetails] = useState({
         itemCode: "",
         year: ""
     })
 
-    
+
 
     // const [file_create, setFileCreate] = useState(false)
 
@@ -68,13 +70,13 @@ const BarGraph = () => {
 
 
     return <>
-        <div className="bar-graph" style={{right:'-100%'}}>
+        <div className="bar-graph" style={{...styles ,}}>
             <h3>GRAPH GENERATOR</h3>
             <input name="itemCode" value={details.itemCode} onChange={addData} required placeholder="Enter item code" />
             <input name="year" value={details.year} onChange={addData} required placeholder="Enter year" />
 
             <button onClick={getGraph}>GENERATE</button>
-            {image.length ===0 ?<div className="graph-img">Click on the GENERATE button to generate graph</div>:<img src={image} />}
+            {image.length === 0 ? <div className="graph-img">Click on the GENERATE button to generate graph</div> : <img src={image} />}
         </div>
     </>
 }
