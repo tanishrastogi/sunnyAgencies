@@ -11,10 +11,16 @@ const priceSchema = mongoose.Schema({
   discount: {
     type: Number
   }, 
+  gst:{
+    type:Number
+  },
   mrp:{
     type:String, 
     required:true
-  } 
+  }, 
+  saleRate:{
+    type:Number
+  }
 })
 
 const productSchema = mongoose.Schema({
@@ -33,6 +39,10 @@ const productSchema = mongoose.Schema({
   },
   gst: {
     type: String
+  },
+  mrp:{
+    type:Number, 
+    required:trueqw
   },
   price:{
     type:priceSchema
