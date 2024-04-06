@@ -20,6 +20,10 @@ const priceSchema = mongoose.Schema({
   }, 
   saleRate:{
     type:Number
+  },
+  batchNumber:{
+    type:Number,
+    required:true
   }
 })
 
@@ -52,7 +56,17 @@ const productSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order"
     }
-  ]
+  ],
+  analytics:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"sale_rates"
+  },
+  reportID:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Reports"
+  }
 })
 
-const Product = new mongoose.model(productSchema);
+const Product = new mongoose.model( "Product", productSchema);
+
+export {Product}

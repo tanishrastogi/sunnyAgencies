@@ -108,7 +108,7 @@ const sale_rate_schema = new mongoose.Schema({
         }
     },
     bill_number: String,
-    bill_date:String
+    bill_date:String    
 })
 
 const item_saleSchema = new mongoose.Schema({
@@ -120,6 +120,9 @@ const item_saleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    tags:{
+        type:[String]
+    }, 
     item_sale_data: [saleSchema],
     sale_rate: mongoose.Schema.Types.ObjectId
 })
