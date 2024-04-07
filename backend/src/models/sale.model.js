@@ -129,7 +129,7 @@ const item_saleSchema = new mongoose.Schema({
 
 
 
-const ItemSale = new mongoose.model('itemsales', item_saleSchema);
-const SaleRate = new mongoose.model('sale_rates', sale_rate_schema);
+const ItemSale =  mongoose.model('itemsales', item_saleSchema);
+const SaleRate =  mongoose.model('sale_rates', sale_rate_schema);
 
 export { ItemSale, SaleRate };

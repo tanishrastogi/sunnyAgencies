@@ -7,6 +7,6 @@ const reportSchema = new mongoose.Schema({
   updationDates: [String]
 })
 
-const Report = new mongoose.model("Reports", reportSchema)
+const Report = mongoose.model("Reports", reportSchema)
 
 export { Report }

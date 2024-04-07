@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const priceSchema = mongoose.Schema({
+const priceSchema = new mongoose.Schema({
   purchaseRate: {
     type: Number,
     required: True
@@ -10,24 +10,24 @@ const priceSchema = mongoose.Schema({
   },
   discount: {
     type: Number
-  }, 
-  gst:{
-    type:Number
   },
-  mrp:{
-    type:String, 
-    required:true
-  }, 
-  saleRate:{
-    type:Number
+  gst: {
+    type: Number
   },
-  batchNumber:{
-    type:Number,
-    required:true
+  mrp: {
+    type: String,
+    required: true
+  },
+  saleRate: {
+    type: Number
+  },
+  batchNumber: {
+    type: Number,
+    required: true
   }
 })
 
-const productSchema = mongoose.Schema({
+const productSchema = new mongoose.Schema({
   itemCode: {
     type: String,
     required: true,
@@ -41,32 +41,37 @@ const productSchema = mongoose.Schema({
     type: String,
     default: "misc"
   },
+  packing: {
+    type: String
+  },
   gst: {
     type: String
   },
-  mrp:{
-    type:Number, 
-    required:trueqw
+  mrp: {
+    type: Number,
+    required: trueqw
   },
-  price:{
-    type:priceSchema
-  }, 
+  price: {
+    type: priceSchema
+  },
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order"
     }
   ],
-  analytics:{
+  item_sale_data:{
     type:mongoose.Schema.Types.ObjectId,
-    ref:"sale_rates"
+    ref:"ItemSale"
   },
-  reportID:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Reports"
+  reportID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Reports"
   }
 })
 
-const Product = new mongoose.model( "Product", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
-export {Product}
+
+
+export { Product }
