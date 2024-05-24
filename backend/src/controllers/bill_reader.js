@@ -12,4 +12,6 @@ const read_bill = async(req,res)=>{
   }
 }
 
+
+
 export {read_bill};

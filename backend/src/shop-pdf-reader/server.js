@@ -141,6 +141,7 @@ function givePartyNames(path) {
 }
 
 function readBill(path) {
+    
     return new Promise(async (resolve, reject) => {
         const data = await givePartyNames(path);
         // console.log(data);
@@ -149,6 +150,8 @@ function readBill(path) {
         // const promise = await readPdf('./pdfs/rad0D7D2.pdf');``
         // console.log(promise) 
     })
+    
+    
 }
 
 // readBill('./pdfs/radC853A.pdf')

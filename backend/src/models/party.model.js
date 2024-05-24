@@ -7,7 +7,8 @@ const partySchema = new mongoose.Schema({
   },
   partyCode: {
     type: String,
-    required: true
+    required: true,
+    unique:true
   },
   address: [String],
   details: {
@@ -15,22 +16,14 @@ const partySchema = new mongoose.Schema({
     dlNo2: String,
     gstNumber: String,
     accountGroup: String,
-    mobile: [Number]
+    mobile: [String]
   },
   bills: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Order"
   }],
-  payments: [{
-    type: String,
-    unique: true
-  }],
-  purchases: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Purchase"
-    }
-  ],
+
+  
   analytics: {
 
   }
