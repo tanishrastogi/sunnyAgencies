@@ -140,15 +140,21 @@ function givePartyNames(path) {
     })
 }
 
-function addItemsToBill(path) {
+function readBill(path) {
     return new Promise(async (resolve, reject) => {
-        const data = await givePartyNames('./pdfs/rad0D7D2.pdf');
-        console.log(data);
+        const data = await givePartyNames(path);
+        // console.log(data);
+        resolve(data)
+
         // const promise = await readPdf('./pdfs/rad0D7D2.pdf');``
         // console.log(promise) 
     })
 }
 
-addItemsToBill('./pdfs/radC853A.pdf')
+// readBill('./pdfs/radC853A.pdf')
 
 // console.log(promise)
+
+export {readBill}
+
+

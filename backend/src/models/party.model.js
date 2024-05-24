@@ -9,7 +9,7 @@ const partySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  address: String,
+  address: [String],
   details: {
     dlNo1: String,
     dlNo2: String,
