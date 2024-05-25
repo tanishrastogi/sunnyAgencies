@@ -49,10 +49,10 @@ const productSchema = new mongoose.Schema({
   },
   mrp: {
     type: Number,
-    required: trueqw
+    required: true
   },
   price: {
-    type: priceSchema
+    type: [priceSchema]
   },
   orders: [
     {

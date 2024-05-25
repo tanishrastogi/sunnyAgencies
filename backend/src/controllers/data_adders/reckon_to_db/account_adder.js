@@ -8,6 +8,7 @@ import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url";
 import { trimArrayOfObj, trimObj } from "./functions/trimObj.js";
+import { removeFile } from "../../../middlewares/multer.mdlw.js";
 
 // REQUIRED REPORT SETTINGS: 
 /*
@@ -28,12 +29,8 @@ import { trimArrayOfObj, trimObj } from "./functions/trimObj.js";
 
 const account_adder = async (req, res) => {
   try {
-    // const dirname = path.join(__dirname,'/')
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-
-    const workbook = xlsx.readFile(`${__dirname}/excel_files/rad43E8B.xlsx`);
+    const workbook = xlsx.readFile(`${req.file.path}`);
 
     // Get the first sheet
     const sheetName = workbook.SheetNames[0];
@@ -59,7 +56,7 @@ const account_adder = async (req, res) => {
         });
       }
     })
-
+    removeFile(req.file.path)
     return res.json(new ApiResponse(200, data, "Accounts added successfully"))
   }
   catch (err) {
