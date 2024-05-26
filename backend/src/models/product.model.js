@@ -27,7 +27,7 @@ const priceSchema = new mongoose.Schema({
   }
 })
 
-const productSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema({
   itemCode: {
     type: String,
     required: true,
@@ -60,6 +60,10 @@ const productSchema = new mongoose.Schema({
       ref: "Order"
     }
   ],
+  purchases:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Purchase"
+  },
   item_sale_data:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"ItemSale"
@@ -70,8 +74,8 @@ const productSchema = new mongoose.Schema({
   }
 })
 
-const Product = mongoose.model("Product", productSchema);
+const Item = mongoose.model("Product", itemSchema);
 
 
 
-export { Product }
+export { Item }
