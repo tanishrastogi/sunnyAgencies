@@ -1,63 +1,85 @@
-
-
 // this function is to convert the objects recieved from the purchase report , into objects suitable for adding into the db.
 
 
-const formPurchaseObject =  (obj) => {
+const formPurchaseObject = (obj) => {
   try {
 
     const arr = []
 
-    let purchase = {}
+    let purchase = {};
     let lastPurchaseNumberIndex = 0
-    obj.forEach((entry, index) => {
+    obj.map((entry, index) => {
       const entryNo = Number(entry['Entry No'].slice(2));
-      if (entryNo > 0 && index !== 0 && Number(obj[lastPurchaseNumberIndex]['Entry No'].slice(2))!==entryNo) {
-        // console.log(purchase)
+      if (entryNo > 0 && index !== 0) {
         arr.push(purchase);
+        console.log(entryNo)
         purchase = {};
-        lastPurchaseNumberIndex = index;
       }
 
+
       if (entryNo > 0) {
+
         purchase['entryNo'] = entry['Entry No'];
         purchase['partyCode'] = entry['AccCod'];
         purchase['billNo'] = entry['Bill No']
         purchase['billDate'] = entry['Bill Dt']
         purchase['items'] = [
           {
-            itemCode:entry['ItemCd'],
-            itemName:entry['ItemName'],
-            packing:entry['Packing'],
-            company:entry['Company'],
-            batchNumber:entry['BatchNo'],
-            quantity:entry['Qty'],
-            purchaseRate:entry['NpRt(Inc'],
-            mrp:entry['MRP'],
-            gst:entry['CGST%'],
-            discount:entry['Disc%']
+            itemCode: entry['ItemCd'],
+            itemName: entry['ItemName'],
+            packing: entry['Packing'],
+            company: entry['Company'],
+            batchNumber: entry['BatchNo'],
+            quantity: entry['Qty'],
+            purchaseRate: entry['NpRt(Inc'],
+            mrp: entry['MRP'],
+            gst: entry['CGST%'],
+            discount: entry['Disc%']
           }
-        ];  
+        ];
+
+        // lastPurchaseNumberIndex = index;
+
         // console.log(purchase)
       }
-      else if(entryNo===0){
-        purchase['items'].push({
-          itemCode:entry['ItemCd'],
-          itemName:entry['ItemName'],
-          packing:entry['Packing'],
-          company:entry['Company'],
-          batchNumber:entry['BatchNo'],
-          quantity:entry['Qty'],
-          purchaseRate:entry['NpRt(Inc'],
-          mrp:entry['MRP'],
-          gst:entry['CGST%'],
-          discount:entry['Disc%']
+      else if (entryNo === 0 && (entry['ItemCd'].length !== 0 || entry['ItemName'].length !== 0 || entry['Packing'].length !== 0 || entry['Company'].length !== 0)) {
+        purchase['items']?.push({
+          itemCode: entry['ItemCd'],
+          itemName: entry['ItemName'],
+          packing: entry['Packing'],
+          company: entry['Company'],
+          batchNumber: entry['BatchNo'],
+          quantity: entry['Qty'],
+          purchaseRate: entry['NpRt(Inc'],
+          mrp: entry['MRP'],
+          gst: entry['CGST%'],
+          discount: entry['Disc%']
         })
       }
 
+      if (arr.length > 0) {
+        let lastpurchaseEntryNo = arr[arr.length - 1]?.entryNo;
+        let secondLastPurcahseEntryNo = arr[arr.length - 2]?.entryNo;
+        let lastPurchase = arr[arr.length - 1]
+        let secondLastPurchase = arr[arr.length - 2]
+        if (lastpurchaseEntryNo === secondLastPurcahseEntryNo) {
+
+          arr.pop();
+          const items = [
+            ...lastPurchase?.items,
+            ...secondLastPurchase?.items
+          ];
+
+          arr[arr.length - 1]['items'] = items;
+
+        }
+      }
+
+
     })
-    // console.log(arr)
-    return arr
+
+    return arr.length
+
   }
   catch (err) {
     console.log(err);
