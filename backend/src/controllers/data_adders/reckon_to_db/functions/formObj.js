@@ -1,18 +1,21 @@
 // this function is to convert the objects recieved from the purchase report , into objects suitable for adding into the db.
 
+import { Item } from "../../../../models/item.model.js";
 
-const formPurchaseObject = (obj) => {
+
+const formPurchaseObject = (array, type) => {
   try {
 
     const arr = []
 
     let purchase = {};
-    let lastPurchaseNumberIndex = 0
-    obj.map((entry, index) => {
+    let items = [];
+    array.map((entry, index) => {
       const entryNo = Number(entry['Entry No'].slice(2));
       if (entryNo > 0 && index !== 0) {
         arr.push(purchase);
         console.log(entryNo)
+        items = [...items, ...purchase['items']]
         purchase = {};
       }
 
@@ -38,9 +41,6 @@ const formPurchaseObject = (obj) => {
           }
         ];
 
-        // lastPurchaseNumberIndex = index;
-
-        // console.log(purchase)
       }
       else if (entryNo === 0 && (entry['ItemCd'].length !== 0 || entry['ItemName'].length !== 0 || entry['Packing'].length !== 0 || entry['Company'].length !== 0)) {
         purchase['items']?.push({
@@ -78,7 +78,12 @@ const formPurchaseObject = (obj) => {
 
     })
 
-    return arr.length
+    if (type === 'items') {
+      return items
+    }
+    else if (type === 'purchases') {
+      return arr
+    }
 
   }
   catch (err) {
@@ -86,4 +91,40 @@ const formPurchaseObject = (obj) => {
   }
 }
 
-export { formPurchaseObject }
+
+
+
+const addItemsToDB = async (obj) => {
+  try {
+    obj.map(async (item) => {
+      
+      const med = await Item.findOne({
+        itemCode: item.itemCode
+      });
+
+      if(!med){
+        const medicine = new Item({
+          itemCode:item.itemCode,
+          itemName:item.itemName,
+          company:item.company, 
+          packing:item.packing,
+          gst:item.gst
+        })
+
+        await medicine.save();
+      }
+
+    })
+
+    console.log("Object added successfully");
+
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
+export {
+  formPurchaseObject,
+  addItemsToDB
+}

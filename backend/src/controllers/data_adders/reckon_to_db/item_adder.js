@@ -3,7 +3,8 @@ import { handleErr } from "../../../utils/apiError.js"
 import { ApiResponse } from "../../../utils/apiResponse.js";
 import xlsx from "xlsx"
 import { trimArrayOfObj } from "./functions/trimObj.js";
-import { formPurchaseObject } from "./functions/formObj.js";
+import { addItemsToDB, formPurchaseObject } from "./functions/formObj.js";
+import { Item } from "../../../models/item.model.js";
 
 
 const item_adder = async (req, res) => {
@@ -32,9 +33,9 @@ const item_adder = async (req, res) => {
     const objFromExcelFile = trimArrayOfObj(xlsx.utils.sheet_to_json(worksheet));
     
     // reforming the array of objects from excel purchase file , into a suitable object , which can be added to the db 
-    const purchaseObj = formPurchaseObject(objFromExcelFile);
+    const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
 
-    // console.log(purchaseObj)
+    addItemsToDB(purchaseObj);
 
     removeFile(req.file.path);
     return res.json(new ApiResponse(200, purchaseObj));

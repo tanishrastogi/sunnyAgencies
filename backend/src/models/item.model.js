@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const priceSchema = new mongoose.Schema({
   purchaseRate: {
     type: Number,
-    required: True
+    required: true
   },
   deal: {
     type: Number
@@ -47,31 +47,29 @@ const itemSchema = new mongoose.Schema({
   gst: {
     type: String
   },
-  mrp: {
-    type: Number,
-    required: true
-  },
-  price: {
-    type: [priceSchema]
-  },
-  orders: [
+  sale: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Order"
+      ref: "Sale"
     }
   ],
-  purchases:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Purchase"
+  purchases: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Purchase"
   },
-  item_sale_data:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"ItemSale"
+  item_sale_data: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ItemSale"
   },
   reportID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Reports"
+  },
+  rates: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Rate"
   }
+
 })
 
 const Item = mongoose.model("Product", itemSchema);

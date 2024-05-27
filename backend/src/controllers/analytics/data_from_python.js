@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { ItemSale } from "../../models/sale.model.js";
+import { ItemSale } from "../../models/sale_report.model.js";
 import { ApiError } from "../../utils/apiError.js";
 
 

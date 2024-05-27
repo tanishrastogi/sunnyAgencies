@@ -1,4 +1,4 @@
-import { ItemSale } from "../../models/sale.model.js"
+import { ItemSale } from "../../models/sale_report.model.js"
 import { ApiError } from "../../utils/apiError.js";
 import { ApiResponse } from "../../utils/apiResponse.js";
 import { ChartJSNodeCanvas } from "chartjs-node-canvas"
