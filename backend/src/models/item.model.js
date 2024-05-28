@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const priceSchema = new mongoose.Schema({
   purchaseRate: {
@@ -46,6 +46,10 @@ const itemSchema = new mongoose.Schema({
   },
   gst: {
     type: String
+  },
+  totalQuantity:{
+    type:Number,
+    default:0
   },
   sale: [
     {

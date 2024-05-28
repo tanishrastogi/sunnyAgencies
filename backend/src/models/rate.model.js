@@ -1,24 +1,26 @@
 import mongoose from "mongoose";
 
 const purchaseRateSchema = new mongoose.Schema({
-  purchase:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Purchase"
+  purchase: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Purchase"
   },
-  mrp:String,
-  purchaseRate:String, 
-  batchNumber:String,
-  quantity:Number,
-  deal:String,
-  discount:String
+  mrp: String,
+  purchaseRate: String,
+  batchNumber: String,
+  quantity: Number,
+  deal: String,
+  discount: String,
 })
 
 const rateSchema = new mongoose.Schema({
-  item:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Item'
+  item: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Item'
   },
-  rates:[purchaseRateSchema]
+  rates: [purchaseRateSchema]
 })
 
 const Rate = mongoose.model('Rate', rateSchema);
+
+export { Rate }

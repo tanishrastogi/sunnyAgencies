@@ -34,11 +34,14 @@ const item_adder = async (req, res) => {
     
     // reforming the array of objects from excel purchase file , into a suitable object , which can be added to the db 
     const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
+    const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
 
-    addItemsToDB(purchaseObj);
+    // await addItemsToDB(purchaseObj);
+
+    
 
     removeFile(req.file.path);
-    return res.json(new ApiResponse(200, purchaseObj));
+    return res.json(new ApiResponse(200, objFromExcelFile));
   }
   catch (err) {
     return handleErr(res, err);

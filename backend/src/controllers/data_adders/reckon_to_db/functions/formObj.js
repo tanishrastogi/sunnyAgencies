@@ -1,6 +1,7 @@
 // this function is to convert the objects recieved from the purchase report , into objects suitable for adding into the db.
 
 import { Item } from "../../../../models/item.model.js";
+import { Rate } from "../../../../models/rate.model.js";
 
 
 const formPurchaseObject = (array, type) => {
@@ -14,7 +15,6 @@ const formPurchaseObject = (array, type) => {
       const entryNo = Number(entry['Entry No'].slice(2));
       if (entryNo > 0 && index !== 0) {
         arr.push(purchase);
-        console.log(entryNo)
         items = [...items, ...purchase['items']]
         purchase = {};
       }
@@ -49,7 +49,7 @@ const formPurchaseObject = (array, type) => {
           packing: entry['Packing'],
           company: entry['Company'],
           batchNumber: entry['BatchNo'],
-          quantity: entry['Qty'],
+          quantity: Number(entry['Qty'])+Number(entry['Deal']),
           purchaseRate: entry['NpRt(Inc'],
           mrp: entry['MRP'],
           gst: entry['CGST%'],
@@ -92,29 +92,42 @@ const formPurchaseObject = (array, type) => {
 }
 
 
-
-
 const addItemsToDB = async (obj) => {
   try {
-    obj.map(async (item) => {
+    
+    const promises = obj.map(async (item) => {
       
+      // console.log(item.itemCode)
       const med = await Item.findOne({
         itemCode: item.itemCode
       });
-
+      // console.log(med)
       if(!med){
         const medicine = new Item({
           itemCode:item.itemCode,
           itemName:item.itemName,
           company:item.company, 
           packing:item.packing,
-          gst:item.gst
+          gst:item.gst,
+          totalQuantity:item.quantity
         })
 
         await medicine.save();
+
+        const rate = new Rate({
+          item:medicine._id
+        })
+
+        await rate.save()
+
       }
 
     })
+
+    await Promise.all(promises);
+
+    console.log("Object added successfully");
+
 
     console.log("Object added successfully");
 
@@ -124,7 +137,26 @@ const addItemsToDB = async (obj) => {
   }
 }
 
+
+const addRatesToItems = async(obj)=>{
+  try{
+    const promises = obj.map(async(item)=>{
+      const med = await Item.findOne({itemCode:item.itemCode})
+      if(med){
+        // const rate = await 
+      }
+    })
+
+    await Promise.all(promises);
+
+  }
+  catch(err){
+
+  }
+}
+
 export {
   formPurchaseObject,
-  addItemsToDB
+  addItemsToDB, 
+  addRatesToItems
 }
