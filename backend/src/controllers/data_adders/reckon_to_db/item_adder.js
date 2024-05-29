@@ -3,15 +3,15 @@ import { handleErr } from "../../../utils/apiError.js"
 import { ApiResponse } from "../../../utils/apiResponse.js";
 import xlsx from "xlsx"
 import { trimArrayOfObj } from "./functions/trimObj.js";
-import { addItemsToDB, addRatesToItems, formPurchaseObject } from "./functions/formObj.js";
+import { addItemsToDB, addPurchaseToDB,  formPurchaseObject } from "./functions/formObj.js";
 import { Item } from "../../../models/item.model.js";
 
 
 const item_adder = async (req, res) => {
   try {
-    
+
     // Things we would be needing in a report for adding items to db.
-    
+
     /*
 
       item code
@@ -30,12 +30,14 @@ const item_adder = async (req, res) => {
 
     // trimming the extra spaces from the keys and values in the object.
     const objFromExcelFile = trimArrayOfObj(xlsx.utils.sheet_to_json(worksheet));
-    
+
     // reforming the array of objects from excel purchase file , into a suitable object , which can be added to the db 
     const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
-    // const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
-
-    await addItemsToDB(purchaseObj);
+    const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
+    
+    await addPurchaseToDB(purchaseObjForRates);
+    
+    // await addItemsToDB(purchaseObj);
 
     removeFile(req.file.path);
 

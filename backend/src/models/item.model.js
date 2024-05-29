@@ -72,11 +72,15 @@ const itemSchema = new mongoose.Schema({
   rates: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Rate"
-  }
+  },
+  searchTags:[String]
 
 })
 
-const Item = mongoose.model("Product", itemSchema);
+itemSchema.index({ itemCode: 1 }, { unique: true });
+
+
+const Item = mongoose.model("Item", itemSchema);
 
 
 

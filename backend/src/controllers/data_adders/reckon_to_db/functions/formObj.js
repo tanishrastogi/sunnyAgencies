@@ -28,6 +28,8 @@ const formPurchaseObject = (array, type) => {
         purchase['billDate'] = entry['Bill Dt']
         purchase['items'] = [
           {
+            purchaseNumber: entry['Entry No'],
+            purchasingParty: entry['AccCod'],
             itemCode: entry['ItemCd'],
             itemName: entry['ItemName'],
             packing: entry['Packing'],
@@ -45,6 +47,8 @@ const formPurchaseObject = (array, type) => {
       }
       else if (entryNo === 0 && (entry['ItemCd'].length !== 0 || entry['ItemName'].length !== 0 || entry['Packing'].length !== 0 || entry['Company'].length !== 0)) {
         purchase['items']?.push({
+          purchaseNumber: entry['Entry No'],
+          purchasingParty: entry['AccCod'],
           itemCode: entry['ItemCd'],
           itemName: entry['ItemName'],
           packing: entry['Packing'],
@@ -100,7 +104,7 @@ const addItemsToDB = async (obj) => {
 
     const promises = obj.map(async (item) => {
 
-      // console.log(item.itemCode)
+      console.log(item)
       const med = await Item.findOne({
         itemCode: item.itemCode
       });
@@ -164,60 +168,27 @@ const addItemsToDB = async (obj) => {
   }
 }
 
+const addPurchaseToDB = async(obj)=>{
+  try{
+    
+    console.log(obj)
 
-const addRatesToItems = async (obj) => {
-  try {
-    const promises = obj.map(async (item) => {
-      console.log(item)
-      const med = await Item.findOne({ itemCode: item.itemCode })
-      if (med) {
-        const rate = await Rate.findOne({ item: med._id });
-        if (rate) {
-          rate.rates.push({
-            batchNumber: item.batchNumber,
-            quantity: item.quantity,
-            free: item.free,
-            purchaseRate: item.purchaseRate,
-            mrp: item.mrp,
-            gst: String(Number(item.gst) * 2),
-            discount: item.discount,
-          })
+    const promises = obj.map(async(item)=>{
+    
 
-          await rate.save();
-
-        }
-        else if (!rate) {
-          const rate = new Rate({
-            item: med._id,
-            rates: [
-              {
-                batchNumber: item.batchNumber,
-                quantity: item.quantity,
-                free: item.free,
-                purchaseRate: item.purchaseRate,
-                mrp: item.mrp,
-                gst: String(Number(item.gst) * 2),
-                discount: item.discount,
-              }
-            ]
-          })
-
-          await rate.save();
-
-        }
-      }
+      
+      
     })
 
-    await Promise.all(promises);
-
+    await Promise.all(promises)
   }
-  catch (err) {
-
+  catch(err){
+    console.log(err);
   }
 }
 
 export {
   formPurchaseObject,
   addItemsToDB,
-  addRatesToItems
+  addPurchaseToDB
 }

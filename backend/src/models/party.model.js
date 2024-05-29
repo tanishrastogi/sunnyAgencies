@@ -22,10 +22,14 @@ const partySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Order"
   }],
-
-  
+  purchases:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Purchase"
+    }
+  ],
   analytics: {
-
+    
   }
 }, {
   timestamps: true
