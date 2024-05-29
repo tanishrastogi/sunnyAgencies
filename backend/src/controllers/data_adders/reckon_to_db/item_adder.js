@@ -3,7 +3,7 @@ import { handleErr } from "../../../utils/apiError.js"
 import { ApiResponse } from "../../../utils/apiResponse.js";
 import xlsx from "xlsx"
 import { trimArrayOfObj } from "./functions/trimObj.js";
-import { addItemsToDB, formPurchaseObject } from "./functions/formObj.js";
+import { addItemsToDB, addRatesToItems, formPurchaseObject } from "./functions/formObj.js";
 import { Item } from "../../../models/item.model.js";
 
 
@@ -23,7 +23,6 @@ const item_adder = async (req, res) => {
       mrp
 
     */
-
     const workbook = xlsx.readFile(req.file.path);
 
     const sheetName = workbook.SheetNames[0];
@@ -34,14 +33,13 @@ const item_adder = async (req, res) => {
     
     // reforming the array of objects from excel purchase file , into a suitable object , which can be added to the db 
     const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
-    const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
+    // const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
 
-    // await addItemsToDB(purchaseObj);
-
-    
+    await addItemsToDB(purchaseObj);
 
     removeFile(req.file.path);
-    return res.json(new ApiResponse(200, objFromExcelFile));
+
+    return res.json(new ApiResponse(200, purchaseObj));
   }
   catch (err) {
     return handleErr(res, err);
