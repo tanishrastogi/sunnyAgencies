@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 const purchaseRateSchema = new mongoose.Schema({
+  purchase:{
+
+  },
   mrp: String,
   purchaseRate: String,
   batchNumber: String,

@@ -2,6 +2,8 @@
 
 import { Item } from "../../../../models/item.model.js";
 import { Rate } from "../../../../models/rate.model.js";
+import { Purchase } from "../../../../models/purchase.model.js";
+import { Party } from "../../../../models/party.model.js";
 
 
 const formPurchaseObject = (array, type) => {
@@ -168,21 +170,91 @@ const addItemsToDB = async (obj) => {
   }
 }
 
-const addPurchaseToDB = async(obj)=>{
-  try{
-    
+const addPurchaseToDB = async (obj) => {
+  try {
+
     console.log(obj)
 
-    const promises = obj.map(async(item)=>{
-    
+    const promises = obj.map(async (purchase) => {
 
-      
-      
+      // check if purchase is already added
+      // if yes: ignore
+      // if no: 
+      // 1. add purchase
+      // a) check if party exists or not , if yes, add the purchase id to the party purchases
+      // b) while adding check if item exists or not , if yes, add the item id to the purchase 
+      // c) if item exists , add the rate to the item 
+
+
+      // checking if purchase exists or not
+      const pur = await Purchase.findOne({ billNo: purchase.entryNo, billDate: purchase.billDate, partyCode: purchase.partyCode });
+
+      console.log(pur);
+      // if purchase does not exists add it to the db
+      if (!pur) {
+
+        const purc = new Purchase({
+          billNo: purchase.entryNo,
+          billDate: purchase.billDate,
+          invoiceNo: purchase.billNo,
+          partyCode: purchase.partyCode
+        });
+
+        // add the purchase id to the party and party id to the purchase.
+        const party = await Party.findOne({ partyCode: purchase.partyCode });
+
+        party.purchases.push(purc._id);
+        purc.party = party._id;
+
+        await party.save();
+
+
+        // add items to purchase
+        const itemIdArray = [];
+
+        const promises = purchase.items.map(async (med) => {
+          const item = await Item.findOne({ itemCode: med.itemCode });
+          if (item) {
+            itemIdArray.push(item._id);
+            const rate = await Rate.findOne({ item: item._id });
+            if (rate) {
+              await Rate.findOneAndUpdate({ item: med._id }, {
+                $push: {
+                  rates: {
+                    batchNumber: item.batchNumber,
+                    quantity: item.quantity,
+                    free: item.free,
+                    purchaseRate: item.purchaseRate,
+                    mrp: item.mrp,
+                    gst: String(Number(item.gst) * 2),
+                    discount: item.discount,
+                  }
+                }
+              })
+            }
+          }
+        })
+
+        await Promise.all(promises)
+
+        purc.items = itemIdArray;
+
+        await purc.save();
+
+      }
+
+
+
     })
 
     await Promise.all(promises)
+
+    const purchases = await Purchase.find({}).populate('items');
+
+    return purchases
+
   }
-  catch(err){
+  catch (err) {
     console.log(err);
   }
 }

@@ -28,8 +28,9 @@ const partySchema = new mongoose.Schema({
       ref:"Purchase"
     }
   ],
+  searchTags:[String],
   analytics: {
-    
+
   }
 }, {
   timestamps: true

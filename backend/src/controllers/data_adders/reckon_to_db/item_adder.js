@@ -35,13 +35,13 @@ const item_adder = async (req, res) => {
     const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
     const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
     
-    await addPurchaseToDB(purchaseObjForRates);
+    await addItemsToDB(purchaseObj);
+    const purchases = await addPurchaseToDB(purchaseObjForRates);
     
-    // await addItemsToDB(purchaseObj);
 
     removeFile(req.file.path);
 
-    return res.json(new ApiResponse(200, purchaseObj));
+    return res.json(new ApiResponse(200, purchases));
   }
   catch (err) {
     return handleErr(res, err);
