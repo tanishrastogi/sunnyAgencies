@@ -28,12 +28,6 @@ const rateSchema = new mongoose.Schema({
   }
 })
 
-rateSchema.post('save', async function(doc) {
-  const totalQuantity = doc.rates.reduce((sum, rate) => sum + rate.quantity, 0);
-  await mongoose.model('Item').findByIdAndUpdate(doc.item, { totalQuantity });
-});
-
-
 const Rate = mongoose.model('Rate', rateSchema);
 
 rateSchema.index({ item: 1 }, { unique: true });

@@ -110,7 +110,7 @@ const addItemsToDB = async (obj) => {
       const med = await Item.findOne({
         itemCode: item.itemCode
       });
-      // console.log(med)
+
       if (!med) {
         const medicine = new Item({
           itemCode: item.itemCode,
@@ -125,37 +125,9 @@ const addItemsToDB = async (obj) => {
 
         const rate = new Rate({
           item: medicine._id,
-          rates: [
-            {
-              batchNumber: item.batchNumber,
-              quantity: item.quantity,
-              free: item.free,
-              purchaseRate: item.purchaseRate,
-              mrp: item.mrp,
-              gst: String(Number(item.gst) * 2),
-              discount: item.discount,
-            }
-          ]
         })
 
         await rate.save();
-
-      }
-      else {
-
-        await Rate.findOneAndUpdate({ item: med._id }, {
-          $push: {
-            rates: {
-              batchNumber: item.batchNumber,
-              quantity: item.quantity,
-              free: item.free,
-              purchaseRate: item.purchaseRate,
-              mrp: item.mrp,
-              gst: String(Number(item.gst) * 2),
-              discount: item.discount,
-            }
-          }
-        })
 
       }
 
@@ -170,10 +142,17 @@ const addItemsToDB = async (obj) => {
   }
 }
 
+
+
+
+
+
+
+
+
+
 const addPurchaseToDB = async (obj) => {
   try {
-
-    console.log(obj)
 
     const promises = obj.map(async (purchase) => {
 
@@ -189,7 +168,6 @@ const addPurchaseToDB = async (obj) => {
       // checking if purchase exists or not
       const pur = await Purchase.findOne({ billNo: purchase.entryNo, billDate: purchase.billDate, partyCode: purchase.partyCode });
 
-      console.log(pur);
       // if purchase does not exists add it to the db
       if (!pur) {
 
@@ -215,22 +193,31 @@ const addPurchaseToDB = async (obj) => {
         const promises = purchase.items.map(async (med) => {
           const item = await Item.findOne({ itemCode: med.itemCode });
           if (item) {
+
+            // pushing items to an array which will later be stored in the purchase.items
             itemIdArray.push(item._id);
+
+            // finding rate to push the details at which the item is bought in the rate model
             const rate = await Rate.findOne({ item: item._id });
             if (rate) {
+
               await Rate.findOneAndUpdate({ item: med._id }, {
                 $push: {
                   rates: {
-                    batchNumber: item.batchNumber,
-                    quantity: item.quantity,
-                    free: item.free,
-                    purchaseRate: item.purchaseRate,
-                    mrp: item.mrp,
-                    gst: String(Number(item.gst) * 2),
-                    discount: item.discount,
+                    batchNumber: med.batchNumber,
+                    quantity: med.quantity,
+                    free: med.free,
+                    purchaseRate: med.purchaseRate,
+                    mrp: med.mrp,
+                    gst: String(Number(med.gst) * 2),
+                    discount: med.discount,
                   }
                 }
               })
+
+              // this will find the total quantity of the item of different rates 
+              item.totalQuantity +=  med.quantity
+
             }
           }
         })

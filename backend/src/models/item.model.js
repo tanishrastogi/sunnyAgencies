@@ -41,7 +41,7 @@ const itemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "ItemSale"
   },
-  
+
   rates: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Rate"
