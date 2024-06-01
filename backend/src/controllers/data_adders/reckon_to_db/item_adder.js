@@ -3,7 +3,7 @@ import { handleErr } from "../../../utils/apiError.js"
 import { ApiResponse } from "../../../utils/apiResponse.js";
 import xlsx from "xlsx"
 import { trimArrayOfObj } from "./functions/trimObj.js";
-import { addItemsToDB, addPurchaseToDB,  formPurchaseObject } from "./functions/formObj.js";
+import { addItemsToDB, addPurchaseToDB,  addTotalQuantityToItems,  formPurchaseObject } from "./functions/formObj.js";
 import { Item } from "../../../models/item.model.js";
 
 
@@ -37,7 +37,7 @@ const item_adder = async (req, res) => {
     
     await addItemsToDB(purchaseObj);
     const purchases = await addPurchaseToDB(purchaseObjForRates);
-    
+    await addTotalQuantityToItems();
 
     removeFile(req.file.path);
 

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Item } from "./item.model.js";
 
 const purchaseRateSchema = new mongoose.Schema({
   purchase:{
@@ -29,6 +30,8 @@ const rateSchema = new mongoose.Schema({
 })
 
 const Rate = mongoose.model('Rate', rateSchema);
+
+
 
 rateSchema.index({ item: 1 }, { unique: true });
 

@@ -106,10 +106,10 @@ const addItemsToDB = async (obj) => {
 
     const promises = obj.map(async (item) => {
 
-      console.log(item)
       const med = await Item.findOne({
         itemCode: item.itemCode
       });
+
 
       if (!med) {
         const medicine = new Item({
@@ -118,7 +118,9 @@ const addItemsToDB = async (obj) => {
           company: item.company,
           packing: item.packing,
           gst: item.gst,
-          totalQuantity: item.quantity
+          // totalQuantity: item.quantity
+
+
         })
 
         await medicine.save();
@@ -181,16 +183,18 @@ const addPurchaseToDB = async (obj) => {
         // add the purchase id to the party and party id to the purchase.
         const party = await Party.findOne({ partyCode: purchase.partyCode });
 
-        party.purchases.push(purc._id);
-        purc.party = party._id;
-
-        await party.save();
+        if (party) {
+          party.purchases.push(purc._id);
+          await party.save();
+          purc.party = party._id;
+          await purc.save();
+        }
 
 
         // add items to purchase
         const itemIdArray = [];
 
-        const promises = purchase.items.map(async (med) => {
+        const promise = purchase.items.map(async (med) => {
           const item = await Item.findOne({ itemCode: med.itemCode });
           if (item) {
 
@@ -201,28 +205,39 @@ const addPurchaseToDB = async (obj) => {
             const rate = await Rate.findOne({ item: item._id });
             if (rate) {
 
-              await Rate.findOneAndUpdate({ item: med._id }, {
-                $push: {
-                  rates: {
-                    batchNumber: med.batchNumber,
-                    quantity: med.quantity,
-                    free: med.free,
-                    purchaseRate: med.purchaseRate,
-                    mrp: med.mrp,
-                    gst: String(Number(med.gst) * 2),
-                    discount: med.discount,
-                  }
-                }
+              // await Rate.findOneAndUpdate({ item: item._id }, {
+              //   $push: {
+              //     rates: {
+              //       batchNumber: med.batchNumber,
+              //       quantity: med.quantity,
+              //       free: med.free,
+              //       purchaseRate: med.purchaseRate,
+              //       mrp: med.mrp,
+              //       gst: String(Number(med.gst) * 2),
+              //       discount: med.discount,
+              //     }
+              //   }
+              // })
+
+              rate.rates.push({
+                batchNumber: med.batchNumber,
+                quantity: med.quantity,
+                free: med.free,
+                purchaseRate: med.purchaseRate,
+                mrp: med.mrp,
+                gst: String(Number(med.gst) * 2),
+                discount: med.discount,
               })
 
-              // this will find the total quantity of the item of different rates 
-              item.totalQuantity +=  med.quantity
+              await rate.save();
 
+              item.purchases.push(purc._id)
+              await item.save()
             }
           }
         })
 
-        await Promise.all(promises)
+        await Promise.all(promise)
 
         purc.items = itemIdArray;
 
@@ -246,8 +261,31 @@ const addPurchaseToDB = async (obj) => {
   }
 }
 
+
+const addTotalQuantityToItems = async () => {
+  try {
+    const rates = await Rate.find({});
+
+
+    const promises = rates.map(async (rate) => {
+      // Calculate the total quantity
+      const totalQuantity = rate.rates.reduce((sum, rate) => sum + Number(rate.quantity) + Number(rate.free), 0);
+
+      // Update the corresponding item
+      await Item.findByIdAndUpdate(rate.item, { totalQuantity });
+    });
+
+    // Wait for all updates to complete
+    await Promise.all(promises);
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
+
 export {
   formPurchaseObject,
   addItemsToDB,
-  addPurchaseToDB
+  addPurchaseToDB,
+  addTotalQuantityToItems
 }
