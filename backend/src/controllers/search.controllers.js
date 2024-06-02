@@ -1,5 +1,6 @@
 import { Item } from "../models/item.model.js";
 import { Party } from "../models/party.model.js";
+import { Purchase } from "../models/purchase.model.js";
 import { handleErr } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js";
 
@@ -71,7 +72,49 @@ const searchApiForAccounts = async (req, res) => {
 }
 
 
+const searchApiForPurchases = async(req,res)=>{
+  try{
+    const { word } = req.body;
+    // String(word).toUpperCase();
+
+    const escapeRegex = (string) => {
+      return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    };
+
+    const sanitizedWord = escapeRegex(word);
+
+    const regex = new RegExp(sanitizedWord, 'i');
+
+    const result = await Purchase.find({
+      "$or": [
+        { billNo: { $regex: regex } },
+        { billDate: { $regex: regex } },
+        { invoiceNo: { $regex: regex } },
+        { partyCode: { $regex: regex } },
+        { searchTags: { $regex: regex } }
+      ]
+    }).populate();
+
+    return res.json(new ApiResponse(200,result))
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
+
+const addSearchTags = async(req,res)=>{
+  try{
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
+
+
 export {
   searchApiForProducts,
-  searchApiForAccounts
+  searchApiForAccounts,
+  searchApiForPurchases
 }

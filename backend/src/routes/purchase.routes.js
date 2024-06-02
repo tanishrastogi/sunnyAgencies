@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { fetchPurchaseByID } from "../controllers/purchase.controllers";
+import {
+  fetchPurchase,
+  fetchPurchaseByID
+} from "../controllers/purchase.controllers.js";
 
 const router = Router();
 
-router.route("/fetch/purchase/id").post(fetchPurchaseByID);
-router.route("/fetch/purchase/all").post(fetchPurchase);
+router.route("/fetch/id").post(fetchPurchaseByID);
+router.route("/fetch/all").post(fetchPurchase);
 
 export default router;

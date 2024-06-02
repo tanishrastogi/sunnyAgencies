@@ -8,7 +8,8 @@ import graphRouter from "./src/routes/graphs.routes.js"
 import dataRouter from "./src/routes/data.routes.js"
 import rateRouter from "./src/routes/rate.routes.js"
 import adderRouter from "./src/routes/adder.routes.js"
-import itemRouter from "./src/routes/search.routes.js"
+import searchRouter from "./src/routes/search.routes.js"
+import purchaseRouter from "./src/routes/purchase.routes.js"
 
 const app = express();
 
@@ -32,9 +33,10 @@ app.use("/api/sales/item", itemWiseSaleRouter)
 app.use("/api/sales/", dataRouter)
 app.use("/api/sale-rate/", rateRouter)
 app.use("/api/adder/", adderRouter)
-app.use("/api/search/", itemRouter )
+app.use("/api/search/", searchRouter )
+app.use("/api/purchase/", purchaseRouter)
 
-app.get("/test" , (req,res)=>{
+app.get("/test", (req, res) => {
     res.send("hello world!")
 })
 
