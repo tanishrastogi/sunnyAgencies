@@ -42,7 +42,8 @@ const formPurchaseObject = (array, type) => {
             mrp: entry['MRP'],
             gst: entry['CGST%'],
             discount: entry['Disc%'],
-            free: entry['Deal']
+            free: entry['Deal'], 
+            expiryDate:entry['Exp Dt']
           }
         ];
 
@@ -227,6 +228,7 @@ const addPurchaseToDB = async (obj) => {
                 mrp: med.mrp,
                 gst: String(Number(med.gst) * 2),
                 discount: med.discount,
+                expiryDate:med.expiryDate
               })
 
               await rate.save();

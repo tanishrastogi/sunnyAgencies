@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
-import { Item } from "./item.model.js";
 
 const purchaseRateSchema = new mongoose.Schema({
-  purchase:{
-
-  },
   mrp: String,
   purchaseRate: String,
   batchNumber: String,
@@ -12,6 +8,7 @@ const purchaseRateSchema = new mongoose.Schema({
   deal: String,
   free: String,
   discount: String,
+  expiryDate:String,
   purchase: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Purchase"
@@ -23,6 +20,9 @@ const rateSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Item', 
     unique:true
+  },
+  itemCode:{
+    type:String
   },
   rates: {
     type:[purchaseRateSchema]
