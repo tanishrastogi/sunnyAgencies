@@ -231,8 +231,9 @@ const addPurchaseToDB = async (obj) => {
 
               await rate.save();
 
-              item.purchases.push(purc._id)
-              await item.save()
+              item.purchases.push(purc._id);
+              item.rates = rate._id;
+              await item.save();
             }
           }
         })
