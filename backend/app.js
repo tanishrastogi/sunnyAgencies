@@ -10,6 +10,7 @@ import rateRouter from "./src/routes/rate.routes.js"
 import adderRouter from "./src/routes/adder.routes.js"
 import searchRouter from "./src/routes/search.routes.js"
 import purchaseRouter from "./src/routes/purchase.routes.js"
+import displayRouter from "./src/routes/display.routes.js"
 
 const app = express();
 
@@ -28,16 +29,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.use("/api/graphs", graphRouter)
-app.use("/api/sales/item", itemWiseSaleRouter)
-app.use("/api/sales/", dataRouter)
-app.use("/api/sale-rate/", rateRouter)
-app.use("/api/adder/", adderRouter)
-app.use("/api/search/", searchRouter )
-app.use("/api/purchase/", purchaseRouter)
+app.use("/api/graphs", graphRouter);
+app.use("/api/sales/item", itemWiseSaleRouter);
+app.use("/api/sales/", dataRouter);
+app.use("/api/sale-rate/", rateRouter);
+app.use("/api/adder/", adderRouter);
+app.use("/api/search/", searchRouter);
+app.use("/api/purchase/", purchaseRouter);
+app.use("/api/display/", displayRouter);
 
 app.get("/test", (req, res) => {
     res.send("hello world!")
 })
+
+console.log(`${31%3}+1`)
 
 export { app }

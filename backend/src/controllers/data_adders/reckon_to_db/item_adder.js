@@ -32,16 +32,16 @@ const item_adder = async (req, res) => {
     const objFromExcelFile = trimArrayOfObj(xlsx.utils.sheet_to_json(worksheet));
 
     // reforming the array of objects from excel purchase file , into a suitable object , which can be added to the db 
-    const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
-    const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
+    // const purchaseObj = formPurchaseObject(objFromExcelFile, 'items');
+    // const purchaseObjForRates = formPurchaseObject(objFromExcelFile, 'purchases');
     
-    await addItemsToDB(purchaseObj);
-    const purchases = await addPurchaseToDB(purchaseObjForRates);
-    await addTotalQuantityToItems();
+    // await addItemsToDB(purchaseObj);
+    // const purchases = await addPurchaseToDB(purchaseObjForRates);
+    // await addTotalQuantityToItems();
 
     removeFile(req.file.path);
 
-    return res.json(new ApiResponse(200, purchases));
+    return res.json(new ApiResponse(200, objFromExcelFile));
   }
   catch (err) {
     return handleErr(res, err);

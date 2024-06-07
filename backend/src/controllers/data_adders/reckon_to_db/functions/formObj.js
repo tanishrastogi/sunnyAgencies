@@ -128,6 +128,7 @@ const addItemsToDB = async (obj) => {
 
         const rate = new Rate({
           item: medicine._id,
+          itemCode:medicine.itemCode
         })
 
         await rate.save();

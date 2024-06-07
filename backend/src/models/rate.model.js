@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const purchaseRateSchema = new mongoose.Schema({
   mrp: String,
   purchaseRate: String,
+  partyPurchaseRate:String,
   batchNumber: String,
   quantity: String,
   deal: String,
@@ -21,7 +22,7 @@ const rateSchema = new mongoose.Schema({
     ref: 'Item', 
     unique:true
   },
-  itemCode:{
+  itemCode:{        
     type:String
   },
   rates: {
