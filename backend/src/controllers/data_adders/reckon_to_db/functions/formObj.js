@@ -34,6 +34,7 @@ const formPurchaseObject = (array, type) => {
             purchasingParty: entry['AccCod'],
             itemCode: entry['ItemCd'],
             itemName: entry['ItemName'],
+            rate: entry['Rate'],
             packing: entry['Packing'],
             company: entry['Company'],
             batchNumber: entry['BatchNo'],
@@ -42,8 +43,8 @@ const formPurchaseObject = (array, type) => {
             mrp: entry['MRP'],
             gst: entry['CGST%'],
             discount: entry['Disc%'],
-            free: entry['Deal'], 
-            expiryDate:entry['Exp Dt']
+            free: entry['Deal'],
+            expiryDate: entry['Exp Dt']
           }
         ];
 
@@ -58,6 +59,7 @@ const formPurchaseObject = (array, type) => {
           company: entry['Company'],
           batchNumber: entry['BatchNo'],
           quantity: Number(entry['Qty']) + Number(entry['Deal']),
+          rate: entry['Rate'],
           purchaseRate: entry['NpRt(Inc'],
           mrp: entry['MRP'],
           gst: entry['CGST%'],
@@ -128,7 +130,7 @@ const addItemsToDB = async (obj) => {
 
         const rate = new Rate({
           item: medicine._id,
-          itemCode:medicine.itemCode
+          itemCode: medicine.itemCode
         })
 
         await rate.save();
@@ -225,11 +227,14 @@ const addPurchaseToDB = async (obj) => {
                 batchNumber: med.batchNumber,
                 quantity: med.quantity,
                 free: med.free,
+                partyPurchaseRate:med.rate,
                 purchaseRate: med.purchaseRate,
                 mrp: med.mrp,
                 gst: String(Number(med.gst) * 2),
                 discount: med.discount,
-                expiryDate:med.expiryDate
+                expiryDate: med.expiryDate,
+                partyID:party._id,
+                purchase:purc._id
               })
 
               await rate.save();
