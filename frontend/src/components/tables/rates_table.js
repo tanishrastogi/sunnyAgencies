@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Pagination from '@mui/material/Pagination';
 import { fetchRatesApi } from '../../api/rates.api';
 import { searchItems } from '../../api/search.api';
+import {useNavigate} from "react-router-dom";
 
 
 const Rates_table = () => {
@@ -11,6 +12,8 @@ const Rates_table = () => {
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState({})
 
+  const history = useNavigate("/");
+  
   console.log(searchWord)
 
   useEffect(() => {
@@ -24,15 +27,16 @@ const Rates_table = () => {
   const fetchRates = async () => {
     try {
       if (searchWord) {
-        const res = await searchItems({searchWord,page});
+        const res = await searchItems({ searchWord, page });
         console.log(res.data)
-        setProducts({rates:res.data});
+        setProducts({ rates: res.data });
       }
-      else if(searchWord.length === 0){
+      else if (searchWord.length === 0) {
         const res = await fetchRatesApi({ page });
         setProducts(res.data);
         setCount(res.data.totalItems)
         console.log(res.data);
+        // alert(JSON.stringify(res));
       }
     }
     catch (err) {
@@ -48,7 +52,6 @@ const Rates_table = () => {
         <input value={searchWord} placeholder='Search Items ...' onChange={(e) => {
           setSearchWord(e.target.value)
         }}>
-
         </input>
         <span>Total Items: {count}</span>
       </div>
@@ -65,7 +68,9 @@ const Rates_table = () => {
         <tbody>
           {
             products.rates?.map((item) => {
-              return <tr>
+              return <tr onClick={() => {
+                history(`/item/${item._id}`)
+              }}>
                 <td>{item.itemCode}</td>
                 <td>{item.itemName}</td>
                 <td>{item.packing}</td>

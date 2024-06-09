@@ -19,7 +19,7 @@ function App() {
     // </div>
     <Routes>
       <Route path='/analytics' element={<div><Analytics /></div>} />
-      <Route path='/rates' element={<div><Rates_table /></div>} />
+      <Route path='/items' element={<div><Rates_table /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />
     </Routes>
   );
