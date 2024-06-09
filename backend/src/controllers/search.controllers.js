@@ -8,7 +8,8 @@ const searchApiForProducts = async (req, res) => {
   try {
     const { word } = req.body;
     // String(word).toUpperCase();
-
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const escapeRegex = (string) => {
       return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
@@ -25,7 +26,10 @@ const searchApiForProducts = async (req, res) => {
         { packing: { $regex: regex } }
 
       ]
-    }).populate("rates");
+    })
+      .populate("rates")
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     return res.json(new ApiResponse(200, results, "Your search results"))
 
@@ -72,8 +76,8 @@ const searchApiForAccounts = async (req, res) => {
 }
 
 
-const searchApiForPurchases = async(req,res)=>{
-  try{
+const searchApiForPurchases = async (req, res) => {
+  try {
     const { word } = req.body;
     // String(word).toUpperCase();
 
@@ -95,20 +99,20 @@ const searchApiForPurchases = async(req,res)=>{
       ]
     }).populate();
 
-    return res.json(new ApiResponse(200,result))
+    return res.json(new ApiResponse(200, result))
 
   }
-  catch(err){
-    return handleErr(res,err);
+  catch (err) {
+    return handleErr(res, err);
   }
 }
 
-const addSearchTags = async(req,res)=>{
-  try{
+const addSearchTags = async (req, res) => {
+  try {
 
   }
-  catch(err){
-    return handleErr(res,err);
+  catch (err) {
+    return handleErr(res, err);
   }
 }
 

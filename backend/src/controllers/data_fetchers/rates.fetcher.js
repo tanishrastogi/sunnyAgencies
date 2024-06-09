@@ -1,3 +1,4 @@
+import { Item } from "../../models/item.model.js";
 import { Rate } from "../../models/rate.model.js";
 import { handleErr } from "../../utils/apiError.js"
 import { ApiResponse } from "../../utils/apiResponse.js";
@@ -5,28 +6,32 @@ import { ApiResponse } from "../../utils/apiResponse.js";
 const fetchRates = async (req, res) => {
   try {
 
-    const { word } = req.body;
-
-    if(word){
-      
-    }
-
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+  
+    const totalItems = await Item.countDocuments();
 
-    const rates = await Rate.find({})
-      .populate('item')
-      .populate("rates.purchase")
+    // console.log(page)
+
+    const rates = await Item.find({})
       .populate({
-        path: "rates.partyID",
-        select: "-details -purchases -bills -address"
+        path: "rates",
+        select: "-itemCode",
+        populate: {
+          path: "rates",
+          select: "-itemCode",
+          populate: {
+            path: "purchase",
+            select: "-partyCode -items -party -searchTags -_id -__v"
+          }
+        }
       })
       .skip((page - 1) * limit)
       .limit(limit);
 
 
 
-    return res.json(new ApiResponse(200, rates, "rates fetched successfully"));
+    return res.json(new ApiResponse(200, { rates, totalItems }, "rates fetched successfully"));
 
 
   }
