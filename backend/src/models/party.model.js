@@ -8,7 +8,7 @@ const partySchema = new mongoose.Schema({
   partyCode: {
     type: String,
     required: true,
-    unique:true
+    // unique:true
   },
   address: [String],
   details: {

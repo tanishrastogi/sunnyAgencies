@@ -24,6 +24,7 @@ const peak_sale_by_month = async (req, res) => {
         })
 
         res.send(toBeSent);
+    
     }
     catch (err) {
         console.log(err)

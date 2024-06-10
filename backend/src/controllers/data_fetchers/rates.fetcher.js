@@ -40,6 +40,33 @@ const fetchRates = async (req, res) => {
   }
 }
 
+const item_rates_fetcher = async(req,res)=>{
+  try{
+    const {productID} = req.body;
+    // console.log(req.body);
+
+    const rates = await Rate.findOne({
+      item:productID
+    })
+    .populate({
+      path:'rates.partyID',
+      select:"-address -bills -createdAt -details -purchases -searchTags -updatedAt -__v"
+    })
+    .populate({
+      path:"rates.purchase",
+      select:'-items -party -partyCode'
+    });
+    
+    return res.json(new ApiResponse(200, rates));
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
+
+
 export {
-  fetchRates
+  fetchRates,
+  item_rates_fetcher,
 }

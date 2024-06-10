@@ -16,13 +16,13 @@ const app = express();
 
 // middlewares
 app.use(
-    cors({
-      origin: ["http://localhost:3000"],
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-      exposedHeaders: ["set-cookie"],
-    })
-  );
+  cors({
+    origin: ["http://localhost:3000", "http://192.168.1.16:3000"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    exposedHeaders: ["set-cookie"],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
