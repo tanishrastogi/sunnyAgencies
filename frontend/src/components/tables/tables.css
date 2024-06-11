@@ -109,8 +109,11 @@ th{
     width: 100%;
 }
 
-
+table>tbody>tr>td{
+    cursor: pointer;
+}
 
 table>tbody>tr:hover{
     border: 1.8px solid green;
+
 }

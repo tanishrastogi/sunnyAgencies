@@ -1,0 +1,117 @@
+.rates_table{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  /* overflow-x: scroll; */
+  /* margin: 20px auto; */
+  box-shadow: 1px -0px 15px rgba(0, 0, 0, 0.614);
+  /* padding: 20; */
+}
+
+.rates_table h1{
+  margin: 15px 35px;
+}
+
+
+.rate-table-header{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  width: 100vw;
+  /* box-shadow:  1px 1px 5px black; */
+  border: 1px solid black;
+  box-sizing: border-box;
+  height: 3rem;
+  font-weight: bold;
+}
+
+.rate-table-body{
+  width: 100vw;
+  box-sizing: border-box;
+  /* padding: 10px; */
+  margin:0 20px;
+}
+
+.rate-table-row{
+  display: flex;
+  align-items: center;
+  /* margin: 10px; */
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  /* background: #000; */
+  box-sizing: border-box;
+  padding: 10px 40px;
+}
+
+.rate-table-column{
+  max-width: 2rem;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  /* color: #78f03bd4; */
+}
+
+.accordian-hidden-box{
+  margin: 10px 10px;
+  box-sizing: border-box;
+  display: flex;
+  width: 105%;
+  justify-content: space-between;
+}
+
+/* .rate-table-column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+ */
+
+
+ @media (max-width:700px) {
+  .rate-table-header>div{
+    transform: scale(0.6);
+    /* width: 100%; */
+    padding: 0;
+  }
+
+  .accordian-hidden-box{
+    transform: scale(0.6);
+    text-align: left;
+    padding: 0;
+  }
+
+  .rate-table-header{
+    padding: 0;
+  }
+  
+  .rate-table-row>div{
+    transform: scale(0.5);
+  }
+  .rate-table-row{
+    padding: 0px;
+  }
+ }
+
+
+@media (max-width:400px) {
+  .rate-table-header{
+    /* transform: scale(0.5); */
+    width: 90%;
+    margin: 10px auto;
+  }
+  .rate-table-header>div{
+    transform: scale(0.5);
+    padding: 0;
+  }
+
+  .rate-table-row{
+    padding: 0;
+  }
+}

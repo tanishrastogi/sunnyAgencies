@@ -11,4 +11,15 @@ const fetchRatesApi = async (payload) => {
   }
 }
 
-export {fetchRatesApi}
+
+const fetchRatesByID = async (payload) => {
+  try {
+    const { data } = await api.post(`/rates/fetch/id`, payload);
+    return data
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
+export { fetchRatesApi, fetchRatesByID }

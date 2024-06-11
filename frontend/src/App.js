@@ -5,7 +5,8 @@ import { Route, Router, Routes } from 'react-router-dom';
 import ErrorPage from './pages/error';
 import Best_sale_by_month from './components/tables/tables';
 import Analytics from './pages/analytics/analytics';
-import Rates_table from './components/tables/rates_table';
+import Rates_table from './components/tables/item_table';
+import ItemCard from './pages/cards/itemCard/item.card';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path='/analytics' element={<div><Analytics /></div>} />
       <Route path='/items' element={<div><Rates_table /></div>} />
+      <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />
     </Routes>
   );
