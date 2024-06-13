@@ -81,12 +81,28 @@ const Rates_table = ({ productID }) => {
                   padding: "10px 50px",
                   boxSizing: "border-box"
                 }}>
-                <div>
-                  <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Invoice Number:</div> <div>{rate.purchase.invoiceNo}</div></div>
+                <div className='accordian-detail-box'>
+                  {/* <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Invoice Number:</div> <div>{rate.purchase.invoiceNo}</div></div>
                   <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Bill Date:</div> <div>{rate.purchase.billDate}</div></div>
                   <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Batch Number:</div> <div>{rate.batchNumber}</div></div>
                   <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Quantity:</div> <div>{rate.quantity}</div></div>
-                  <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Free:</div> <div>{rate.free}</div></div>
+                  <div className='accordian-hidden-box'><div style={{fontWeight:"bold"}}>Free:</div> <div>{rate.free}</div></div> */}
+
+                  <div>
+                    <div>Invoice Number:</div>
+                    <div>Bill Date: </div>
+                    <div>Batch Number: </div>
+                    <div>Quantity: </div>
+                    <div>Free: </div>
+                  </div>
+                  <div>
+                    <div>{rate.purchase.invoiceNo}</div>
+                    <div>{rate.purchase.billDate}</div>
+                    <div>{rate.batchNumber}</div>
+                    <div>{rate.quantity}</div>
+                    <div>{rate.free}</div>
+                  </div>
+
                 </div>
               </AccordionDetails>
             </Accordion>

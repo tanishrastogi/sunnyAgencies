@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Rates_table from '../../../components/tables/rates_table';
+import PurchaseRateCalculator from '../../../components/calculators/purchase.cal';
 
 const ItemCard = () => {
 
@@ -13,7 +14,10 @@ const ItemCard = () => {
   })
 
   return (
-    <div><Rates_table productID={id}/></div>
+    <div>
+      <Rates_table productID={id}/>
+      <div><PurchaseRateCalculator /></div>
+    </div>
   )
 }
 

@@ -1,5 +1,6 @@
 .rates_table{
   display: flex;
+  font-size: 0.8rem;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -33,8 +34,6 @@
 .rate-table-body{
   width: 100vw;
   box-sizing: border-box;
-  /* padding: 10px; */
-  margin:0 20px;
 }
 
 .rate-table-row{
@@ -43,18 +42,32 @@
   /* margin: 10px; */
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
   /* background: #000; */
   box-sizing: border-box;
   padding: 10px 40px;
 }
 
 .rate-table-column{
-  max-width: 10rem;
+  /* width: 10rem; */
   align-items: center;
   text-align: center;
   box-sizing: border-box;
   /* color: #78f03bd4; */
+}
+
+
+
+.accordian-detail-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align:left;
+
+}
+
+.accordian-detail-box>div{
+  margin: 10px 40px;
 }
 
 .accordian-hidden-box{
@@ -77,9 +90,29 @@
 
  @media (max-width:700px) {
   .rate-table-header>div{
-    transform: scale(0.6);
+    /* transform: scale(0.6); */
+    font-size: 0.4rem;
     /* width: 100%; */
+    padding: 10px;
+  }
+
+  /* .rate-table-header>div:nth-child(n+5){
+    position: relative;
+    background: #000;
+    right: 20px;
+  } */
+
+  .rate-table-column:nth-child(n+2){
+    /* background: #000; */
+    /* margin: ; */
     padding: 0;
+    position: relative;
+    right: 40px;
+  }
+
+  .accordian-detail-box>div{
+    transform: scale(0.6);
+    margin: 0;
   }
 
   .accordian-hidden-box{
@@ -104,10 +137,16 @@
 @media (max-width:400px) {
   .rate-table-header{
     /* transform: scale(0.9); */
+    font-size: 0.7rem;
     /* width: 100%; */
     /* word-wrap:normal; */
     /* margin: 10px auto; */
   }
+
+  .rate-table-header>div{
+    /* margin:0 0 0 10px; */
+  }
+
   .rate-table-header>div{
     /* transform: scale(0.5); */
     padding: 0;

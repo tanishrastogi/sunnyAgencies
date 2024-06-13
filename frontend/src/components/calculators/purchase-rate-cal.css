@@ -1,0 +1,33 @@
+.purchase-rate-calculator-box{
+  margin: 25px ;
+  /* background: black; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  width: 40vw;
+  border: 1px solid black;
+}
+
+.purchase-rate-calculator-box p{
+  margin: 0 0 -20px 0;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.purchase-rate-calculator-box button{
+  padding: 10px 40px;
+  background: rgb(146, 255, 146);
+  font-weight: bold;
+
+  
+  /* width: rem; */
+}
+
+.purchase-rate-calculator-box .input-box input{
+  padding: 10px;
+  width:100%;
+}
