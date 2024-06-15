@@ -16,7 +16,7 @@ const ItemCard = () => {
   return (
     <div>
       <Rates_table productID={id}/>
-      <div><PurchaseRateCalculator /></div>
+      <div style={{width:"20rem"}}><PurchaseRateCalculator /></div>
     </div>
   )
 }
