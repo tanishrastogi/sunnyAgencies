@@ -5,36 +5,39 @@ import Accordion from '@mui/material/Accordion';
 import "./rate_table.css";
 import { AccordionDetails, AccordionSummary } from '@mui/material';
 
-const Rates_table = ({ productID }) => {
+const Rates_table = ({ product }) => {
 
-  const [rates, setRates] = useState([]);
-  const [name, setName] = useState('');
-
-
-  useEffect(() => {
-    fetchItemRates()
-  }, []);
+  // const [name, setName] = useState('');
+  // const [rates, setRates] = useState([]);
 
 
+  // useEffect(() => {
+  //   fetchItemRates()
+  // }, []);
 
 
-  const fetchItemRates = async () => {
-    try {
-      const res = await fetchRatesByID({ productID });
-      console.log(res.data);
-      setRates(res.data.rates);
-      setName(res.data.item.itemName)
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
+
+
+  // const fetchItemRates = async () => {
+  //   try {
+  //     const res = await fetchRatesByID({ productID });
+  //     console.log(res.data);
+  //     setRates(res.data.rates);
+  //     setName(res.data.item.itemName)
+  //   }
+  //   catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   // console.log(rates)
 
+  console.log(product)
+
+
   return (
     <div className='rates_table'>
-      <h3>Purchase Rates of {name}</h3>
+      <h3>Purchase Rates of {product?.item?.itemName}</h3>
 
       <div className='rate-table-header'>
         <div>Party Name</div>
@@ -46,7 +49,7 @@ const Rates_table = ({ productID }) => {
       </div>
       <div className='rate-table-body'>
         {
-          rates.map((rate, index) => {
+          product.rates?.map((rate, index) => {
             console.log(rate.partyID.partyName.length, rate.partyID.partyName)
             return <Accordion>
               <AccordionSummary className={index % 2 === 0 ? 'accordionIsEven' : 'accordionIsOdd'}
@@ -94,6 +97,7 @@ const Rates_table = ({ productID }) => {
                     <div>Batch Number: </div>
                     <div>Quantity: </div>
                     <div>Free: </div>
+                    <div>GST: </div>
                   </div>
                   <div>
                     <div>{rate.purchase.invoiceNo}</div>
@@ -101,6 +105,7 @@ const Rates_table = ({ productID }) => {
                     <div>{rate.batchNumber}</div>
                     <div>{rate.quantity}</div>
                     <div>{rate.free}</div>
+                    <div>{product?.item?.gst*2}</div>
                   </div>
 
                 </div>

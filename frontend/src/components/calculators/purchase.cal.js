@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import "./purchase-rate-cal.css";
 
-const PurchaseRateCalculator = () => {
+const PurchaseRateCalculator = ({product}) => {
 
   const [dataValue , setDataValue] = useState({
     mrp:'',
     discount:"",
     deal:"",
-    gst:"12"
+    gst:product?.item?.gst?product?.item?.gst:"0"
   });
 
   const [rate, setRate] = useState(0)
@@ -15,6 +15,7 @@ const PurchaseRateCalculator = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // console.log(3/100);
     setDataValue(prevState => ({
       ...prevState,
       [name]: value
@@ -30,6 +31,7 @@ const PurchaseRateCalculator = () => {
   }
 
   const handleRateChange = ()=>{
+    
     let Mrp = 0;
     let Disc = 0;
     let Deal = '0+1';
@@ -43,10 +45,28 @@ const PurchaseRateCalculator = () => {
       Deal = dataValue.deal
     }
     
-    console.log(Mrp, Disc, Deal);
+    // console.log(Mrp, Disc, Deal);
 
-    let new_rate = Mrp-(Mrp*0.285) 
-    new_rate = new_rate-(new_rate)
+    let new_rate = Mrp-(Mrp*0.285);
+    new_rate = new_rate-(new_rate*Disc/100);
+
+    let deal = Deal.split("+");
+    // console.log(deal)
+
+    if(deal.length!==2){
+      return Error("Invalid deal entered");
+    }
+
+    let dealDiscount = (Number(deal[1])/(Number(deal[0])+Number(deal[1])));
+
+    console.log(dealDiscount)
+    console.log(deal[1], deal[0])
+    
+    new_rate = new_rate-(new_rate*dealDiscount);
+    
+    new_rate = new_rate + (new_rate*dataValue.gst/100)
+
+    setRate(new_rate);
 
   }
 
