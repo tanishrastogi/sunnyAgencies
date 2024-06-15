@@ -50,7 +50,7 @@ const item_rates_fetcher = async(req,res)=>{
     })
     .populate({
       path:'item',
-      select:"-company -purchases -rates -sale -itemCode -gst -_id -__v"
+      select:"-company -purchases -rates -sale -itemCode -_id -__v"
     })
     .populate({
       path:'rates.partyID',
