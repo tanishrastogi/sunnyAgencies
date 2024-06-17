@@ -4,7 +4,7 @@
   justify-content: space-between;
   /* align-items: center; */
   text-align: center;
-  width: 100%;
+  /* width: 100%; */
   border: 1px solid black;
   margin: 40px ;
   box-shadow: 1px 1px 10px black;
@@ -12,12 +12,14 @@
 
 .purchase-rate-calculator-box p{
   font-weight: bold;
+  font-size: large;
 }
 
 .purchase-rate-calculator-box .input-box input{
   padding: 10px;
   box-sizing: border-box;
   margin: 20px;
+  /* width:0%; */
 }
 
 .purchase-rate-calculator-box .input-box{
@@ -31,6 +33,12 @@
   border: none;
   box-shadow: 1px 1px 5px black;
   margin: 10px;
+  /* transform; */
+}
+
+.purchase-rate-calculator-box button:active {
+  box-shadow: 1px 1px 3px black;
+  transform: translateY(2px);
 }
 
 .purchase-rate-calculator-box .result-box{
@@ -55,4 +63,13 @@
   }
 
   
+}
+
+@media (max-width:400px) {
+  .purchase-rate-calculator-box{
+    /* transform: scale(0.1); */
+    margin: 10px 0;
+    box-sizing: border-box;
+    width: 100vw;
+  }
 }

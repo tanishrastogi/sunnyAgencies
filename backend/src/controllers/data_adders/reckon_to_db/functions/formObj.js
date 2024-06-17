@@ -10,7 +10,6 @@ const formPurchaseObject = (array, type) => {
   try {
 
     const arr = []
-
     let purchase = {};
     let items = [];
     array.map((entry, index) => {
@@ -21,6 +20,7 @@ const formPurchaseObject = (array, type) => {
         purchase = {};
       }
 
+      // console.log(entry['ItemCd'])
 
       if (entryNo > 0) {
 
@@ -49,7 +49,7 @@ const formPurchaseObject = (array, type) => {
         ];
 
       }
-      else if (entryNo === 0 && (entry['ItemCd'].length !== 0 || entry['ItemName'].length !== 0 || entry['Packing'].length !== 0 || entry['Company'].length !== 0)) {
+      else if (entryNo === 0 && ((entry['ItemCd'] && entry['ItemCd'].length !== 0) || (entry['ItemName'] && entry['ItemName'].length !== 0) || (entry['Packing'] && entry['Packing'].length !== 0) || (entry['Company'] && entry['Company'].length !== 0))) {
         purchase['items']?.push({
           purchaseNumber: entry['Entry No'],
           purchasingParty: entry['AccCod'],
@@ -65,7 +65,6 @@ const formPurchaseObject = (array, type) => {
           gst: entry['CGST%'],
           discount: entry['Disc%'],
           free: entry['Deal']
-
         })
       }
 
@@ -172,6 +171,8 @@ const addPurchaseToDB = async (obj) => {
 
 
       // checking if purchase exists or not
+
+      
       const pur = await Purchase.findOne({ billNo: purchase.entryNo, billDate: purchase.billDate, partyCode: purchase.partyCode });
 
       // if purchase does not exists add it to the db
@@ -183,6 +184,7 @@ const addPurchaseToDB = async (obj) => {
           invoiceNo: purchase.billNo,
           partyCode: purchase.partyCode
         });
+        await purc.save();
 
         // add the purchase id to the party and party id to the purchase.
         const party = await Party.findOne({ partyCode: purchase.partyCode });
@@ -227,14 +229,14 @@ const addPurchaseToDB = async (obj) => {
                 batchNumber: med.batchNumber,
                 quantity: med.quantity,
                 free: med.free,
-                partyPurchaseRate:med.rate,
+                partyPurchaseRate: med.rate,
                 purchaseRate: med.purchaseRate,
                 mrp: med.mrp,
                 gst: String(Number(med.gst) * 2),
                 discount: med.discount,
                 expiryDate: med.expiryDate,
-                partyID:party._id,
-                purchase:purc._id
+                partyID: party._id,
+                purchase: purc._id
               })
 
               await rate.save();

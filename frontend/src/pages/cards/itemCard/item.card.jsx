@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import Rates_table from '../../../components/tables/rates_table';
 import PurchaseRateCalculator from '../../../components/calculators/purchase.cal';
 import { fetchRatesApi, fetchRatesByID } from '../../../api/rates.api';
+import "./item.card.css";
 
 const ItemCard = () => {
 
@@ -32,9 +33,9 @@ const ItemCard = () => {
 
 
   return (
-    <div>
+    <div className='item-card-container'>
       <Rates_table product={item}/>
-      <div style={{width:"20rem"}}><PurchaseRateCalculator product={item}/></div>
+      <div className="item-card-rate-table" style={{width:"fit-content"}}><PurchaseRateCalculator product={item}/></div>
     </div>
   )
 }

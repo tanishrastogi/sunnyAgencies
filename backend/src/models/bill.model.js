@@ -13,6 +13,13 @@ const billSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  salesMan:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"SalesMan"
+  },
+  partyPhoneNumber:{
+    type:String
+  },
   items: [
     {
       item: {
@@ -20,7 +27,14 @@ const billSchema = new mongoose.Schema({
         ref: "Item"
       },
       discount:String,
-
+      batchNumber:{
+        type:String,
+        required:true
+      },
+      quantity:String,
+      free:String,
+      deal:String,
+      netSaleRate:String
     }
   ],
   searchTags:[String]

@@ -18,17 +18,23 @@
 
 
 .rate-table-header{
-  display: flex;
+  /* display: flex;
   align-items: center;
   text-align: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  width: 100vw;
+  justify-content: space-between; */
+  
   /* box-shadow:  1px 1px 5px black; */
   border: 1px solid black;
   box-sizing: border-box;
-  height: 3rem;
+  /* height: 3rem; */
   font-weight: bold;
+}
+
+.rate-table-header, .rate-table-row{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 10px 20px;
+  width: 100vw;
 }
 
 .rate-table-body{
@@ -37,11 +43,11 @@
 }
 
 .rate-table-row{
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
   /* margin: 10px; */
-  flex-direction: row;
-  justify-content: space-between;
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
   width: 100vw;
   /* background: #000; */
   box-sizing: border-box;

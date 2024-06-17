@@ -1,3 +1,5 @@
+// table completed on 15th june
+
 import React, { useEffect, useState } from 'react'
 import { fetchRatesByID } from '../../api/rates.api';
 import Accordion from '@mui/material/Accordion';
@@ -7,45 +9,17 @@ import { AccordionDetails, AccordionSummary } from '@mui/material';
 
 const Rates_table = ({ product }) => {
 
-  // const [name, setName] = useState('');
-  // const [rates, setRates] = useState([]);
-
-
-  // useEffect(() => {
-  //   fetchItemRates()
-  // }, []);
-
-
-
-
-  // const fetchItemRates = async () => {
-  //   try {
-  //     const res = await fetchRatesByID({ productID });
-  //     console.log(res.data);
-  //     setRates(res.data.rates);
-  //     setName(res.data.item.itemName)
-  //   }
-  //   catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-
-  // console.log(rates)
-
-  console.log(product)
-
-
   return (
     <div className='rates_table'>
       <h3>Purchase Rates of {product?.item?.itemName}</h3>
 
       <div className='rate-table-header'>
-        <div>Party Name</div>
-        <div>Purchase Number</div>
-        <div>MRP</div>
-        <div>Discount</div>
-        <div>Deal</div>
-        <div>Purchase Rate</div>
+        <div className='rate-table-header-column'>Party Name</div>
+        <div className='rate-table-header-column'>Purchase Number</div>
+        <div className='rate-table-header-column'>MRP</div>
+        <div className='rate-table-header-column'>Discount</div>
+        <div className='rate-table-header-column'>Deal</div>
+        <div className='rate-table-header-column'>Purchase Rate</div>
       </div>
       <div className='rate-table-body'>
         {
@@ -98,6 +72,7 @@ const Rates_table = ({ product }) => {
                     <div>Quantity: </div>
                     <div>Free: </div>
                     <div>GST: </div>
+                    <div>Purchase Rate of Party: </div>
                   </div>
                   <div>
                     <div>{rate.purchase.invoiceNo}</div>
@@ -106,6 +81,7 @@ const Rates_table = ({ product }) => {
                     <div>{rate.quantity}</div>
                     <div>{rate.free}</div>
                     <div>{product?.item?.gst*2}</div>
+                    <div>{rate.partyPurchaseRate}</div>
                   </div>
 
                 </div>

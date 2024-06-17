@@ -24,7 +24,13 @@ const purchaseSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref:'Item'
     }
-  ], 
+  ],
+  purchaseAmount:{
+    type:Number
+  },
+  expense:{
+    type:Number
+  },
   searchTags:[String]
 })
 
