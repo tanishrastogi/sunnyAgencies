@@ -17,10 +17,7 @@ const billSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"SalesMan"
   },
-  partyPhoneNumber:{
-    type:String
-  },
-  items: [
+    items: [
     {
       item: {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,7 +35,7 @@ const billSchema = new mongoose.Schema({
     }
   ],
   searchTags:[String]
-})
+});
 
 const Bill = new mongoose.model("Bill", billSchema);
 
