@@ -5,38 +5,48 @@ const billSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Party"
   },
-  billNumber:{
+  partyCode:String,
+  billNumber: {
+    type: String,
+    required: true
+  },
+  billDate: {
+    type: String,
+    required: true
+  },
+  paymentMethod:{
     type:String,
-    required:true
+    required:true,
+    enum:['Cash', 'Credit']
   },
-  billDate:{
-    type:String,
-    required:true
+  salesMan: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SalesMan"
   },
-  salesMan:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"SalesMan"
+  totalAmount:{
+    type:String
   },
-    items: [
+  items: [
     {
       item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Item"
       },
-      discount:String,
-      batchNumber:{
-        type:String,
-        required:true
+      itemCode:String,
+      discount: String,
+      batchNumber: {
+        type: String,
+        required: true
       },
-      quantity:String,
-      free:String,
-      deal:String,
-      netSaleRate:String
+      quantity: String,
+      free: String,
+      deal: String,
+      netSaleRate: String
     }
   ],
-  searchTags:[String]
+  searchTags: [String]
 });
 
-const Bill = new mongoose.model("Bill", billSchema);
+const Bill = mongoose.model("Bill", billSchema);
 
-export { Bill }
+export { Bill };

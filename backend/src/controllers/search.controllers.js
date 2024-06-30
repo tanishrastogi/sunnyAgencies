@@ -3,6 +3,7 @@ import { Party } from "../models/party.model.js";
 import { Purchase } from "../models/purchase.model.js";
 import { handleErr } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js";
+import { Bill } from "../models/bill.model.js";
 
 const searchApiForProducts = async (req, res) => {
   try {
@@ -107,6 +108,36 @@ const searchApiForPurchases = async (req, res) => {
   }
 }
 
+const searchApiForBills = async (req, res) => {
+  try {
+    const { word } = req.body;
+
+    const escapeRegex = (string) => {
+      return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    };
+
+    const sanitizedWord = escapeRegex(word);
+
+    const regex = new RegExp(sanitizedWord, 'i');
+
+    const result = await Bill.find({
+      "$or":[
+        {billNumber:{$regex:regex}},
+        {partyCode:{$regex:regex}},
+        {billDate:{$regex:regex}},
+        {"items.itemCode":{$regex:regex}},
+        {"items.batchNumber":{$regex:regex}}
+      ]
+    })
+
+    return res.json(new ApiResponse(200, result, "Bills fetched successfully."));
+
+  }
+  catch (err) {
+    return handleErr(res, err);
+  }
+}
+
 const addSearchTags = async (req, res) => {
   try {
 
@@ -120,5 +151,6 @@ const addSearchTags = async (req, res) => {
 export {
   searchApiForProducts,
   searchApiForAccounts,
-  searchApiForPurchases
+  searchApiForPurchases,
+  searchApiForBills
 }

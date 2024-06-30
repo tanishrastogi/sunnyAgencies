@@ -1,3 +1,7 @@
+import { Bill } from "../../../../models/bill.model.js";
+import { Item } from "../../../../models/item.model.js";
+import { Party } from "../../../../models/party.model.js";
+
 const formSaleObj = function (array) {
   try {
     const arr = [];
@@ -16,19 +20,24 @@ const formSaleObj = function (array) {
         date = entry['EntryDate'];
       }
 
-      if (entryNo > 0 && index !== 0 ) {
+      if (entryNo > 0 && index !== 0) {
+
+        bill['totalAmount'] = array[index - 1]['Net Amt'];
         arr.push(bill);
         // items = [...items, ...bill['items']]
-        if(entryNo===4){
-          console.log(bill['items'].length)
-        }
         bill = {};
       }
 
       if (entryNo > 0) {
         bill['billNumber'] = entry['Entry No'];
+        bill['payType'] = entry['Pay Type'];
         bill['partyCode'] = entry['AccCod'];
+        bill['partyName'] = entry['AccHead'];
+        bill['mobile'] = entry['Phone'];
+        bill['gstNumber'] = entry['GST No'];
         bill['billDate'] = date;
+        bill['salesMan'] = entry['S.MAN'];
+
         bill['items'] = [
           {
             itemCode: entry['ItemCd'],
@@ -66,12 +75,11 @@ const formSaleObj = function (array) {
         )
       }
 
-      if (arr.length>1) {
+      if (arr.length > 1) {
         let lastBillNo = arr[arr.length - 1]?.billNumber;
         let secondLastBillNo = arr[arr.length - 2]?.billNumber;
         let lastBill = arr[arr.length - 1]
         let secondlastBill = arr[arr.length - 2]
-        console.log(lastBillNo, secondLastBillNo)
         if (lastBillNo === secondLastBillNo) {
 
           arr.pop();
@@ -103,4 +111,116 @@ const formSaleObj = function (array) {
   }
 }
 
-export { formSaleObj };
+
+const addSaleToDatabase = async (array) => {
+  try {
+    const partiesNotFound = [];
+    const itemsNotFound = [];
+
+    const promises = array.map(async (bill) => {
+      // console.log(bill.billNumber);
+
+      const party_check = await Party.findOne({ partyCode: bill.partyCode });
+      const bill_check = await Bill.findOne({ billNumber: bill.billNumber, billDate: bill.billDate, totalAmount: bill.totalAmount })
+
+      if (!party_check) {
+
+        const searchParty = await Party.find({
+          "$or": [
+            { partyCode: { $regex: bill.partyCode } }
+          ]
+        });
+
+        if (searchParty === null || searchParty.length === 0) {
+          const newParty = new Party({
+            partyName: bill.partyName,
+            partyCode: bill.partyCode,
+            details: {
+              gstNumber: bill.gstNumber,
+              mobile: [bill.mobile]
+            }
+          })
+
+          await newParty.save();
+
+          party = newParty
+        }
+
+        else if (searchParty.length === 1) {
+          bill.partyCode = searchParty[0].partyCode
+        }
+
+
+      }
+
+      const party = await Party.findOne({ partyCode: bill.partyCode });
+      if (!party) {
+        partiesNotFound.push({ partyCode: bill.partyCode, billnumber: bill.billNumber });
+        return;
+      }
+
+      if (bill_check) {
+        return;
+      }
+
+      const items = [];
+      const subPromises = bill.items.map(async (item) => {
+        const billItem = await Item.findOne({ itemCode: item.itemCode })
+
+        if (!billItem) {
+          itemsNotFound.push(item.itemCode);
+          return;
+        }
+
+        items.push({
+
+          item: billItem._id,
+          itemCode: item.itemCode,
+          discount: item.discount,
+          batchNumber: item.batchNumber,
+          quantity: item.quantity,
+          free: item.free
+
+        });
+
+      })
+
+      await Promise.all(subPromises);
+
+      if (party._id === null || party._id === undefined) {
+        console.log(bill.billNumber)
+        return;
+      }
+
+      const billAdded = new Bill({
+        party: party?._id,
+        partyCode: bill.partyCode,
+        billNumber: bill.billNumber,
+        billDate: bill.billDate,
+        paymentMethod: bill.payType,
+        items,
+        totalAmount: bill.totalAmount
+      });
+
+      await billAdded.save();
+
+      if (bill.payType === 'Credit') {
+        await Party.findByIdAndUpdate(party._id, { $push: { bills: billAdded._id } })
+      }
+
+    })
+
+    await Promise.all(promises);
+
+    return { partiesNotFound, itemsNotFound }
+
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
+
+export {
+  formSaleObj,
+  addSaleToDatabase
+};
