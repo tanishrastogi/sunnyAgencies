@@ -128,7 +128,7 @@ const addSaleToDatabase = async (array) => {
         const searchParty = await Party.find({
           "$or": [
             { partyCode: { $regex: bill.partyCode } }
-          ]
+          ] 
         });
 
         if (searchParty === null || searchParty.length === 0) {
