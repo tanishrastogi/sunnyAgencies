@@ -139,7 +139,7 @@ const addSaleToDatabase = async (array) => {
               gstNumber: bill.gstNumber,
               mobile: [bill.mobile]
             }
-          })
+          });
 
           await newParty.save();
 
@@ -182,9 +182,9 @@ const addSaleToDatabase = async (array) => {
           free: item.free
 
         });
-
+        
       })
-
+      
       await Promise.all(subPromises);
 
       if (party._id === null || party._id === undefined) {

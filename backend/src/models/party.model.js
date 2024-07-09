@@ -28,6 +28,10 @@ const partySchema = new mongoose.Schema({
       ref:"Purchase"
     }
   ],
+  paymentNotes:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"PaymentNotes"
+  }],
   searchTags:[String],
   analytics: {
 
