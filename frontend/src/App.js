@@ -7,6 +7,7 @@ import Best_sale_by_month from './components/tables/tables';
 import Analytics from './pages/analytics/analytics';
 import Rates_table from './components/tables/item_table';
 import ItemCard from './pages/cards/itemCard/item.card';
+import PaymentNotes from './pages/paymentNotes/PaymentNotes';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
     // </div>
     <Routes>
       <Route path='/analytics' element={<div><Analytics /></div>} />
+      <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
       <Route path='/items' element={<div><Rates_table /></div>} />
       <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />

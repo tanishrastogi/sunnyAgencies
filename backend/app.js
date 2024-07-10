@@ -10,6 +10,7 @@ import rateRouter from "./src/routes/rate.routes.js"
 import adderRouter from "./src/routes/adder.routes.js"
 import searchRouter from "./src/routes/search.routes.js"
 import purchaseRouter from "./src/routes/purchase.routes.js"
+import paymentNotesRouter from "./src/routes/paymentNotes.routes.js"
 // import displayRouter from "./src/routes/display.routes.js"
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/adder/", adderRouter);
 app.use("/api/search/", searchRouter);
 app.use("/api/purchase/", purchaseRouter);
 app.use("/api/rates/", rateRouter);
+app.use("/api/payment-notes/", paymentNotesRouter);
 
 app.get("/test", (req, res) => {
     res.send("hello world!")

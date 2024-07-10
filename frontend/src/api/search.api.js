@@ -8,9 +8,24 @@ const searchItems = async (payload) => {
     return data
   }
   catch (err) {
-  console.log(err);
-}
+    console.log(err);
+  }
 }
 
 
-export { searchItems }
+const searchAccount = async(payload)=>{
+  try{
+    const word = payload.searchWord;
+    const { data } = await api.post(`/search/accounts?page=${payload.page}&limit=10`, { word });
+    return data
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
+
+export { 
+  searchItems,
+  searchAccount
+}
