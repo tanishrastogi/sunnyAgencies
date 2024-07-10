@@ -32,12 +32,16 @@ export const createNote = async (req, res) => {
 
 
 
-const fetchByID = async(req,res)=>{
+export const fetchByID = async(req,res)=>{
   try{
     
     const {paymentNoteID} = req.body;
 
-    const paymentNote = await PaymentNotes.findById() 
+    const paymentNote = await PaymentNotes.findById(paymentNoteID);
+    
+    if(!paymentNote) return res.json(new ApiResponse(404, "Note not found!"));
+
+    return res.json(new ApiResponse(200, paymentNote, "note fetched successfully."));
 
   }
   catch(err){
@@ -45,6 +49,59 @@ const fetchByID = async(req,res)=>{
   }
 }
 
+
+
+export const fetchAll = async(req,res)=>{
+  try{
+    
+    const paymentNotes = await PaymentNotes.find({})
+    
+    if(!paymentNotes) return res.json(new ApiResponse(404, "no notes found"));
+
+    return res.json(new ApiResponse(200, paymentNotes, "Payment notes fetched successfully"));
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
+
+
+
+export const fetchByDate = async(req,res)=>{
+  try{
+    
+    const {date} = req.body;
+
+    const notes = PaymentNotes.find({createdAt:date});
+
+    if(!notes) return res.json(new ApiResponse(404, "no notes found for this date."));
+    
+    return res.json(new ApiResponse(200, notes, "notes for this date fetched successfully."));
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
+
+
+export const fetchByAccount = async(req,res)=>{
+  try{
+    
+    const {accountID} = req.body;
+
+    const paymentNotes = await PaymentNotes.find({party:accountID});
+    
+    if(!paymentNotes) return res.json(new ApiResponse(404, "No notes found in this account."));
+
+    return res.json(new ApiResponse(200, paymentNotes, "fetched successfully"));
+
+  }
+  catch(err){
+    return handleErr(res,err);
+  }
+}
 
 
 export const deleteNoteByID = async (req, res) => {
