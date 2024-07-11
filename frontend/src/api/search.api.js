@@ -16,7 +16,9 @@ const searchItems = async (payload) => {
 const searchAccount = async(payload)=>{
   try{
     const word = payload.searchWord;
+    // console.log(word)
     const { data } = await api.post(`/search/accounts?page=${payload.page}&limit=10`, { word });
+    // console.log(data)
     return data
   }
   catch(err){

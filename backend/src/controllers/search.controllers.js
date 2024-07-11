@@ -47,7 +47,7 @@ const searchApiForAccounts = async (req, res) => {
     // String(word).toUpperCase();
 
     const escapeRegex = (string) => {
-      return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      return string?.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
 
     const sanitizedWord = escapeRegex(word);

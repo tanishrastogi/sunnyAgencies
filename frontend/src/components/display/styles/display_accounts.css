@@ -1,0 +1,32 @@
+.account_container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  /* background: #000; */
+}
+
+.account_container:hover{
+  background: #acacac;
+
+}
+
+.account_container:active{
+  transform: scale(0.95);
+}
+
+.display_accounts{
+  border:1px solid black;
+  font-size: 0.5rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 30vh;
+
+}
+
+.account_container_content{
+  margin: 15px;
+  /* background: #000; */
+  width: 100px;
+  word-wrap: break-word;
+}

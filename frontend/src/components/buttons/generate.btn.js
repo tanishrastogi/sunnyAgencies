@@ -7,4 +7,4 @@ const Generate_Button = ()=>{
     </div>
 }
 
-export default Generate_Button
+export default Generate_Button;
