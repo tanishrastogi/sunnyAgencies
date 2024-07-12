@@ -2,6 +2,7 @@ import { handleErr } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { PaymentNotes } from "../models/paymentNotes.model.js";
 import { Party } from "../models/party.model.js";
+import { ist_to_utc } from "../utils/ISTtoUTC.js";
 
 export const createNote = async (req, res) => {
   try {
@@ -74,9 +75,21 @@ export const fetchByDate = async(req,res)=>{
     
     const {date} = req.body;
 
-    const notes = PaymentNotes.find({createdAt:date});
+    console.log("78",date)
 
-    if(!notes) return res.json(new ApiResponse(404, "no notes found for this date."));
+    const utcDate = ist_to_utc(date);
+
+    const start = new Date(utcDate.setUTCHours(0,0,0,0))
+    const end = new Date(utcDate.setUTCHours(23,59,59,999))
+
+    const notes = await PaymentNotes.find({createdAt:{
+      $gte:start,
+      $lt:end
+    }}).populate("party");
+
+
+    console.log(notes)
+    if(!notes || notes.length===0) return res.json(new ApiResponse(404, notes,"no notes found for this date."));
     
     return res.json(new ApiResponse(200, notes, "notes for this date fetched successfully."));
 

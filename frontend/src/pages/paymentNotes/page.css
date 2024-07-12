@@ -1,0 +1,17 @@
+.payment-note-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+  background: #f8fff6;
+}
+
+.payment-note-page button{
+  background: #e4ffd7;
+  border: none;
+  box-shadow: 1px 1px 5px black;
+}
+
+.payment-note-page button:active{
+  transform: scale(0.95);
+}

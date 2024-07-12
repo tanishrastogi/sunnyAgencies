@@ -1,13 +1,23 @@
 .payment-note-creator{
-  border: 1px solid black;
-  width:fit-content;
+  /* border: 1px solid black; */
+  background: white;
+  box-shadow: 1px 1px 5px black;
+  /* width:fit-content; */
   padding: 10px;
+  margin: 50px 20px;
 }
 
 .payment-note-creator input{
   padding: 10px;
   display: flex;
-  margin: 10px
+  margin: 10px;
+}
+
+.bill_details input{
+  padding: 10px;
+  display: flex;
+  margin: 10px;
+  width: 90%;
 }
 
 .payment-note-creator .narration-input{
@@ -30,5 +40,46 @@
 .bill_details{
   display: flex;
   justify-content: center;
+  padding: 10px;
+}
+
+.payment-note-by-date input{
+  padding: 10px;
+}
+
+
+
+.payment-note-container{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  font-size: 0.8rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.payment-note-container-box{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.payment-note-container-box>div{
+  width: 105px;
+  display: flex;
+}
+
+.payment-note-by-date{
+  background: white;
+  box-shadow: 1px 1px 5px black;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 40vh;
+}
+
+.payment-note-by-date button{
   padding: 10px;
 }
