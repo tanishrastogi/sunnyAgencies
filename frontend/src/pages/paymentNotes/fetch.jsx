@@ -25,7 +25,8 @@ const FetchPaymentNoteByDate = () => {
 
   return (
     <div className="payment-note-by-date">
-      <input
+      <input 
+        className="payment-note-by-date-input"
         type="date"
         name="date"
         value={date}
@@ -37,14 +38,14 @@ const FetchPaymentNoteByDate = () => {
         placeholder="Enter Date"
         required
       ></input>
-      <div>
+      <div className="payment-note-by-date-div">
         {notes?.length !== 0 ? (
           <div className="payment-note-container">
-            <div className="payment-note-container-box">
-              <div style={{fontWeight:"bold", margin:"10px", width:"250px"}}>Party Name</div>
-              <div style={{fontWeight:"bold", margin:"10px"}}>Bill Number</div>
-              <div style={{fontWeight:"bold", margin:"10px"}}>Bill Date</div>
-              <div style={{fontWeight:"bold", margin:"10px", width:"250px"}}>Narration</div>
+            <div className="payment-note-container-box-heading">
+                  <div style={{width:"250px", fontWeight:"bold"}}>Party Name</div>
+                  <div style={{fontWeight:"bold"}}>Bill Number</div>
+                  <div style={{fontWeight:"bold"}}>Bill Date</div>
+                  <div style={{width:"250px", fontWeight:"bold"}}>Narration</div>
             </div>
             {notes?.map((note) => {
               return (
@@ -61,7 +62,7 @@ const FetchPaymentNoteByDate = () => {
           <div>No Notes Fetched</div>
         )}
       </div>
-      <button onClick={handleFetch}>Submit</button>
+      <button className="payment-note-by-date-button" onClick={handleFetch}>Submit</button>
     </div>
   );
 };

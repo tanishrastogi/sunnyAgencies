@@ -52,7 +52,7 @@
 .payment-note-container{
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   font-size: 0.8rem;
   width: 100%;
   cursor: pointer;
@@ -65,9 +65,27 @@
   padding: 20px;
 }
 
+.payment-note-container-box:hover{
+  border: 2.0px solid green;
+}
+
+.payment-note-container-box:nth-child(odd){
+  background: #c6ffaf;
+}
+
+.payment-note-container-box-heading{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 20px;
+  background: #00ac31;
+  color: white;
+}
+
 .payment-note-container-box>div{
   width: 105px;
   display: flex;
+  flex-direction: column;
 }
 
 .payment-note-by-date{
@@ -76,10 +94,19 @@
   padding: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 40vh;
+  /* justify-content: space-around; */
+  height: 100vh;
+  overflow-x: scroll;
+}
+
+.payment-note-by-date-button, .payment-note-by-date-input, .payment-note-by-date-div {
+  margin: 40px;
 }
 
 .payment-note-by-date button{
+  padding: 10px;
+}
+
+.payment-note-by-date-input{
   padding: 10px;
 }
