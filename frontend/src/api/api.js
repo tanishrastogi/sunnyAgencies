@@ -20,3 +20,15 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+
+export const api_for_pdf = axios.create({
+  baseURL: baseURL,
+  timeout: 1000 * 10,
+  withCredentials: true,
+  headers: {
+    authorization: `Bearer ${document.cookie.split(";")}`,
+    Accept: "application/pdf",
+    "Content-Type": "application/json",
+  },
+});
