@@ -16,8 +16,18 @@ const MrOutstandingPDF = () => {
 
   const [mrDetails, setMrDetails] = useState({
     mrName: "",
-    mrEmail: "",
-    customMessage:""
+    mrEmail: "", 
+    customMessage:`We would like to bring to your attention that there are pending bills in your account, and we kindly request that you prioritize the payment of these dues. 
+
+Specifically, we urge you to settle the bills that have been outstanding for two months or more as soon as possible.
+
+If you have any questions or need assistance regarding the pending bills, do not hesitate to contact us. We appreciate your cooperation and look forward to resolving this matter promptly
+
+NOTE: Please note that this PDF only contains bills that are older than three months. Bills whose due dates are not three months or before are not mentioned here.
+
+Please contact the administrator if u want complete details of your outstanding
+
+`
   });
 
   const handleMrDetailsChange = (e) => {

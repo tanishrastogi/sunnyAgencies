@@ -16,15 +16,18 @@ const mrOutstandingPDF = async (payload) => {
       .map((line) => `<p>${line}</p>`)
       .join('');
 
-    console.log(payload.mrDetails.mrName)
-    const htmlContent = `
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    console.log(payload.mrDetails.mrName);
 
+    const base64Image = "./QR.jpeg"; // Replace with your base64 image string
+
+
+    const htmlContent = `
     <style>
+      
       body{
         font-family: 'Courier New', Courier, monospace;
         width:100%;
-        }
+      }
         
       .heading{
         background: #dbffcb;
@@ -42,7 +45,8 @@ const mrOutstandingPDF = async (payload) => {
       .heading h1{
         display:block;
         max-width:min-content;
-        margin:20px;
+        margin:15px;
+        font-size:2rem;
       }
 
       table{
@@ -61,6 +65,7 @@ const mrOutstandingPDF = async (payload) => {
         padding:20px;
         margin:20px;
         text-align:center;
+        page-break-inside:avoid;
       }
 
       thead tr{
@@ -100,12 +105,25 @@ const mrOutstandingPDF = async (payload) => {
         top:80px;
       }
 
+      .address p:nth-child(4){
+        top:100px;
+      }
+
+      .address p:nth-child(5){
+        top:120px;
+      }
+
       .mr-details{
         position:absolute;
         top:220px;
         // left:350px;
       }
-        
+      
+      .account-details p{
+        position:absolute;
+        margin:20px;
+        font-weight:bold;
+      }
 
     </style>
     <body>
@@ -115,19 +133,27 @@ const mrOutstandingPDF = async (payload) => {
           <p>LG-30/31, NEW MEDICINE MARKET</p>
           <p>G.B. MARG, LUCKNOW 226018</p>
           <p>GST NUMBER: 09ACQPR5086H1ZU</p>
+          <p>D.L No1.: UP3220B002233</p>
+          <p>D.L No2.: UP3221B002225</p>
         </div>
         <div class="contact-info">
-          <p style="top:5px; left:400px; font-size:1.4rem;">Contacts</p>
-          <p style="top:40px; left:400px;">+91 9984191620</p>
-          <p style="top:60px; left:400px;">+91 7705037757</p>
-          <p style="top:80px; left:400px;">0522-4063725</p>
-          <p style="top:100px; left:400px;">sunitmuskan@gmail.com</p>
+          <p style="top:5px; left:350px; font-size:1.4rem;">Contacts</p>
+          <p style="top:40px; left:350px;">+91 9984191620</p>
+          <p style="top:60px; left:350px;">+91 7705037757</p>
+          <p style="top:80px; left:350px;">0522-4063725</p>
+          <p style="top:100px; left:350px;">sunnyagencies1990@gmail.com</p>
+        </div>
+        <div class="account-details">
+          <p style="top:5px; left:650px; font-size:1.4rem;">Account Details</p>
+          <p style="top:40px; left:650px;">UPI ID: 9235686101@ybl</p>
+          <p style="top:60px; left:650px;">Account Number: 50200011565440</p>
+          <p style="top:80px; left:650px;">IFSC CODE: HDFC0000723</p>
         </div>
       </div>
       <div class="mr-details">
         <div class="header"><span style="font-weight:bold">MR Name:</span> ${mrName}</div>
         <div class="header"><span style="font-weight:bold">MR Email:</span> ${mrEmail}</div>
-        <div class="message"><span style="font-weight:bold">Message:</span> ${formattedMessage}</div>
+        <div class="message"><span style="font-weight:bold; margin-top:50px">Message:</span> ${formattedMessage}</div>
         <table style="border:1px solid black;">
           <thead>
             <tr>
