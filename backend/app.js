@@ -12,6 +12,7 @@ import searchRouter from "./src/routes/search.routes.js"
 import purchaseRouter from "./src/routes/purchase.routes.js"
 import paymentNotesRouter from "./src/routes/paymentNotes.routes.js"
 import pdfRouter from "./src/routes/pdf.routes.js";
+import collectionRouter from "./src/routes/collection.routes.js";
 
 // import displayRouter from "./src/routes/display.routes.js"
 
@@ -41,6 +42,7 @@ app.use("/api/purchase/", purchaseRouter);
 app.use("/api/rates/", rateRouter);
 app.use("/api/payment-notes/", paymentNotesRouter);
 app.use("/api/pdf/", pdfRouter);
+app.use("/api/collection/", collectionRouter);
 
 app.get("/test", (req, res) => {
     res.send("hello world!")

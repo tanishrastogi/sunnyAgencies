@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const collectionSchema = new mongoose.Schema({
   entryDate:{
-    type:Date,
+    type:String,
     required:true
   },
   entryNumber:{
@@ -17,6 +17,8 @@ const collectionSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  amount:String,
+
   paymentType:{
     type:String,
     enum:["cash", "bank"]

@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { mongo } from "mongoose"
 
 const partySchema = new mongoose.Schema({
   partyName: {
@@ -20,12 +20,18 @@ const partySchema = new mongoose.Schema({
   },
   bills: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Order"
+    ref: "Bill"
   }],
   purchases:[
     {
       type:mongoose.Schema.Types.ObjectId,
       ref:"Purchase"
+    }
+  ],
+  collections:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Collection"
     }
   ],
   paymentNotes:[{
