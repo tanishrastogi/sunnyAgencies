@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Bill } from "../../../../models/bill.model.js";
 import { Item } from "../../../../models/item.model.js";
 import { Party } from "../../../../models/party.model.js";
@@ -7,31 +8,31 @@ const formSaleObj = function (array) {
     const arr = [];
     let bill = {};
     let date = '';
-    // let previousBillNumber = ''
     array.map((entry, index) => {
-      const entryNo = Number(entry['Entry No'].slice(2));
 
-      // if (index > 0 && Number(array[index - 1]['Entry No'].slice(2)) !== 0) {
-      //   previousBillNumber = Number(array[index - 1]['Entry No'].slice(2));
-      // }
+      // this is to handle other entries like CN-0000012 DN-0000015 etc.
+
+      const entryNo = Number(entry['Entry No'].slice(2));
 
 
       if (entry['EntryDate'].split("/").length > 2) {
-        date = entry['EntryDate'];
+        date = moment(entry['EntryDate'], "DD/MM/YYYY").toDate().toString()
+        // console.log(date)
       }
+      // console.log(first)
+      if (entryNo !== 0 && index !== 0) {
+        if(array[index - 1]['EntryDate'].split("Invoice").length>1 ){
+          // console.log(array[index - 1]['EntryDate'].split("Invoice"), bill['billNumber']);
+          bill['totalAmount'] = array[index - 1]['Net Amt'];
+        }
 
-      if (entryNo > 0 && index !== 0) {
-
-        bill['totalAmount'] = array[index - 1]['Net Amt'];
         arr.push(bill);
-        // items = [...items, ...bill['items']]
         bill = {};
       }
-
-      if (entryNo > 0) {
+      if (entryNo !== 0) {
         bill['billNumber'] = entry['Entry No'];
         bill['payType'] = entry['Pay Type'];
-        bill['partyCode'] = entry['AccCod'];
+        bill['partyCode'] = entry['AccCode'];
         bill['partyName'] = entry['AccHead'];
         bill['mobile'] = entry['Phone'];
         bill['gstNumber'] = entry['GST No'];
@@ -77,6 +78,9 @@ const formSaleObj = function (array) {
 
       if (arr.length > 1) {
         let lastBillNo = arr[arr.length - 1]?.billNumber;
+        
+        let lastBillAmount = arr[arr.length-1]?.totalAmount;
+
         let secondLastBillNo = arr[arr.length - 2]?.billNumber;
         let lastBill = arr[arr.length - 1]
         let secondlastBill = arr[arr.length - 2]
@@ -89,15 +93,16 @@ const formSaleObj = function (array) {
           ];
 
           arr[arr.length - 1]['items'] = items;
+          arr[arr.length - 1]['totalAmount'] = lastBillAmount;
 
-        }
+        } 
       }
 
 
 
     })
 
-
+    // console.log(arr[arr.length-3])
     // if (type === 'items') {
     //   return items
     // }
@@ -119,11 +124,13 @@ const addSaleToDatabase = async (array) => {
 
     const promises = array.map(async (bill) => {
       // console.log(bill.billNumber);
-
+      // console.log(bill.billDate)
       const party_check = await Party.findOne({ partyCode: bill.partyCode });
-      const bill_check = await Bill.findOne({ billNumber: bill.billNumber, billDate: bill.billDate, totalAmount: bill.totalAmount })
+      const bill_check = await Bill.findOne({ billNumber: bill.billNumber, totalAmount: bill.totalAmount })
 
       if (!party_check) {
+
+        
 
         const searchParty = await Party.find({
           "$or": [
@@ -143,7 +150,6 @@ const addSaleToDatabase = async (array) => {
 
           await newParty.save();
 
-          party = newParty
         }
 
         else if (searchParty.length === 1) {

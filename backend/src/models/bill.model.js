@@ -11,12 +11,11 @@ const billSchema = new mongoose.Schema({
     required: true
   },
   billDate: {
-    type: String,
+    type: Date,
     required: true
   },
   paymentMethod:{
     type:String,
-    required:true,
     enum:['Cash', 'Credit']
   },
   salesMan: {

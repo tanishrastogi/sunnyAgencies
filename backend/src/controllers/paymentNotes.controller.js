@@ -2,7 +2,7 @@ import { handleErr } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { PaymentNotes } from "../models/paymentNotes.model.js";
 import { Party } from "../models/party.model.js";
-import { ist_to_utc } from "../utils/ISTtoUTC.js";
+import { utc_to_ist } from "../utils/date_functions.js";
 
 export const createNote = async (req, res) => {
   try {
@@ -77,7 +77,7 @@ export const fetchByDate = async(req,res)=>{
 
     console.log("78",date)
 
-    const utcDate = ist_to_utc(date);
+    const utcDate = utc_to_ist(date);
 
     const start = new Date(utcDate.setUTCHours(0,0,0,0))
     const end = new Date(utcDate.setUTCHours(23,59,59,999))

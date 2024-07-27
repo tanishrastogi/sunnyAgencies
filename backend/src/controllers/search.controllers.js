@@ -124,7 +124,7 @@ const searchApiForBills = async (req, res) => {
       "$or":[
         {billNumber:{$regex:regex}},
         {partyCode:{$regex:regex}},
-        {billDate:{$regex:regex}},
+        // {billDate:{$regex:regex}},
         {"items.itemCode":{$regex:regex}},
         {"items.batchNumber":{$regex:regex}}
       ]
