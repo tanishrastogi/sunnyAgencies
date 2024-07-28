@@ -2,6 +2,7 @@ import moment from "moment";
 import { Bill } from "../../../../models/bill.model.js";
 import { Item } from "../../../../models/item.model.js";
 import { Party } from "../../../../models/party.model.js";
+import { utc_to_ist } from "../../../../utils/date_functions.js";
 
 const formSaleObj = function (array) {
   try {
@@ -202,7 +203,7 @@ const addSaleToDatabase = async (array) => {
         party: party?._id,
         partyCode: bill.partyCode,
         billNumber: bill.billNumber,
-        billDate: bill.billDate,
+        billDate: utc_to_ist(bill.billDate),
         paymentMethod: bill.payType,
         items,
         totalAmount: bill.totalAmount

@@ -21,7 +21,7 @@ const sale_adder = async (req, res) => {
     // adding the sale object formed to the database
     const addSaleData = await addSaleToDatabase(saleObj);
 
-    return res.json(new ApiResponse(200, addSaleData));
+    return res.json(new ApiResponse(200, saleObj));
 
 
   }

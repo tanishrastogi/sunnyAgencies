@@ -14,65 +14,120 @@ import paymentNotesRouter from "./src/routes/paymentNotes.routes.js"
 import pdfRouter from "./src/routes/pdf.routes.js";
 import collectionRouter from "./src/routes/collection.routes.js";
 import { Bill } from "./src/models/bill.model.js";
-import moment from "moment";
-import { ist_to_utc } from "./src/utils/date_functions.js";
-
-// import displayRouter from "./src/routes/display.routes.js"
+import mongoose from "mongoose";
 
 const app = express();
 
 
 const calculateTotalSalesInDecember2023 = async () => {
   try {
-    // Start and end dates for December 2023
+       // Define the start and end dates for December 2023
+      //  const startDate = new Date("2024-04-01T00:00:00Z");
+      //  const endDate = new Date("2024-04-30T23:59:59Z");
+   
+      //  // Ensure all bill amounts are properly converted to double
+      //  await Bill.updateMany(
+      //    { billDate: { $gte: startDate, $lte: endDate } },
+      //    [{ $set: { totalAmount: { $toDouble: "$totalAmount" } } }]
+      //  );
+   
+      //  // Aggregation pipeline to get total sales per day
+      //  const result = await Bill.aggregate([
+      //   // Filter bills within the specified date range
+      //   {
+      //     $match: {
+      //       billDate: { $gte: startDate, $lte: endDate }
+      //     }
+      //   },
+      //   // Add a field to represent the custom interval (1st, 15th, 30th of the month)
+      //   {
+      //     $addFields: {
+      //       intervalStart: {
+      //         $switch: {
+      //           branches: [
+      //             { case: { $lte: [{ $dayOfMonth: "$billDate" }, 15] }, then: { $dateFromParts: { year: { $year: "$billDate" }, month: { $month: "$billDate" }, day: 15 } } },
+      //             { case: { $gt: [{ $dayOfMonth: "$billDate" }, 15] }, then: { $dateFromParts: { year: { $year: "$billDate" }, month: { $month: "$billDate" }, day: { $cond: [{ $lte: [{ $dayOfMonth: "$billDate" }, 30] }, 30, 1] } } } }
+      //           ],
+      //           default: "$billDate"
+      //         }
+      //       }
+      //     }
+      //   },
+      //   // Group by the custom interval and sum the totalAmount
+      //   {
+      //     $group: {
+      //       _id: "$intervalStart",
+      //       totalSales: { $sum: "$totalAmount" },
+      //       billNumbers: { $push: "$billNumber" }
+      //     }
+      //   },
+      //   // Sort by the interval
+      //   {
+      //     $sort: { _id: 1 }
+      //   },
+      //   // Calculate cumulative sales
+      //   {
+      //     $group: {
+      //       _id: null,
+      //       data: {
+      //         $push: {
+      //           intervalStart: "$_id",
+      //           totalSales: "$totalSales",
+      //           billNumbers: "$billNumbers"
+      //         }
+      //       }
+      //     }
+      //   },
+      //   {
+      //     $unwind: "$data"
+      //   },
+      //   {
+      //     $setWindowFields: {
+      //       partitionBy: null,
+      //       sortBy: { "data.intervalStart": 1 },
+      //       output: {
+      //         cumulativeSales: {
+      //           $sum: "$data.totalSales",
+      //           window: {
+      //             documents: ["unbounded", "current"]
+      //           }
+      //         },
+      //         cumulativeBills: {
+      //           $push: "$data.billNumbers",
+      //           window: {
+      //             documents: ["unbounded", "current"]
+      //           }
+      //         }
+      //       }
+      //     }
+      //   },
+      //   // Project the final output
+      //   {
+      //     $project: {
+      //       _id: 0,
+      //       intervalStart: "$data.intervalStart",
+      //       totalSales: "$data.totalSales",
+      //       cumulativeSales: "$cumulativeSales",
+      //       billNumbers: "$data.billNumbers",
+      //       cumulativeBills: "$cumulativeBills"
+      //     }
+      //   }
+      // ]);
+  
+      // // console.log(result);
+  
+      // // Calculate cumulative sales
+      // let cumulativeSales = 0;
+      // const cumulativeSalesData = result.map(({ date, totalSales, billNumbers }) => {
+      //   cumulativeSales += totalSales;
+      //   return {  cumulativeSales };
+      // });
+  
+      // console.log("Cumulative Sales Data:", cumulativeSalesData);
+      // return cumulativeSalesData;
 
-    const startDate = new Date(ist_to_utc("2024-06-03T00:00:00.000Z"));
-    const endDate = new Date(ist_to_utc("2024-06-03T23:59:59.999Z"));
+      
 
-    // Ensure all bill amounts are properly converted to double
-    await Bill.updateMany(
-      { billDate: { $gte: startDate, $lte: endDate } },
-      [{ $set: { totalAmount: { $toDouble: "$totalAmount" } } }]
-    );
-
-    const result = await Bill.aggregate([
-      {
-        $match: {
-          billDate: { $gte: startDate, $lte: endDate }
-        }
-      },
-      {
-        $group: {
-          _id: null, // Group all documents into a single group
-          totalSales: { $sum: { $toDouble: "$totalAmount" } } // Sum the totalAmount field
-        }
-      }
-    ]);
-
-    // const countPipeline = [
-    //   {
-    //     $match: {
-    //       billDate: { $gte: startDate, $lte: endDate }
-    //     }
-    //   },
-    //   {
-    //     $group: {
-    //       _id: null, // Group all documents into a single group
-    //       totalSales: { $sum: "$totalAmount" }, // Sum the totalAmount field
-    //       billNumbers: { $push: "$billNumber" }, // Collect all bill numbers
-    //       count: { $sum: 1 } // Count the number of bills
-    //     }
-    //   }
-    // ];
-
-    // const count = await Bill.aggregate(countPipeline)
-
-
-    console.log(result);
-    // console.log(count[0].billNumbers[count[0].billNumbers.length-1])
-
-    console.log("Total Sales in December 2023:", result[0]?.totalSales || 0);
-    return result[0]?.totalSales || 0;
   } catch (err) {
     console.error("Error calculating total sales in December 2023:", err);
     throw err;
