@@ -24,7 +24,7 @@ const Rates_table = ({ product }) => {
       <div className='rate-table-body'>
         {
           product.rates?.map((rate, index) => {
-            console.log(rate.partyID.partyName.length, rate.partyID.partyName)
+            // console.log(rate.partyID.partyName.length, rate.partyID.partyName)
             return <Accordion>
               <AccordionSummary className={index % 2 === 0 ? 'accordionIsEven' : 'accordionIsOdd'}
                 style={index % 2 !== 0 ? {} : {
