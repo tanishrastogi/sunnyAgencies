@@ -19,7 +19,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build":"react-scripts build"
   },
   "name": "backend",
   "type": "module",

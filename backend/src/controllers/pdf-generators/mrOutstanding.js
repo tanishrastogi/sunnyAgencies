@@ -143,6 +143,9 @@ const createMrOutstandingPDF = async(req,res)=>{
         }
       });
     });
+
+    fs.unlinkSync(filePath);
+
   }
   catch(err){
     return handleErr(res, err);
