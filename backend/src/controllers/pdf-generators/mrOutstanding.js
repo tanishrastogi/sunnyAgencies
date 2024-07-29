@@ -1,7 +1,6 @@
 import { handleErr } from "../../utils/apiError.js";
 import { ApiResponse } from "../../utils/apiResponse.js";
 // import pdfjs from "pdfjs";
-import {PDFDocument, rgb, StandardFonts} from "pdf-lib";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
