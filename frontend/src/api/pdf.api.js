@@ -18,7 +18,7 @@ const mrOutstandingPDF = async (payload) => {
 
     console.log(payload.mrDetails.mrName);
 
-    const base64Image = "./QR.jpeg"; // Replace with your base64 image string
+    // const base64Image = "./QR.jpeg"; // Replace with your base64 image string
 
 
     const htmlContent = `
