@@ -139,7 +139,7 @@ calculateTotalSalesInDecember2023();
 // middlewares
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://192.168.1.13:3000"],
+    origin: ["http://localhost:3000", "https://sunny-agencies.vercel.app"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     exposedHeaders: ["set-cookie"],
