@@ -34,7 +34,7 @@ const Rates_table = ({ product }) => {
                 id="panel1-header"
               >
                 <div className='rate-table-row'>
-                  <div className='rate-table-column'>{rate?.partyID?.partyName?.length > 7 ? rate?.partyID?.partyName?.slice(0, 9) : rate.partyID.partyName}</div>
+                  <div className='rate-table-column'>{rate?.partyID?.partyName?.length > 7 ? rate?.partyID?.partyName?.slice(0, 9) : rate?.partyID?.partyName}</div>
                   <div className='rate-table-column'>{rate?.purchase?.billNo}</div>
                   <div className='rate-table-column'>{rate?.mrp}</div>
                   <div className='rate-table-column'>{rate?.discount}</div>
@@ -75,13 +75,13 @@ const Rates_table = ({ product }) => {
                     <div>Purchase Rate of Party: </div>
                   </div>
                   <div>
-                    <div>{rate.purchase.invoiceNo}</div>
-                    <div>{rate.purchase.billDate}</div>
-                    <div>{rate.batchNumber}</div>
-                    <div>{rate.quantity}</div>
-                    <div>{rate.free}</div>
+                    <div>{rate?.purchase?.invoiceNo}</div>
+                    <div>{rate?.purchase?.billDate}</div>
+                    <div>{rate?.batchNumber}</div>
+                    <div>{rate?.quantity}</div>
+                    <div>{rate?.free}</div>
                     <div>{product?.item?.gst*2}</div>
-                    <div>{rate.partyPurchaseRate}</div>
+                    <div>{rate?.partyPurchaseRate}</div>
                   </div>
 
                 </div>
