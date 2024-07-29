@@ -23,7 +23,7 @@ const Rates_table = ({ product }) => {
       </div>
       <div className='rate-table-body'>
         {
-          product.rates?.map((rate, index) => {
+          product?.rates?.map((rate, index) => {
             // console.log(rate.partyID.partyName.length, rate.partyID.partyName)
             return <Accordion>
               <AccordionSummary className={index % 2 === 0 ? 'accordionIsEven' : 'accordionIsOdd'}
@@ -34,12 +34,12 @@ const Rates_table = ({ product }) => {
                 id="panel1-header"
               >
                 <div className='rate-table-row'>
-                  <div className='rate-table-column'>{rate.partyID.partyName.length > 7 ? rate.partyID.partyName.slice(0, 9) : rate.partyID.partyName}</div>
-                  <div className='rate-table-column'>{rate.purchase.billNo}</div>
-                  <div className='rate-table-column'>{rate.mrp}</div>
-                  <div className='rate-table-column'>{rate.discount}</div>
+                  <div className='rate-table-column'>{rate?.partyID?.partyName?.length > 7 ? rate?.partyID?.partyName?.slice(0, 9) : rate.partyID.partyName}</div>
+                  <div className='rate-table-column'>{rate?.purchase?.billNo}</div>
+                  <div className='rate-table-column'>{rate?.mrp}</div>
+                  <div className='rate-table-column'>{rate?.discount}</div>
                   <div className='rate-table-column'>{0}</div>
-                  <div className='rate-table-column'>{rate.purchaseRate}</div>
+                  <div className='rate-table-column'>{rate?.purchaseRate}</div>
                 </div>
               </AccordionSummary>
               <AccordionDetails style={index % 2 !== 0 ? {
