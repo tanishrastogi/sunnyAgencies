@@ -15,6 +15,7 @@ import pdfRouter from "./src/routes/pdf.routes.js";
 import collectionRouter from "./src/routes/collection.routes.js";
 import { Bill } from "./src/models/bill.model.js";
 import mongoose from "mongoose";
+import { ApiResponse } from "./src/utils/apiResponse.js";
 
 const app = express();
 
@@ -162,8 +163,8 @@ app.use("/api/payment-notes/", paymentNotesRouter);
 app.use("/api/pdf/", pdfRouter);
 app.use("/api/collection/", collectionRouter);
 
-app.get("/test", (req, res) => {
-  res.send("hello world!")
+app.get("/api/health", (req, res) => {
+  return res.json(new ApiResponse(200, null, "server started"))
 })
 
 // console.log(`${31%3}+1`)
