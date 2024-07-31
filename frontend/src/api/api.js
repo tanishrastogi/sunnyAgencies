@@ -13,7 +13,7 @@ export const baseURL = 'https://sunnyagencies-m1wy.onrender.com/api'
    
 export const api = axios.create({
   baseURL: baseURL,
-  timeout: 1000 * 10,
+  timeout: 1000 * 60,
   withCredentials: true,
   headers: {
     authorization: `Bearer ${document.cookie.split(";")}`,
@@ -25,7 +25,7 @@ export const api = axios.create({
 
 export const api_for_pdf = axios.create({
   baseURL: baseURL,
-  timeout: 1000 * 10,
+  timeout: 1000 * 30,
   withCredentials: true,
   headers: {
     authorization: `Bearer ${document.cookie.split(";")}`,
@@ -33,3 +33,14 @@ export const api_for_pdf = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+
+export const backend_start_api = async()=>{
+  try{
+    const {data} = await api.get("/health");
+    return data;
+  }
+  catch(err){
+    console.log(err);
+  }
+}

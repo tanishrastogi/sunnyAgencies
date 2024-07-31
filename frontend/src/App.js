@@ -9,6 +9,8 @@ import Rates_table from './components/tables/item_table';
 import ItemCard from './pages/cards/itemCard/item.card';
 import PaymentNotes from './pages/paymentNotes/PaymentNotes';
 import MrOutstandingPDF from './components/pdf-creators/MrOutstandingPDF';
+import Loader from './components/loader/loader';
+import Home from './pages/home/Home';
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
 
     // </div>
     <Routes>
+      <Route path='/' element={<div><Home /></div>} />
       <Route path='/analytics' element={<div><Analytics /></div>} />
       <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
       <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />

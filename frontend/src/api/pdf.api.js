@@ -1,4 +1,4 @@
-import { api_for_pdf } from "./api";
+import { api, api_for_pdf } from "./api";
 
 const mrOutstandingPDF = async (payload) => {
   try {
@@ -194,7 +194,17 @@ const mrOutstandingPDF = async (payload) => {
   }
 }
 
-export {
-  mrOutstandingPDF
+const fetch_party_item_history = async (payload) => {
+  try {
+    const { data } = await api_for_pdf.post("/pdf/create/party-item-history");
+    return data;
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
 
+export {
+  mrOutstandingPDF,
+  fetch_party_item_history
 };

@@ -14,6 +14,8 @@ const MrOutstandingPDF = () => {
       : [{ partyName: "", billNumber: "", billDate: "", billAmount: "" }];
   });
 
+  const [visible, setVisibility] = useState(false);
+
   const [mrDetails, setMrDetails] = useState({
     mrName: "",
     mrEmail: "", 

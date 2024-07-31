@@ -8,7 +8,7 @@ import "./rate_table.css";
 import { AccordionDetails, AccordionSummary } from '@mui/material';
 
 const Rates_table = ({ product }) => {
-
+  // console.log()
   return (
     <div className='rates_table'>
       <h3>Purchase Rates of {product?.item?.itemName}</h3>
