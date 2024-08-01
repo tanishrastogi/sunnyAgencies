@@ -4,6 +4,7 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mrOutstandingPDF } from "../../api/pdf.api";
+import { backend_start_api } from "../../api/api";
 
 const MrOutstandingPDF = () => {
   const [boxes, setBoxes] = useState(() => {
@@ -18,8 +19,8 @@ const MrOutstandingPDF = () => {
 
   const [mrDetails, setMrDetails] = useState({
     mrName: "",
-    mrEmail: "", 
-    customMessage:`We would like to bring to your attention that there are pending bills in your account, and we kindly request that you prioritize the payment of these dues. 
+    mrEmail: "",
+    customMessage: `We would like to bring to your attention that there are pending bills in your account, and we kindly request that you prioritize the payment of these dues. 
 
 Specifically, we urge you to settle the bills that have been outstanding for two months or more as soon as possible.
 
@@ -29,7 +30,7 @@ NOTE: Please note that this PDF only contains bills that are older than three mo
 
 Please contact the administrator if u want complete details of your outstanding
 
-`
+`,
   });
 
   const handleMrDetailsChange = (e) => {
@@ -54,6 +55,9 @@ Please contact the administrator if u want complete details of your outstanding
     if (savedBoxes) {
       setBoxes(JSON.parse(savedBoxes));
     }
+    
+    
+
   }, []);
 
   // Save boxes to localStorage whenever boxes state changes
@@ -92,32 +96,29 @@ Please contact the administrator if u want complete details of your outstanding
     }
   };
 
-
-
-  const generatePDF = async()=>{
-    try{
-      const response = await mrOutstandingPDF({mrDetails, boxes});
-      if(response){
+  const generatePDF = async () => {
+    try {
+      const response = await mrOutstandingPDF({ mrDetails, boxes });
+      if (response) {
         console.log(response);
-        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], { type: "application/pdf" })
+        );
+        const link = document.createElement("a");
         link.href = url;
-        link.setAttribute('download', 'generated.pdf');
+        link.setAttribute("download", "generated.pdf");
         document.body.appendChild(link);
         // Programmatically click the link to trigger the download
-        link.download  = `${mrDetails.mrName}-${Date.now()}.pdf`
+        link.download = `${mrDetails.mrName}-${Date.now()}.pdf`;
         // link.download = "generated.pdf"
-        window.open(link.href, '_blank');
+        window.open(link.href, "_blank");
         link.click();
         link.remove();
       }
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
     }
-  }
-
-
+  };
 
   return (
     <div className="mr-outstanding">
@@ -139,7 +140,12 @@ Please contact the administrator if u want complete details of your outstanding
             placeholder="Enter MR email"
           ></input>
         </div>
-        <textarea name="customMessage" value={mrDetails.customMessage} onChange={handleMrDetailsChange} placeholder="Custom Message"></textarea>
+        <textarea
+          name="customMessage"
+          value={mrDetails.customMessage}
+          onChange={handleMrDetailsChange}
+          placeholder="Custom Message"
+        ></textarea>
         {boxes?.map((box, index) => {
           return (
             <div className="mr-outstanding-pdf-container">
@@ -189,7 +195,9 @@ Please contact the administrator if u want complete details of your outstanding
           <button className="send-email-button">Send Email</button>
           <button className="create-pdf-button" onClick={generatePDF}>
             Create Pdf
-            <FileDownloadIcon sx={{marginTop:"0px", transform: "scale(0.7)", color: "green" }}/>
+            <FileDownloadIcon
+              sx={{ marginTop: "0px", transform: "scale(0.7)", color: "green" }}
+            />
           </button>
         </div>
       </div>
