@@ -132,8 +132,10 @@ const createMrOutstandingPDF = async(req,res)=>{
       if (err) return console.log(err);
       console.log('PDF generated successfully:', response);
       
+      res.setHeader('Content-Type', 'application/pdf');
+      
       // Send the file to the frontend
-      res.sendFile(filePath, (err) => {
+      return res.sendFile(filePath, (err) => {
         if (err) {
           console.log(err);
           res.status(500).send('Could not send file');

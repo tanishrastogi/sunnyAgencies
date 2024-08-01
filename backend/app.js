@@ -20,59 +20,59 @@ import { ApiResponse } from "./src/utils/apiResponse.js";
 const app = express();
 
 
-const getItemsWithDiscounts = async () => {
-  try {
+// const getItemsWithDiscounts = async () => {
+//   try {
 
-    const itemId = '666e935b99f987da2e959a2b'
+//     const itemId = '666e935b99f987da2e959a2b'
 
-    const result = await Bill.aggregate([
-      // Match bills containing the specific item ID
-      { $match: { 'items.item':new mongoose.Types.ObjectId(itemId) } },
+//     const result = await Bill.aggregate([
+//       // Match bills containing the specific item ID
+//       { $match: { 'items.item':new mongoose.Types.ObjectId(itemId) } },
       
-      // Unwind the items array
-      { $unwind: '$items' },
+//       // Unwind the items array
+//       { $unwind: '$items' },
       
-      // Match again to ensure we only get the specific item
-      { $match: { 'items.item': new mongoose.Types.ObjectId(itemId) } },
+//       // Match again to ensure we only get the specific item
+//       { $match: { 'items.item': new mongoose.Types.ObjectId(itemId) } },
       
-      // Lookup to join the items with their details
-      {
-        $lookup: {
-          from: 'items', // The collection name for items
-          localField: 'items.item',
-          foreignField: '_id',
-          as: 'itemDetails'
-        }
-      },
+//       // Lookup to join the items with their details
+//       {
+//         $lookup: {
+//           from: 'items', // The collection name for items
+//           localField: 'items.item',
+//           foreignField: '_id',
+//           as: 'itemDetails'
+//         }
+//       },
       
-      // Unwind the itemDetails array to get the actual item details
-      { $unwind: '$itemDetails' },
+//       // Unwind the itemDetails array to get the actual item details
+//       { $unwind: '$itemDetails' },
       
-      // Project the desired fields and convert discount to double
-      {
-        $project: {
-          billNumber: 1,
-          'items.discount':1,
-          'items.quantity': 1,
-          'items.free': 1,
-          'items.deal': 1,
-          'items.netSaleRate': 1,
-          'items.batchNumber': 1
-        }
-      }
-    ]);
+//       // Project the desired fields and convert discount to double
+//       {
+//         $project: {
+//           billNumber: 1,
+//           'items.discount':1,
+//           'items.quantity': 1,
+//           'items.free': 1,
+//           'items.deal': 1,
+//           'items.netSaleRate': 1,
+//           'items.batchNumber': 1
+//         }
+//       }
+//     ]);
     
     
-    console.log(result);
-    return result;
-  } catch (err) {
-    console.error('Error fetching items with discounts:', err);
-    throw err;
-  }
-};
+//     console.log(result);
+//     return result;
+//   } catch (err) {
+//     console.error('Error fetching items with discounts:', err);
+//     throw err;
+//   }
+// };
 
 // Call the function
-getItemsWithDiscounts();
+// getItemsWithDiscounts();
 // middlewares
 app.use(
   cors({
