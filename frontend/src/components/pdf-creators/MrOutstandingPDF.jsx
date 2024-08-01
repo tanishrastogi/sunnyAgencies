@@ -55,9 +55,6 @@ Please contact the administrator if u want complete details of your outstanding
     if (savedBoxes) {
       setBoxes(JSON.parse(savedBoxes));
     }
-    
-    
-
   }, []);
 
   // Save boxes to localStorage whenever boxes state changes
@@ -101,19 +98,27 @@ Please contact the administrator if u want complete details of your outstanding
       const response = await mrOutstandingPDF({ mrDetails, boxes });
       if (response) {
         console.log(response);
-        const url = window.URL.createObjectURL(
-          new Blob([response.data], { type: "application/pdf" })
-        );
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "generated.pdf");
-        document.body.appendChild(link);
-        // Programmatically click the link to trigger the download
-        link.download = `${mrDetails.mrName}-${Date.now()}.pdf`;
-        // link.download = "generated.pdf"
-        window.open(link.href, "_blank");
-        link.click();
-        link.remove();
+        const contentType =
+          response.headers["content-type"] ||
+          response.headers.get("content-type");
+        if (contentType.includes("application/pdf")) {
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], { type: "application/pdf" })
+          );
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "generated.pdf");
+          document.body.appendChild(link);
+          // Programmatically click the link to trigger the download
+          link.download = `${mrDetails.mrName}-${Date.now()}.pdf`;
+          window.open(link.href, "_blank");
+          link.click();
+          link.remove();
+        } else {
+          console.error("Expected a PDF response, but got:", contentType);
+          const jsonResponse = await response.json();
+          console.error("Response JSON:", jsonResponse);
+        }
       }
     } catch (err) {
       console.log(err);
