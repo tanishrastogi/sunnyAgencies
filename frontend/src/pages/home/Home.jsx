@@ -24,7 +24,7 @@ const Home = () => {
 
   }, []);
 
-  console.log(visible)
+  // console.log(visible)
 
   return (
     
