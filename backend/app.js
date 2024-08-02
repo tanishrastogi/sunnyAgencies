@@ -13,6 +13,7 @@ import purchaseRouter from "./src/routes/purchase.routes.js"
 import paymentNotesRouter from "./src/routes/paymentNotes.routes.js"
 import pdfRouter from "./src/routes/pdf.routes.js";
 import collectionRouter from "./src/routes/collection.routes.js";
+import saleRouter from "./src/routes/sale.routes.js";
 import { Bill } from "./src/models/bill.model.js";
 import mongoose from "mongoose";
 import { ApiResponse } from "./src/utils/apiResponse.js";
@@ -71,7 +72,7 @@ const app = express();
 //   }
 // };
 
-// Call the function
+// // Call the function
 // getItemsWithDiscounts();
 // middlewares
 app.use(
@@ -98,6 +99,7 @@ app.use("/api/rates/", rateRouter);
 app.use("/api/payment-notes/", paymentNotesRouter);
 app.use("/api/pdf/", pdfRouter);
 app.use("/api/collection/", collectionRouter);
+app.use("/api/sale/", saleRouter);
 
 app.get("/api/health", (req, res) => {
   return res.json(new ApiResponse(200, null, "server started"))
