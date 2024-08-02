@@ -2,7 +2,6 @@ import { api, api_for_pdf } from "./api";
 
 const mrOutstandingPDF = async (payload) => {
   try {
-
     const billDetails = [...payload.boxes]
     const obj = {
       billDetails,
@@ -182,11 +181,14 @@ const mrOutstandingPDF = async (payload) => {
   `;
 
     const data = await api_for_pdf.post('/pdf/create/mr-outstanding', { ...obj, htmlContent }, {
-      responseType: 'blob'
+      responseType: 'blob',
+      "Content-Type":"application/pdf"
+    }).then((res)=>{
+      console.log(res)
     });
 
+    console.log(htmlContent)
 
-    console.log(data)
     return data;
   }
   catch (err) {

@@ -44,10 +44,11 @@ function App() {
       <Route path='/items' element={<div><Rates_table /></div>} />
       <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />
-    </Routes> 
+    </Routes>
     :
-    
-    <Loader />
+    <div style={{height:"100vh"}}>
+      <Loader />
+    </div>
 
   );
 }

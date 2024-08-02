@@ -96,6 +96,7 @@ Please contact the administrator if u want complete details of your outstanding
   const generatePDF = async () => {
     try {
       const response = await mrOutstandingPDF({ mrDetails, boxes });
+      console.log(response)
       if (response) {
         console.log(response);
         const contentType =

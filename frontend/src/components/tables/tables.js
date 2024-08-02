@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BACKEND_URL } from '../../api.config.js';
 import "../graphs/graphs.css";
-import './tables.css'
+import './styles/tables.css'
 
 
 

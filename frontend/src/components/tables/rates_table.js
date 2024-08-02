@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchRatesByID } from '../../api/rates.api';
 import Accordion from '@mui/material/Accordion';
 
-import "./rate_table.css";
+import "./styles/rate_table.css";
 import { AccordionDetails, AccordionSummary } from '@mui/material';
 
 const Rates_table = ({ product }) => {
