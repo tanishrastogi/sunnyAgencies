@@ -86,16 +86,7 @@ const Item_table = () => {
           }
         </tbody>
       </table>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <Pagination
-          count={Math.ceil(products.totalItems / 10)}
-          page={page}
-          onChange={(e, value) => {
-            setPage(value)
-          }}
-          color='success'
-        />
-      </div>
+      
     </div>
   )
 }

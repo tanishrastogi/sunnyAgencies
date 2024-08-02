@@ -7,6 +7,7 @@ import "./item.card.css";
 import Loader from "../../../components/loader/loader";
 import Item_sale_table from "../../../components/tables/item_sale_table";
 import { past_item_sale_data_api } from "../../../api/sale.api";
+import { Pagination } from "@mui/material";
 
 const ItemCard = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,9 @@ const ItemCard = () => {
   const id = searchParams.get("id");
 
   const [item, setItem] = useState({});
+
+  const [saleDataPage, setSaleDataPage] = useState(1);
+  
   const [saleData, setSaleData] = useState([]);
   const [visible, setVisibility] = useState(false);
   const [sale_data_visibility, set_sale_data_visibility] = useState(false);
@@ -28,7 +32,10 @@ const ItemCard = () => {
     }
   }, []);
 
-  console.log(visible);
+  useEffect(()=>{
+    fetchSaleData();
+  }, [saleDataPage])
+
   const fetchItemRates = async () => {
     try {
       const res = await fetchRatesByID({ productID: id });
@@ -43,7 +50,7 @@ const ItemCard = () => {
 
   const fetchSaleData = async () => {
     try {
-      const { data } = await past_item_sale_data_api({ itemID: id });
+      const { data } = await past_item_sale_data_api({ itemID: id, page:saleDataPage });
 
       if (data) {
         setSaleData(data);
@@ -63,7 +70,29 @@ const ItemCard = () => {
         <PurchaseRateCalculator product={item} />
       </div>
       <div className="item-card-rate-table" style={{ width: "fit-content" }}>
-        {sale_data_visibility ? <Item_sale_table data={saleData} /> : <Loader />}
+        {sale_data_visibility ? (
+          <div>
+            <Item_sale_table data={saleData} />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "20px 0",
+              }}
+            >
+              <Pagination
+                count={Math.ceil(saleData.length / 5)}
+                page={saleDataPage}
+                onChange={(e, value) => {
+                  setSaleDataPage(value);
+                }}
+                color="success"
+              />
+            </div>
+          </div>
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   ) : (
