@@ -36,7 +36,8 @@ function App() {
   return (
 
     visibility ? 
-    <Routes>
+    <div style={{width:"100%"}}>
+      <Routes>
       <Route path='/' element={<div><Home /></div>} />
       <Route path='/analytics' element={<div><Analytics /></div>} />
       <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
@@ -45,6 +46,7 @@ function App() {
       <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />
     </Routes>
+    </div>
     :
     <div style={{height:"100vh"}}>
       <Loader />

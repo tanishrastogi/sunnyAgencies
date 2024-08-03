@@ -18,7 +18,7 @@ const ItemCard = () => {
   const [item, setItem] = useState({});
 
   const [saleDataPage, setSaleDataPage] = useState(1);
-  
+
   const [saleData, setSaleData] = useState([]);
   const [visible, setVisibility] = useState(false);
   const [sale_data_visibility, set_sale_data_visibility] = useState(false);
@@ -32,9 +32,9 @@ const ItemCard = () => {
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchSaleData();
-  }, [saleDataPage])
+  }, [saleDataPage]);
 
   const fetchItemRates = async () => {
     try {
@@ -50,10 +50,16 @@ const ItemCard = () => {
 
   const fetchSaleData = async () => {
     try {
-      const { data } = await past_item_sale_data_api({ itemID: id, page:saleDataPage });
+      const { data } = await past_item_sale_data_api({
+        itemID: id,
+        page: saleDataPage,
+      });
 
       if (data) {
-        setSaleData(data);
+        setSaleData({
+          data: data[0]["data"],
+          totalCount: data[0]["totalCount"],
+        });
         set_sale_data_visibility(true);
       }
     } catch (err) {
@@ -61,15 +67,13 @@ const ItemCard = () => {
     }
   };
 
-  console.log(item);
+  console.log(saleDataPage)
 
   return visible ? (
     <div className="item-card-container">
-      <Rates_table product={item} />
-      <div className="item-card-rate-table" style={{ width: "fit-content" }}>
+        <Rates_table product={item} />
         <PurchaseRateCalculator product={item} />
-      </div>
-      <div className="item-card-rate-table" style={{ width: "fit-content" }}>
+      <div style={{ width: "100%" }}>
         {sale_data_visibility ? (
           <div>
             <Item_sale_table data={saleData} />
@@ -81,7 +85,7 @@ const ItemCard = () => {
               }}
             >
               <Pagination
-                count={Math.ceil(saleData.length / 5)}
+                count={Math.ceil(saleData["data"][0]?.totalCount / 10)}
                 page={saleDataPage}
                 onChange={(e, value) => {
                   setSaleDataPage(value);

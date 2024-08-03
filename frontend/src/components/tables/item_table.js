@@ -72,7 +72,7 @@ const Item_table = () => {
         </thead>
         <tbody>
           {
-            products.rates?.map((item) => {
+            products?.rates?.map((item) => {
               return <tr onClick={() => {
                 history(`/item?id=${item._id}`)
               }}>
@@ -86,7 +86,16 @@ const Item_table = () => {
           }
         </tbody>
       </table>
-      
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <Pagination
+          count={Math.ceil(products?.totalItems / 10)}
+          page={page}
+          onChange={(e, value) => {
+            setPage(value)
+          }}
+          color='success'
+        />
+      </div>
     </div>
   )
 }

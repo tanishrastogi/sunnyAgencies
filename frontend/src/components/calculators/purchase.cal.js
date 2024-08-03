@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./purchase-rate-cal.css";
 
 const PurchaseRateCalculator = ({ product }) => {
+
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(()=>{
+    setWidth(window.innerWidth-105); 
+    console.log(window.innerWidth)
+  }, [])
 
   const [dataValue, setDataValue] = useState({
     mrp: '',
@@ -86,7 +92,7 @@ const PurchaseRateCalculator = ({ product }) => {
   }
 
   return (
-    <div className='purchase-rate-calculator-box'>
+    <div className='purchase-rate-calculator-box' style={{width:`${width}px`}}>
       <p>Rate Calculator</p>
       <div className='input-box'>
         <div style={{display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:"10px", width:"100%"}}>

@@ -5,7 +5,8 @@ import { ApiResponse } from "../../utils/apiResponse.js";
 
 const past_item_sale_data = async (req, res) => {
   try {
-    const { itemID } = req.body;
+    const { itemID , page} = req.body;
+    const limit = 10;
 
     if (!itemID) return res.json(new ApiResponse(404, null, "provide all details"));
 
@@ -46,6 +47,7 @@ const past_item_sale_data = async (req, res) => {
       {
         $project: {
           billNumber: 1,
+          billDate: 1,
           'items.discount': 1,
           'items.quantity': 1,
           'items.mrp': 1,
@@ -54,10 +56,24 @@ const past_item_sale_data = async (req, res) => {
           'items.netSaleRate': 1,
           'items.batchNumber': 1,
           'partyDetails.partyName':1,
-          'batchDetails.mrp':1
+        }
+      },
+
+      {
+        $facet: {
+          data: [
+            { $skip: (page - 1) * limit },
+            { $limit: limit }
+          ],
+          totalCount: [
+            { $count: 'count' }
+          ]
         }
       }
-    ]);
+    ])
+    // .skip((page-1)*limit)
+    // .limit(limit);
+    
 
     if (!result || result.length === 0) return res.json(new ApiResponse(404, "No past Bill Data found for this item."))
     // console.log(result)

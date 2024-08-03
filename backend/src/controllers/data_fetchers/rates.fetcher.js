@@ -5,13 +5,12 @@ import { ApiResponse } from "../../utils/apiResponse.js";
 
 const fetchRates = async (req, res) => {
   try {
-
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
   
     const totalItems = await Item.countDocuments();
 
-    // console.log(page)
+    console.log(totalItems);
 
     const rates = await Item.find({})
       .populate({
@@ -43,7 +42,7 @@ const fetchRates = async (req, res) => {
 const item_rates_fetcher = async(req,res)=>{
   try{
     const {productID} = req.body;
-    // console.log(req.body);
+    console.log(req.body);
 
     const rates = await Rate.findOne({
       item:productID
