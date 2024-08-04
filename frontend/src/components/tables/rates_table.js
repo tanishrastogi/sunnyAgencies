@@ -8,11 +8,10 @@ import "./styles/rate_table.css";
 import { AccordionDetails, AccordionSummary } from '@mui/material';
 
 const Rates_table = ({ product }) => {
-  const [width, setWidth] = useState(100);
+  const [width, setWidth] = useState(window.innerWidth);
   useEffect(()=>{
     setWidth(window.innerWidth); 
-    console.log(window.innerWidth)
-  }, [])
+  }, [window.innerWidth])
   // console.log()
   return (
     <div className='rates_table' style={{width:`${width}px`}}>

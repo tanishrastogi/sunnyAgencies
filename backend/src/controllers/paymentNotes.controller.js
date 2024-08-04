@@ -21,7 +21,7 @@ export const createNote = async (req, res) => {
 
     await PaymentNote.save();
 
-    await Party.findByIdAndUpdate(partyID, {$push:{paymentNotes:PaymentNote._id}});
+    // await Party.findByIdAndUpdate(partyID, {$push:{paymentNotes:PaymentNote._id}});
 
     return res.json(new ApiResponse(200, PaymentNote, "Payment note created"));
 

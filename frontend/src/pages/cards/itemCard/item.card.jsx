@@ -22,6 +22,10 @@ const ItemCard = () => {
   const [saleData, setSaleData] = useState([]);
   const [visible, setVisibility] = useState(false);
   const [sale_data_visibility, set_sale_data_visibility] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth)
+  useEffect(()=>{
+    setWidth(window.innerWidth);
+  }, [window.innerWidth])
 
   useEffect(() => {
     if (!id) {
@@ -67,10 +71,10 @@ const ItemCard = () => {
     }
   };
 
-  console.log(saleDataPage)
+  // console.log((saleData?.totalCount[0]['count']))
 
   return visible ? (
-    <div className="item-card-container">
+    <div className="item-card-container" style={{maxWidth:`${width}px`}}>
         <Rates_table product={item} />
         <PurchaseRateCalculator product={item} />
       <div style={{ width: "100%" }}>
@@ -85,7 +89,7 @@ const ItemCard = () => {
               }}
             >
               <Pagination
-                count={Math.ceil(saleData["data"][0]?.totalCount / 10)}
+                count={Math.ceil(saleData?.totalCount[0]['count'] / 10)}
                 page={saleDataPage}
                 onChange={(e, value) => {
                   setSaleDataPage(value);

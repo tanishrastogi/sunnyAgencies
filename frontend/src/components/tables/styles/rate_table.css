@@ -10,10 +10,14 @@
   /* margin: 20px auto; */
   box-shadow: 1px -0px 15px rgba(0, 0, 0, 0.614);
   /* padding: 20; */
+  transform: scaleX(0.9);
 }
 
-.rates_table h1{
-  margin: 15px 35px;
+.rates_table h3{
+  /* margin: 15px auto; */
+  /* background: #000; */
+  text-align: center;
+  width: 100%;
 }
 
 

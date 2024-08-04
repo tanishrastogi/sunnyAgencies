@@ -4,7 +4,7 @@ import { BarGraph } from './components/graphs/bar-graphs';
 import { Route, Router, Routes } from 'react-router-dom';
 import ErrorPage from './pages/error';
 import Analytics from './pages/analytics/analytics';
-import Rates_table from './components/tables/item_table';
+import Item_table from './components/tables/item_table';
 import ItemCard from './pages/cards/itemCard/item.card';
 import PaymentNotes from './pages/paymentNotes/PaymentNotes';
 import MrOutstandingPDF from './components/pdf-creators/MrOutstandingPDF';
@@ -15,6 +15,12 @@ import { backend_start_api } from './api/api';
 function App() {
 
   const [visibility, setVisibility] = useState(false);
+
+  const [width , setWidth] = useState(window.innerWidth);
+
+  useEffect(()=>{
+    setWidth(window.innerWidth);
+  }, [window.innerWidth])
 
   const start_backend = async () => {
     try {
@@ -36,13 +42,13 @@ function App() {
   return (
 
     visibility ? 
-    <div style={{width:"100%"}}>
+    <div style={{width:`${width}px`}}>
       <Routes>
       <Route path='/' element={<div><Home /></div>} />
       <Route path='/analytics' element={<div><Analytics /></div>} />
       <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
       <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
-      <Route path='/items' element={<div><Rates_table /></div>} />
+      <Route path='/items' element={<div><Item_table /></div>} />
       <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />
     </Routes>
