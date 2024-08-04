@@ -4,6 +4,7 @@ import { Item } from "../../../../models/item.model.js";
 import { Rate } from "../../../../models/rate.model.js";
 import { Purchase } from "../../../../models/purchase.model.js";
 import { Party } from "../../../../models/party.model.js";
+import moment from "moment";
 
 
 const formPurchaseObject = (array, type) => {
@@ -12,8 +13,18 @@ const formPurchaseObject = (array, type) => {
     const arr = []
     let purchase = {};
     let items = [];
-    array.map((entry, index) => {
+    let date = '';
+    array.map((entry, index) => { 
       const entryNo = Number(entry['Entry No'].slice(2));
+      
+      if (entry['EntryDate'].split("/").length > 2) {
+        date = moment(entry['EntryDate'], "DD/MM/YYYY").toDate().toString()
+        // console.log(date)
+      }
+      else if(entry['EntryDate'] === '45383'){
+        date='45383'
+      }
+      
       if (entryNo > 0 && index !== 0) {
         arr.push(purchase);
         items = [...items, ...purchase['items']]
@@ -25,13 +36,14 @@ const formPurchaseObject = (array, type) => {
       if (entryNo > 0) {
 
         purchase['entryNo'] = entry['Entry No'];
-        purchase['partyCode'] = entry['AccCod'];
-        purchase['billNo'] = entry['Bill No']
-        purchase['billDate'] = entry['Bill Dt']
+        purchase['entryDate'] = date;
+        purchase['partyCode'] = entry['AccCode'];
+        purchase['billNo'] = entry['Bill No'];
+        purchase['billDate'] = entry['Bill Dt'];
         purchase['items'] = [
           {
             purchaseNumber: entry['Entry No'],
-            purchasingParty: entry['AccCod'],
+            purchasingParty: entry['AccCode'],
             itemCode: entry['ItemCd'],
             itemName: entry['ItemName'],
             rate: entry['Rate'],
@@ -44,7 +56,7 @@ const formPurchaseObject = (array, type) => {
             gst: entry['CGST%'],
             discount: entry['Disc%'],
             free: entry['Deal'],
-            expiryDate: entry['Exp Dt']
+            expiryDate: entry['ExpDt']
           }
         ];
 
@@ -64,7 +76,9 @@ const formPurchaseObject = (array, type) => {
           mrp: entry['MRP'],
           gst: entry['CGST%'],
           discount: entry['Disc%'],
-          free: entry['Deal']
+          free: entry['Deal'],
+          expiryDate: entry['ExpDt']
+
         })
       }
 
@@ -159,8 +173,9 @@ const addItemsToDB = async (obj) => {
 const addPurchaseToDB = async (obj) => {
   try {
 
+    
     const promises = obj.map(async (purchase) => {
-
+      console.log(purchase)
       // check if purchase is already added
       // if yes: ignore
       // if no: 
@@ -264,7 +279,12 @@ const addPurchaseToDB = async (obj) => {
 
     const purchases = await Purchase.find({}).populate('items');
 
-    return purchases
+    const year = obj[1]['billDate'].split('/')[2]
+
+    await Purchase.updateMany({billDate:'45383'}, {$set:{billDate:obj[1]['billDate']}});
+    await Purchase.updateMany({entryDate:'45383'}, {$set:{entryDate:obj[1]['billDate']}});
+
+    return purchases;
 
   }
   catch (err) {

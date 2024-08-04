@@ -8,7 +8,7 @@ import "./styles/item_sale_table.css";
 const Item_sale_table = ({ data }) => {
   
   const [width, setWidth] = useState(window.innerWidth);
-  
+  console.log(data)
   useEffect(() => {
     setWidth(window.innerWidth);
   }, [window.innerWidth]);

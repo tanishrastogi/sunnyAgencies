@@ -18,14 +18,15 @@ const ItemCard = () => {
   const [item, setItem] = useState({});
 
   const [saleDataPage, setSaleDataPage] = useState(1);
+  const [purchaseDataPage, setPurchaseDataPage] = useState(1);
 
   const [saleData, setSaleData] = useState([]);
   const [visible, setVisibility] = useState(false);
   const [sale_data_visibility, set_sale_data_visibility] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth)
-  useEffect(()=>{
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
     setWidth(window.innerWidth);
-  }, [window.innerWidth])
+  }, [window.innerWidth]);
 
   useEffect(() => {
     if (!id) {
@@ -40,9 +41,15 @@ const ItemCard = () => {
     fetchSaleData();
   }, [saleDataPage]);
 
+
+  useEffect(() => {
+    fetchItemRates();
+  }, [purchaseDataPage]);
+
+
   const fetchItemRates = async () => {
     try {
-      const res = await fetchRatesByID({ productID: id });
+      const res = await fetchRatesByID({ productID: id, page:purchaseDataPage });
       if (res.data) {
         setVisibility(true);
       }
@@ -59,6 +66,8 @@ const ItemCard = () => {
         page: saleDataPage,
       });
 
+      console.log(data);
+
       if (data) {
         setSaleData({
           data: data[0]["data"],
@@ -71,12 +80,31 @@ const ItemCard = () => {
     }
   };
 
-  // console.log((saleData?.totalCount[0]['count']))
+  // console.log(saleData);
 
   return visible ? (
-    <div className="item-card-container" style={{maxWidth:`${width}px`}}>
+    <div className="item-card-container" style={{ maxWidth: `${width}px` }}>
+      <div>
         <Rates_table product={item} />
-        <PurchaseRateCalculator product={item} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px 0",
+            width: `${width}px`,
+          }}
+        >
+          <Pagination
+            count={Math.ceil(10)}
+            page={purchaseDataPage}
+            onChange={(e, value) => {
+              setPurchaseDataPage(value);
+            }}
+            color="success"
+          />
+        </div>
+      </div>
+      <PurchaseRateCalculator product={item} />
       <div style={{ width: "100%" }}>
         {sale_data_visibility ? (
           <div>
@@ -86,10 +114,11 @@ const ItemCard = () => {
                 display: "flex",
                 justifyContent: "center",
                 margin: "20px 0",
+                width: `${width}px`,
               }}
             >
               <Pagination
-                count={Math.ceil(saleData?.totalCount[0]['count'] / 10)}
+                count={Math.ceil(saleData?.totalCount[0]["count"] / 10)}
                 page={saleDataPage}
                 onChange={(e, value) => {
                   setSaleDataPage(value);

@@ -12,7 +12,7 @@ const Rates_table = ({ product }) => {
   useEffect(()=>{
     setWidth(window.innerWidth); 
   }, [window.innerWidth])
-  // console.log()
+  console.log(product)
   return (
     <div className='rates_table' style={{width:`${width}px`}}>
       <h3>Purchase Rates of {product?.item?.itemName}</h3>

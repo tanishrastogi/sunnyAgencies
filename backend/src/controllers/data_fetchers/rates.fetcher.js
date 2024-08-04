@@ -41,7 +41,7 @@ const fetchRates = async (req, res) => {
 
 const item_rates_fetcher = async(req,res)=>{
   try{
-    const {productID} = req.body;
+    const {productID, page} = req.body;
     console.log(req.body);
 
     const rates = await Rate.findOne({
@@ -58,7 +58,11 @@ const item_rates_fetcher = async(req,res)=>{
     .populate({
       path:"rates.purchase",
       select:'-items -party -partyCode'
-    });
+    })
+    .skip((page-1)*10)
+    .limit(10);
+
+    console.log(rates)
     
     return res.json(new ApiResponse(200, rates));
 

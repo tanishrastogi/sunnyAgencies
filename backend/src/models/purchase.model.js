@@ -8,6 +8,9 @@ const purchaseSchema = new mongoose.Schema({
   billDate:{
     type:String
   },
+  entryDate:{
+    type:String
+  },
   invoiceNo:{
     type:String,
     required:true
