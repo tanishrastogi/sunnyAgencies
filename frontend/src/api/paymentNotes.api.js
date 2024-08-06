@@ -14,7 +14,7 @@ const createNote = async(payload)=>{
 const fetchNoteByDate = async(payload)=>{
   try{
     const {data} = await api.post("/payment-notes/fetch/date", payload);
-    return data
+    return data;
   }
   catch(err){
     console.log(err);
@@ -22,7 +22,19 @@ const fetchNoteByDate = async(payload)=>{
 }
 
 
+const fetchAllNotes = async(payload)=>{
+  try{
+    const {data} = await api.post("/payment-notes/fetch/all");
+    return data;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
+
 export {
   createNote,
-  fetchNoteByDate
+  fetchNoteByDate,
+  fetchAllNotes
 }

@@ -2,8 +2,8 @@ import { createNote } from "../../api/paymentNotes.api";
 import { searchAccount } from "../../api/search.api";
 import Display_Accounts, {
   Account
-} from "../../components/display/Display_Accounts";
-import "./paymentNotes.css";
+} from "../display/Display_Accounts";
+import "./styles/paymentNotes.css";
 import React, { useEffect, useState } from "react";
 
 const CreatePaymentNote = () => {

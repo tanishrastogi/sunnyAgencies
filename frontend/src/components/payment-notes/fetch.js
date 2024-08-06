@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./paymentNotes.css";
+import "./styles/paymentNotes.css";
 import { fetchNoteByDate } from "../../api/paymentNotes.api";
 
 const FetchPaymentNoteByDate = () => {

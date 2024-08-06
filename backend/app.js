@@ -16,10 +16,17 @@ import collectionRouter from "./src/routes/collection.routes.js";
 import saleRouter from "./src/routes/sale.routes.js";
 import accountRouter from "./src/routes/account.routes.js";
 import { ApiResponse } from "./src/utils/apiResponse.js";
+import { PaymentNotes } from "./src/models/paymentNotes.model.js";
 
 const app = express();
 
+const fetch = async()=>{
+  
 
+  // Convert to ISO dates for querying
+  }
+
+fetch();
 
 // middlewares
 app.use(

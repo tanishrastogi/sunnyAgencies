@@ -1,0 +1,53 @@
+
+.fetch-all-payment-notes{
+  
+  min-height: 100vh;
+  width: 100vw;
+  /* background: #000; */
+  background-image: url('../image/pexels-fwstudio-33348-129731.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.note-bg-img {
+}
+
+.fetch-all-payment-notes .note-bg-img{
+  height: 300px;
+  width: 300px;
+  /* background: #000; */
+  /* box-shadow: 1px 1px 5px black; */
+  position: relative; /* Ensure the image is positioned relative to the container */
+  filter: drop-shadow(0px 10px 10px rgb(0, 0, 0));
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 10px auto;
+}
+
+
+.fetch-all-payment-notes .notes-container .date{
+  position: relative;
+  top: -305px;
+  left:40px;
+  transform: rotateZ(-25deg);
+  font-family:cursive;
+  font-size: small;
+  font-weight: bold;
+}
+
+.fetch-all-payment-notes .notes-container .party-names p{
+  font-size: small;
+  font-family: cursive;
+  font-weight: 400;
+  position: relative;
+  top: -220px;
+  left: 40px;
+  margin: 4px;
+  transform: rotateZ(4deg);
+}
+
