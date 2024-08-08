@@ -5,13 +5,13 @@ import "../../components/payment-notes/styles/paymentNotes.css";
 import "./page.css";
 import React from "react";
 
-const PaymentNotes = () => {
+const PaymentNotes = ({type}) => {
   
   return (
     <div className="payment-note-page">
       {/* <FetchPaymentNoteByDate /> */}
-      {/* <CreatePaymentNote /> */}
-      <FetchAll />
+      {type==='create'?<CreatePaymentNote />:<FetchAll />}
+      {/* <FetchAll /> */}
     </div>
   );
 };

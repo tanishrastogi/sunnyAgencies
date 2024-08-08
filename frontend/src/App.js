@@ -47,8 +47,8 @@ function App() {
       <Routes>
       <Route path='/' element={<div><Home /></div>} />
       <Route path='/analytics' element={<div><Analytics /></div>} />
-      <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
-      <Route path='/payment-notes/create' element={<div><PaymentNotes /></div>} />
+      <Route path='/payment-notes' element={<div><PaymentNotes type="all"/></div>} />
+      <Route path='/payment-notes/create' element={<div><PaymentNotes type="create"/></div>} />
       <Route path='/payment-notes/:date' element={<div><Note /></div>} />
       <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
       <Route path='/items' element={<div><Item_table /></div>} />

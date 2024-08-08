@@ -4,6 +4,8 @@ import img from "./image/notebook(1).png"
 import coffeeImg from "./image/coffeeImg.png"
 import { fetchById, fetchNoteByDate } from '../../api/paymentNotes.api';
 import { useParams } from "react-router-dom"
+import Pagination from '@mui/material/Pagination';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Note = () => {
 
@@ -28,7 +30,7 @@ const Note = () => {
       const { data } = await fetchNoteByDate({ date });
       console.log(data)
       setData(data[0]);
-      setNotes(data[0]?.notes?.slice((page-1)*4, ((page-1)*4)+4))
+      setNotes(data[0]?.notes?.slice((page - 1) * 4, ((page - 1) * 4) + 4))
     }
     catch (err) {
       console.log(err);
@@ -39,6 +41,10 @@ const Note = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [page]);
+
 
   console.log(data)
 
@@ -47,7 +53,7 @@ const Note = () => {
       <div className='notebook-container container1'>
         <div className='notebook-image-container' ><img className="notebook-img" src={img} ></img></div>
         <div className='notebook-table' >
-          <h2>{data.date}</h2>
+          <h2>{data?.date}</h2>
           <div className='thead'>
             <div className='party-name note-column'>Party Name</div>
             <div className='note-column'>Bill Number</div>
@@ -57,16 +63,27 @@ const Note = () => {
           <hr />
           <div className='tbody'>
             {
-             notes?.map((note)=>{
-              return <div className='table-row'>
-                <div className='party-name note-column'>{note.party.partyName}</div>
-                <div className='note-column'>{note.billNumber}</div>
-                <div className='note-column'>{note.billDate}</div>
-                <div className='narration note-column'>{note.narration}</div>
-                
-              </div>
-             })
+              notes?.map((note) => {
+                return <div className='table-row'>
+                  <div className='party-name note-column'>{note.party.partyName}</div>
+                  <div className='note-column'>{note.billNumber}</div>
+                  <div className='note-column'>{note.billDate}</div>
+                  <div className='narration note-column'>{note.narration}</div>
+                  <div className='delete-button'  ><DeleteIcon sx={{height:"0.9rem", margin:"10px 0", color:"grey", "&:hover":{
+                    color:"red"
+                  }}}/></div>
+                </div>
+              })
             }
+            <div className='pagination'>
+            <Pagination
+              count={Math.floor(data?.notes?.length/4)}
+              page={page}
+              onChange={(e, value) => {
+                setPage(value)
+              }}
+            />
+            </div>
           </div>
         </div>
       </div>
