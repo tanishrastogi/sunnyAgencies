@@ -38,6 +38,8 @@ export const fetchByID = async (req, res) => {
 
     const { paymentNoteID } = req.body;
 
+    console.log(paymentNoteID)
+
     const paymentNote = await PaymentNotes.findById(paymentNoteID);
 
     if (!paymentNote) return res.json(new ApiResponse(404, "Note not found!"));
@@ -64,14 +66,16 @@ export const fetchAll = async (req, res) => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return `${day}-${month}-${year}`;
       };
       const date = formatDate(note.createdAt);
       if (!acc[date]) {
-        acc[date] = { date, notes: [], parties:[] };
+        acc[date] = { date , id:[], notes: [], parties:[] };
       }
       acc[date].notes.push(note);
       acc[date].parties.push(note.party.partyName);
+      acc[date].id.push(note._id);
+      // acc[date].id = note._id;
       return acc;
     }, {});
 
@@ -92,25 +96,56 @@ export const fetchByDate = async (req, res) => {
 
     const { date } = req.body;
 
-    console.log("78", date)
+    // console.log("78", date)
 
-    const utcDate = utc_to_ist(date);
+    // const utcDate = utc_to_ist(date);
 
-    const start = new Date(utcDate.setUTCHours(0, 0, 0, 0))
-    const end = new Date(utcDate.setUTCHours(23, 59, 59, 999))
+    // const start = new Date(utcDate.setUTCHours(0, 0, 0, 0))
+    // const end = new Date(utcDate.setUTCHours(23, 59, 59, 999))
 
-    const notes = await PaymentNotes.find({
-      createdAt: {
-        $gte: start,
-        $lt: end
+    // const notes = await PaymentNotes.find({
+    //   createdAt: {
+    //     $gte: start,
+    //     $lt: end
+    //   }
+    // }).populate("party");
+
+
+    // console.log(notes)
+    // if (!notes || notes.length === 0) return res.json(new ApiResponse(404, notes, "no notes found for this date."));
+
+    // console.log("first");
+
+
+    const notes = await PaymentNotes.find().sort({ createdAt: 1 }).populate("party");
+
+    const groupedNotes = notes.reduce((acc, note) => {
+      const formatDate = (date) => {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${day}-${month}-${year}`;
+      };
+      const date = formatDate(note.createdAt);
+      if (!acc[date]) {
+        acc[date] = { date , notes: [], parties:[] };
       }
-    }).populate("party");
+      acc[date].notes.push(note);
+      acc[date].parties.push(note.party.partyName);
+      // acc[date].id = note._id;
+      return acc;
+    }, {});
 
+    let result = Object.values(groupedNotes);
 
-    console.log(notes)
-    if (!notes || notes.length === 0) return res.json(new ApiResponse(404, notes, "no notes found for this date."));
+    console.log(result);
 
-    return res.json(new ApiResponse(200, notes, "notes for this date fetched successfully."));
+    result = result.filter((item)=>{
+      return item.date === date
+    });
+
+    return res.json(new ApiResponse(200, result, "notes for this date fetched successfully."));
 
   }
   catch (err) {

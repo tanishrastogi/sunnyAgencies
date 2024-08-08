@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  font-family: cursive;
 }
 
 .note-bg-img {
@@ -38,6 +39,7 @@
   font-family:cursive;
   font-size: small;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .fetch-all-payment-notes .notes-container .party-names p{
@@ -49,5 +51,6 @@
   left: 40px;
   margin: 4px;
   transform: rotateZ(4deg);
+  cursor: pointer;
 }
 

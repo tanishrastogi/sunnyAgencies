@@ -11,6 +11,7 @@ import MrOutstandingPDF from './components/pdf-creators/MrOutstandingPDF';
 import Loader from './components/loader/loader';
 import Home from './pages/home/Home';
 import { backend_start_api } from './api/api';
+import Note from './components/payment-notes/note';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
       <Route path='/analytics' element={<div><Analytics /></div>} />
       <Route path='/payment-notes' element={<div><PaymentNotes /></div>} />
       <Route path='/payment-notes/create' element={<div><PaymentNotes /></div>} />
+      <Route path='/payment-notes/:date' element={<div><Note /></div>} />
       <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
       <Route path='/items' element={<div><Item_table /></div>} />
       <Route path='/item' element={<div><ItemCard /></div>} />

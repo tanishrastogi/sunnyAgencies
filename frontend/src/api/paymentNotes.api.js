@@ -33,8 +33,19 @@ const fetchAllNotes = async(payload)=>{
 }
 
 
+const fetchById = async(payload)=>{
+  try{
+    const {data} = await api.post("/payment-notes/fetch/id", payload);
+    return data;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 export {
   createNote,
   fetchNoteByDate,
-  fetchAllNotes
+  fetchAllNotes,
+  fetchById
 }
