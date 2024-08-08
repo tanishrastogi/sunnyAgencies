@@ -14,7 +14,10 @@ const Note = () => {
   const [width, setWidth] = useState(window.innerWidth)
   const [height, setHeight] = useState(window.innerHeight - ((50 / 100) * window.innerHeight))
 
+  const [page, setPage] = useState(1);
+
   const [data, setData] = useState({});
+  const [notes, setNotes] = useState([]);
 
   console.log(`${width - (50 / 100) * width}px`)
 
@@ -22,9 +25,10 @@ const Note = () => {
     try {
       console.log(date);
       // const {data} = await fetchById({paymentNoteID:id})
-      const { data } = await fetchNoteByDate({ date })
+      const { data } = await fetchNoteByDate({ date });
+      console.log(data)
       setData(data[0]);
-
+      setNotes(data[0]?.notes?.slice((page-1)*4, ((page-1)*4)+4))
     }
     catch (err) {
       console.log(err);
@@ -53,15 +57,15 @@ const Note = () => {
           <hr />
           <div className='tbody'>
             {
-             data?.notes?.map((note)=>{
+             notes?.map((note)=>{
               return <div className='table-row'>
                 <div className='party-name note-column'>{note.party.partyName}</div>
                 <div className='note-column'>{note.billNumber}</div>
                 <div className='note-column'>{note.billDate}</div>
-                <div className='note-column'>{note.narration}</div>
+                <div className='narration note-column'>{note.narration}</div>
                 
               </div>
-             }) 
+             })
             }
           </div>
         </div>

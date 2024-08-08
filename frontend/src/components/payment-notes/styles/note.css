@@ -51,15 +51,16 @@
 
 .notebook-table h2{
   position: relative;
-  top: -60px;
-  left:80px;
+  top: -50px;
+  left:100px;
+  font-size: 1rem;
 }
 
 .notebook-table .thead {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-align: center;
+  text-align: left;
   /* background: #000; */
   padding: 0 100px;
   position: relative;
@@ -80,13 +81,24 @@
 
 .notebook-table .table-row{
   display: flex;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   justify-content: space-between;
   padding: 0 100px;
   position: relative;
   top: -60px;
   /* background: #000; */
   height: 60%;
+  margin: 40px 0;
+
+}
+
+.notebook-table .narration{
+  width: 150px;
+}
+
+.notebook-table .party-name{
+  width: 150px;
+
 }
 
 @media (max-width:900px) {
@@ -107,6 +119,7 @@
   .note{
     height: 500vh;
   }
+
 
   .notebook-image-container img{
     height: 200vh;
