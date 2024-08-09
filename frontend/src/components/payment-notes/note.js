@@ -62,7 +62,7 @@ const Note = () => {
       <div className='notebook-container container1'>
         <div className='notebook-image-container' ><img className="notebook-img" src={img} ></img></div>
         <div className='notebook-table' >
-          <h2>{data?.date}</h2>
+          <h2>Date: {data?.date}</h2>
           <div className='thead'>
             <div className='party-name note-column'>Party Name</div>
             <div className='note-column'>Bill Number</div>
@@ -79,8 +79,7 @@ const Note = () => {
                   <div className='note-column'>{note.billDate}</div>
                   <div className='narration note-column'>{note.narration}</div>
                   <div className='delete-button' onClick={()=>{
-                    // eslint-disable-next-line no-restricted-globals
-                    if(confirm("Are you sure you want to delete this note?")){
+                    if(window.confirm("Are you sure you want to delete this note?")){
                       deleteNote(note._id, note.party._id);
                     }
                   }} ><DeleteIcon sx={{height:"0.7rem", margin:"10px 0", color:"grey", "&:hover":{
@@ -102,7 +101,6 @@ const Note = () => {
         </div>
       </div>
       <img className='coffee-img container2' src={coffeeImg} style={{ width: "500px", height: "300px" }}></img>
-      <div>hello</div>
     </div>
   )
 }
