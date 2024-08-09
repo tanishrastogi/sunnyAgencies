@@ -43,9 +43,21 @@ const fetchById = async(payload)=>{
   }
 }
 
+
+const deleteByID = async(payload)=>{
+  try{
+    const {data} = await api.post("/payment-notes/delete/id", payload);
+    return data;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 export {
   createNote,
   fetchNoteByDate,
   fetchAllNotes,
-  fetchById
+  fetchById,
+  deleteByID
 }

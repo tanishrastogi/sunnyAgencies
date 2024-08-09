@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./styles/note.css";
 import img from "./image/notebook(1).png"
 import coffeeImg from "./image/coffeeImg.png"
-import { fetchById, fetchNoteByDate } from '../../api/paymentNotes.api';
+import { deleteByID, fetchById, fetchNoteByDate } from '../../api/paymentNotes.api';
 import { useParams } from "react-router-dom"
 import Pagination from '@mui/material/Pagination';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,6 +33,15 @@ const Note = () => {
       setNotes(data[0]?.notes?.slice((page - 1) * 4, ((page - 1) * 4) + 4))
     }
     catch (err) {
+      console.log(err);
+    }
+  }
+
+  const deleteNote = async(noteID, partyID)=>{
+    try{
+      const {data} = await deleteByID({noteID, partyID});
+    }
+    catch(err){
       console.log(err);
     }
   }
@@ -69,7 +78,12 @@ const Note = () => {
                   <div className='note-column'>{note.billNumber}</div>
                   <div className='note-column'>{note.billDate}</div>
                   <div className='narration note-column'>{note.narration}</div>
-                  <div className='delete-button'  ><DeleteIcon sx={{height:"0.9rem", margin:"10px 0", color:"grey", "&:hover":{
+                  <div className='delete-button' onClick={()=>{
+                    // eslint-disable-next-line no-restricted-globals
+                    if(confirm("Are you sure you want to delete this note?")){
+                      deleteNote(note._id, note.party._id);
+                    }
+                  }} ><DeleteIcon sx={{height:"0.7rem", margin:"10px 0", color:"grey", "&:hover":{
                     color:"red"
                   }}}/></div>
                 </div>
@@ -88,6 +102,7 @@ const Note = () => {
         </div>
       </div>
       <img className='coffee-img container2' src={coffeeImg} style={{ width: "500px", height: "300px" }}></img>
+      <div>hello</div>
     </div>
   )
 }

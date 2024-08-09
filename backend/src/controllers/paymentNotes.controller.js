@@ -21,7 +21,7 @@ export const createNote = async (req, res) => {
 
     await PaymentNote.save();
 
-    // await Party.findByIdAndUpdate(partyID, {$push:{paymentNotes:PaymentNote._id}});
+    await Party.findByIdAndUpdate(partyID, {$push:{paymentNotes:PaymentNote._id}});
 
     return res.json(new ApiResponse(200, PaymentNote, "Payment note created"));
 
@@ -174,11 +174,13 @@ export const fetchByAccount = async (req, res) => {
 
 export const deleteNoteByID = async (req, res) => {
   try {
-    const { noteID } = req.body;
+    const { noteID , partyID} = req.body;
 
     if (!noteID) return res.json(new ApiResponse(404, "Provide All the details"));
 
     const deletedNote = await PaymentNotes.findByIdAndDelete(noteID);
+
+    await Party.findByIdAndUpdate(partyID, {$pull:{paymentNotes:noteID}});
 
     if (!deletedNote) return res.json(new ApiResponse(409, "error deleting this note"));
 
