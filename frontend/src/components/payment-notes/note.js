@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./styles/note.css";
 import img from "./image/notebook(1).png"
 import coffeeImg from "./image/coffeeImg.png"
@@ -6,15 +6,18 @@ import { deleteByID, fetchById, fetchNoteByDate } from '../../api/paymentNotes.a
 import { useParams } from "react-router-dom"
 import Pagination from '@mui/material/Pagination';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import generatePDF from "react-to-pdf";
 
 const Note = () => {
 
-  const { date } = useParams()
+  const { date } = useParams();
+
+  const targetRef = useRef();
 
   console.log(date)
 
   const [width, setWidth] = useState(window.innerWidth)
-  const [height, setHeight] = useState(window.innerHeight - ((50 / 100) * window.innerHeight))
 
   const [page, setPage] = useState(1);
 
@@ -37,11 +40,11 @@ const Note = () => {
     }
   }
 
-  const deleteNote = async(noteID, partyID)=>{
-    try{
-      const {data} = await deleteByID({noteID, partyID});
+  const deleteNote = async (noteID, partyID) => {
+    try {
+      const { data } = await deleteByID({ noteID, partyID });
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   }
@@ -58,8 +61,8 @@ const Note = () => {
   console.log(data)
 
   return (
-    <div className='note' >
-      <div className='notebook-container container1'>
+    <div className='note'>
+      <div  className='notebook-container container1'>
         <div className='notebook-image-container' ><img className="notebook-img" src={img} ></img></div>
         <div className='notebook-table' >
           <h2>Date: {data?.date}</h2>
@@ -71,31 +74,37 @@ const Note = () => {
           </div>
           <hr />
           <div className='tbody'>
-            {
-              notes?.map((note) => {
-                return <div className='table-row'>
-                  <div className='party-name note-column'>{note.party.partyName}</div>
-                  <div className='note-column'>{note.billNumber}</div>
-                  <div className='note-column'>{note.billDate}</div>
-                  <div className='narration note-column'>{note.narration}</div>
-                  <div className='delete-button' onClick={()=>{
-                    if(window.confirm("Are you sure you want to delete this note?")){
-                      deleteNote(note._id, note.party._id);
-                    }
-                  }} ><DeleteIcon sx={{height:"0.7rem", margin:"10px 0", color:"grey", "&:hover":{
-                    color:"red"
-                  }}}/></div>
-                </div>
-              })
-            }
+              {
+                notes?.map((note) => {
+                  return <div className='table-row'>
+                    <div className='party-name note-column'>{note.party.partyName}</div>
+                    <div className='note-column'>{note.billNumber}</div>
+                    <div className='note-column'>{note.billDate}</div>
+                    <div className='narration note-column'>{note.narration}</div>
+                      
+                      <div className='delete-button' onClick={() => {
+                        if (window.confirm("Are you sure you want to delete this note?")) {
+                          deleteNote(note._id, note.party._id);
+                        }
+                      }} >
+                        <DeleteIcon sx={{
+                          height: "0.7rem", margin: "10px 0", color: "grey", "&:hover": {
+                            color: "red"
+                          }
+                        }} />
+                      </div>
+                  </div>
+                })
+              }
             <div className='pagination'>
-            <Pagination
-              count={Math.floor(data?.notes?.length/4)}
-              page={page}
-              onChange={(e, value) => {
-                setPage(value)
-              }}
-            />
+              <Pagination
+                count={Math.floor(data?.notes?.length / 4 + 1)}
+                page={page}
+                onChange={(e, value) => {
+                  setPage(value)
+                }}
+                
+              />
             </div>
           </div>
         </div>

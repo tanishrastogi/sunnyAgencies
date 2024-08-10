@@ -42,6 +42,7 @@
 .notebook-table{
   position: relative;
   top: -900px;
+  left: -15px;
   font-size: 1.2rem;
 }
 
@@ -103,6 +104,12 @@
   justify-content: center;
   position: relative;
   top: -60px;
+}
+
+.notebook-table .buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 10px;
 }
 
 

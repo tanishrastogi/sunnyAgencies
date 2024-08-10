@@ -24,7 +24,7 @@ const PartyItemHistory = async(req,res)=>{
     if(!party) return res.json(new ApiResponse(404, "Party not found."));
   
     const startDate = new Date(ist_to_utc("2024-05-10T00:00:00.000Z"));
-    const endDate = new Date(ist_to_utc("2024-06-15T23:59:59.999Z"));
+    const endDate = new Date(ist_to_utc(Date.now()+""));
 
     const result = await Bill.aggregate([
       // Match bills with the specified party ID
