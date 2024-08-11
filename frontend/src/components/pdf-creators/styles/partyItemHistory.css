@@ -1,0 +1,31 @@
+.party-item-history{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+}
+
+.party-item-history .table-header{
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  
+}
+
+
+
+.party-item-history .table-row{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.party-item-history .itemQuantity{
+  text-align: center;
+  /* background: #000; */
+  width: 100px;
+}
+
+.party-item-history .itemName{
+  width: 300px;
+}

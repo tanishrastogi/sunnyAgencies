@@ -8,6 +8,7 @@ import Item_table from './components/tables/item_table';
 import ItemCard from './pages/cards/itemCard/item.card';
 import PaymentNotes from './pages/paymentNotes/PaymentNotes';
 import MrOutstandingPDF from './components/pdf-creators/MrOutstandingPDF';
+import PartyItemHistoryPDF from './components/pdf-creators/PartyItemHistory';
 import Loader from './components/loader/loader';
 import Home from './pages/home/Home';
 import { backend_start_api } from './api/api';
@@ -51,6 +52,7 @@ function App() {
       <Route path='/payment-notes/create' element={<div><PaymentNotes type="create"/></div>} />
       <Route path='/payment-notes/:date' element={<div><Note /></div>} />
       <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
+      <Route path='/pdf-creator/party-item-history/:partyID' element={<div><PartyItemHistoryPDF /></div>} />
       <Route path='/items' element={<div><Item_table /></div>} />
       <Route path='/item' element={<div><ItemCard /></div>} />
       <Route path='/error/:page' element={<div><ErrorPage /></div>} />

@@ -1,91 +1,62 @@
+import { useEffect, useRef, useState } from 'react';
 import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import { options } from './function/generatePDF';
+import { fetch_party_item_history } from '../../api/pdf.api';
+import { useParams } from 'react-router-dom';
+import "./styles/partyItemHistory.css";
 
-const options = {
-   // default is `save`
-   method: 'open',
-   // default is Resolution.MEDIUM = 3, which should be enough, higher values
-   // increases the image quality but also the size of the PDF, so be careful
-   // using values higher than 10 when having multiple pages generated, it
-   // might cause the page to crash or hang.
-   resolution: Resolution.HIGH,
-   page: {
-      // margin is in MM, default is Margin.NONE = 0
-      margin: Margin.SMALL,
-      // default is 'A4'
-      format: 'letter',
-      // default is 'portrait'
-      orientation: 'portrait',
-   },
-   canvas: {
-      // default is 'image/jpeg' for better size performance
-      mimeType: 'image/png',
-      qualityRatio: 1
-   },
-   
-   // Customize any value passed to the jsPDF instance and html2canvas
-   // function. You probably will not need this and things can break, 
-   // so use with caution.
-   overrides: {
-      // see https://artskydj.github.io/jsPDF/docs/jsPDF.html for more options
-      pdf: {
-         compress: true
-      },
-      // see https://html2canvas.hertzen.com/configuration for more options
-      canvas: {
-         useCORS: true
+
+const PartyItemHistoryPDF = () => {
+
+   const { partyID } = useParams();
+   const targetRef = useRef();
+
+   const [items, setItems] = useState([]);
+   const [name, setName] = useState("");
+
+   const fetchData = async () => {
+      try {
+         const { data } = await fetch_party_item_history({ partyID });
+         console.log(data);
+
+         setItems(data.items);
+         setName(data.partyName);
       }
-   },
-};
+      catch (err) {
+         console.log(err)
+      }
+   }
 
-// you can use a function to return the target element besides using React refs
-const getTargetElement = () => document.getElementById('content-id');
+   useEffect(() => {
+      fetchData()
+   }, []);
 
-const Component = () => {
+   console.log(items)
+
    return (
-      <div>
-         <button onClick={() => generatePDF(getTargetElement, {
-   // default is `save`
-   method: 'open',
-   // default is Resolution.MEDIUM = 3, which should be enough, higher values
-   // increases the image quality but also the size of the PDF, so be careful
-   // using values higher than 10 when having multiple pages generated, it
-   // might cause the page to crash or hang.
-   resolution: Resolution.HIGH,
-   page: {
-      // margin is in MM, default is Margin.NONE = 0
-      margin: Margin.SMALL,
-      // default is 'A4'
-      format: 'letter',
-      // default is 'portrait'
-      orientation: 'portrait',
-      
-   },
-   canvas: {
-      // default is 'image/jpeg' for better size performance
-      mimeType: 'image/png',
-      qualityRatio: 1,
-      
-   },
-   
-   // Customize any value passed to the jsPDF instance and html2canvas
-   // function. You probably will not need this and things can break, 
-   // so use with caution.
-   overrides: {
-      // see https://artskydj.github.io/jsPDF/docs/jsPDF.html for more options
-      pdf: {
-         compress: true
-      },
-      // see https://html2canvas.hertzen.com/configuration for more options
-      canvas: {
-         useCORS: true
-      }
-   },
-})}>Generate PDF</button>
-         <div id="content-id">
-            Content to be generated to PDF
+      <div >
+         <button onClick={() => generatePDF(targetRef, options("items.pdf"))}>Generate PDF</button>
+         <h2>{name}</h2>
+         <div className='party-item-history' ref={targetRef}>
+            <div className='table-header'>
+               <div className='itemName'>Item Name</div>
+               <div className='itemQuantity'>Total Quantity</div>
+            </div>
+            <div className='table-body'>
+            {
+               items.map((item) => {
+                  return <div className='table-row'>
+
+                     <span className='itemName'>{item.itemDetails.itemName}</span>
+                     <span className='itemQuantity'>{item.itemDetails.totalQuantity}</span>
+
+                  </div>
+               })
+            }
+            </div>
          </div>
       </div>
    );
 }
 
-export default Component
+export default PartyItemHistoryPDF;

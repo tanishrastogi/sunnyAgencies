@@ -198,7 +198,7 @@ const mrOutstandingPDF = async (payload) => {
 
 const fetch_party_item_history = async (payload) => {
   try {
-    const { data } = await api_for_pdf.post("/pdf/create/party-item-history");
+    const { data } = await api_for_pdf.post("/pdf/create/party-item-history", payload);
     return data;
   }
   catch (err) {

@@ -16,15 +16,14 @@ const PartyItemHistory = async(req,res)=>{
   try{
     
     const {partyID} = req.body;
-
     if(!partyID) return res.json(new ApiResponse(404, null, "Party Id not specified."));
     
     const party = await Party.findById(partyID);
     
     if(!party) return res.json(new ApiResponse(404, "Party not found."));
   
-    const startDate = new Date(ist_to_utc("2024-05-10T00:00:00.000Z"));
-    const endDate = new Date(ist_to_utc(Date.now()+""));
+    const startDate = new Date(ist_to_utc("2024-04-01T00:00:00.000Z"));
+    const endDate = new Date(ist_to_utc("2024-07-01T00:00:00.000Z"));
 
     const result = await Bill.aggregate([
       // Match bills with the specified party ID
@@ -89,27 +88,28 @@ const PartyItemHistory = async(req,res)=>{
       ]
     }
 
-    console.log(resultWithPartyName.partyName)
+    // console.log(resultWithPartyName.partyName)
     
-    const filePath = path.join(__dirname, "output.pdf");
+    // const filePath = path.join(__dirname, "output.pdf");
 
-    pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, response) => {
-      if (err) return console.log(err);
-      console.log('PDF generated successfully:', response);
+    // pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, response) => {
+    //   if (err) return console.log(err);
+    //   console.log('PDF generated successfully:', response);
       
-      // Send the file to the frontend
-      res.sendFile(filePath, (err) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send('Could not send file');
-        } else {
-          console.log('File sent successfully');
-        }
-      });
-    });
+    //   // Send the file to the frontend
+    //   res.sendFile(filePath, (err) => {
+    //     if (err) {
+    //       console.log(err);
+    //       res.status(500).send('Could not send file');
+    //     } else {
+    //       console.log('File sent successfully');
+    //     }
+    //   });
+    // });
 
+    console.log(resultWithPartyName);
 
-    // return res.json(new ApiResponse(200, result, "History fetched successfully"));
+    return res.json(new ApiResponse(200, resultWithPartyName, "History fetched successfully"));
 
   }
   catch(err){
