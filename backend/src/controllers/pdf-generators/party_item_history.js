@@ -90,22 +90,22 @@ const PartyItemHistory = async(req,res)=>{
 
     // console.log(resultWithPartyName.partyName)
     
-    // const filePath = path.join(__dirname, "output.pdf");
+    const filePath = path.join(__dirname, "output.pdf");
 
-    // pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, response) => {
-    //   if (err) return console.log(err);
-    //   console.log('PDF generated successfully:', response);
+    pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, response) => {
+      if (err) return console.log(err);
+      console.log('PDF generated successfully:', response);
       
-    //   // Send the file to the frontend
-    //   res.sendFile(filePath, (err) => {
-    //     if (err) {
-    //       console.log(err);
-    //       res.status(500).send('Could not send file');
-    //     } else {
-    //       console.log('File sent successfully');
-    //     }
-    //   });
-    // });
+      // Send the file to the frontend
+      res.sendFile(filePath, (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send('Could not send file');
+        } else {
+          console.log('File sent successfully');
+        }
+      });
+    });
 
     console.log(resultWithPartyName);
 
