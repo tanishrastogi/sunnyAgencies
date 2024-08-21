@@ -249,4 +249,19 @@ export const deleteAll = async (req, res) => {
 }
 
 
+export const updateNote = async(req,res)=>{
+  try{
+    const {noteID} = req.body;
+    
+    const updatedNote = await PaymentNotes.findByIdAndUpdate(noteID, {$set:{...req.body}});
+
+    return res.json(new ApiResponse(200, updatedNote, "note updated successfully"));
+
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
+
 

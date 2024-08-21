@@ -54,8 +54,19 @@ const deleteByID = async(payload)=>{
   }
 }
 
+const updateByID = async(payload)=>{
+  try{
+    const {data} = await api.post("payment-notes/update", payload);
+    return data;
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
 export {
   createNote,
+  updateByID,
   fetchNoteByDate,
   fetchAllNotes,
   fetchById,

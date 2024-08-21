@@ -9,7 +9,8 @@ import {
   deleteAll,
   deleteNoteByDate,
   deleteNoteByID,
-  deleteNoteByPartyID
+  deleteNoteByPartyID,
+  updateNote
 } from "../controllers/paymentNotes.controller.js";
 
 const router = Router();
@@ -19,6 +20,7 @@ router.route("/fetch/all").post(fetchAll);
 router.route("/fetch/account").post(fetchByAccount);
 router.route("/fetch/date").post(fetchByDate);
 router.route("/create").post(createNote);
+router.route("/update").post(updateNote);
 router.route("/delete/all").post(deleteAll);
 router.route("/delete/date").post(deleteNoteByDate);
 router.route("/delete/id").post(deleteNoteByID);
