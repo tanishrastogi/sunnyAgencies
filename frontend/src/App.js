@@ -13,6 +13,7 @@ import Loader from './components/loader/loader';
 import Home from './pages/home/Home';
 import { backend_start_api } from './api/api';
 import Note from './components/payment-notes/note';
+import List from './pages/list/page';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
       <Routes>
       <Route path='/' element={<div><Home /></div>} />
       <Route path='/analytics' element={<div><Analytics /></div>} />
+      <Route path='/party/list-creator' element={<div><List /></div>} />
       <Route path='/payment-notes' element={<div><PaymentNotes type="all"/></div>} />
       <Route path='/payment-notes/create' element={<div><PaymentNotes type="create"/></div>} />
       <Route path='/payment-notes/:date' element={<div><Note /></div>} />

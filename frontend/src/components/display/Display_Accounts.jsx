@@ -32,7 +32,7 @@ const Display_Accounts = ({ accounts }) => {
           );
         })
       ) : (
-        <div>No Accounts Found</div>
+        <div className="account_container">No Accounts Found</div>
       )}
     </div>
   );
