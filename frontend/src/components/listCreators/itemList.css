@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Just+Another+Hand&family=Ubuntu:wght@400;500&display=swap');
+
 .itemList{
   min-height: 100vh;
   background-image: url("./images/pexels-fwstudio-33348-129731.jpg");
@@ -26,3 +28,77 @@
 .list-holders{
   
 }
+
+.account-names{
+  background-image: url("./images/smallNotepad.png");
+  height: 15rem;
+  width: 20rem;
+  background-size: cover;
+  filter: drop-shadow(1px 1px 5px black);
+  padding: 5px;
+}
+
+.account-names .account-name-value{
+  
+  font-size: 0.9rem;
+  position: relative;
+  right: -98px;
+  top: 70px;
+  font-family:"Gochi Hand" , cursive;
+  /* margin: 10px 0; */
+  width: 200px;
+  padding: 10px 0 10px 0;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.account-names .account-name-value>div{
+  position: relative;
+  left: 10px;
+  min-width: 150px;
+}
+
+
+.account-names .account-name-value:hover{
+  background: #ffa237dc;
+  box-shadow: 1px 1px 5px black;
+  transform: scale(1.05);
+}
+
+.account-names .account-name-value:active{
+  transform: scale(0.95);
+}
+
+.account-names img{
+  width: 30%;
+  filter: drop-shadow(1px 1px 5px black);  
+}
+
+.accounts-container {
+  /* background: #000; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+}
+
+.accounts-container .list-holders img{
+  filter: drop-shadow(1px 1px 10px black);
+  z-index: -1;
+}
+
+.accounts-container .list-holders .party-name{
+  position: relative;
+  top: 230px;
+  left: 100px;
+  z-index: 1;
+  font-weight: bold;
+  font-family:"Gochi Hand" , cursive;
+
+}
+
+@media (max-width:450px)

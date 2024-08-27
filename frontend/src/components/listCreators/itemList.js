@@ -4,20 +4,34 @@ import Display_Accounts from '../display/Display_Accounts';
 import { searchAccount } from '../../api/search.api';
 import { fetch_party_item_history } from '../../api/pdf.api';
 import _ from 'lodash'; // Lodash for debounce
+import smallNotepad from "./images/smallNotepad.png"
+import bigNotebook from "./images/bigNoteBook.png"
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const ItemList = () => {
   const [data, setData] = useState([]);
   const [accountDisplayVisibility, setAccountDisplayVisibility] = useState(false);
   const [inputValues, setInputValues] = useState({ accountName: "" });
   const [accounts, setAccounts] = useState([]);
-  const [accountData, setAccountData] = useState([]);
+  const [accountData, setAccountData] = useState(() => {
+    const data = sessionStorage.getItem("accountData");
+    return data ? JSON.parse(data) : [];
+  });
+
+  const [selectedAccount, setSelectedAccount] = useState({
+
+  })
 
   const fetchData = async (id) => {
     try {
       const response = await fetch_party_item_history({ partyID: id });
       if (response.statusCode === 200) {
         // setAccountData(prev => [...prev, response.data].slice(prev.length>5?prev.length-4:0, prev.length+1)); 
-        setAccountData(prev => prev.length>=5?[...prev.slice(1), response.data]:[...prev, response.data]); 
+        setAccountData((prev) => {
+          console.log(prev)
+          return prev?.length >= 5 ? [...prev.slice(1), response.data] : [...prev, response.data]
+        });
       }
     } catch (err) {
       console.error(err);
@@ -41,6 +55,12 @@ const ItemList = () => {
     }
   };
 
+  const deleteAccount = (index) => {
+    const updatedAccounts = accountData.filter((_, i) => i !== index);
+    setAccountData(updatedAccounts);
+    sessionStorage.setItem('accountData', JSON.stringify(updatedAccounts));
+  };
+
   // Debounced version of fetchAccounts
   const debouncedFetchAccounts = useCallback(_.debounce(fetchAccounts, 300), [inputValues]);
 
@@ -59,45 +79,67 @@ const ItemList = () => {
     return debouncedFetchAccounts.cancel; // Cleanup debounced calls on unmount
   }, [inputValues.accountName, debouncedFetchAccounts]);
 
-  // console.log(accountData);
+  // console.log(selectedAccount);
 
   useEffect(() => {
-    console.log(accountData)
-    localStorage.setItem('accountData', JSON.stringify(accountData));
+    sessionStorage.setItem('accountData', accountData ? JSON.stringify(accountData) : []);
   }, [accountData]);
-  
-  // Retrieve from sessionStorage
-  useEffect(() => {
-    const storedData = localStorage.getItem('accountData');
-    if (storedData) {
-      setAccountData(JSON.parse(storedData));
-    }
-  }, []);
 
-  console.log(accountData)
+
+
+
+  // console.log(accountData)
 
   return (
     <div className='itemList'>
-      <input 
-        type="text" 
-        autoComplete="off" 
-        name="accountName" 
-        className="input" 
-        placeholder="Account Name" 
+      <input
+        type="text"
+        autoComplete="off"
+        name="accountName"
+        className="input"
+        placeholder="Account Name"
         onChange={(e) => {
           handleChange(e);
-        }} 
+        }}
       />
       {accountDisplayVisibility && (
-        <Display_Accounts 
+        <Display_Accounts
           fetchData={fetchData}
-          accounts={accounts} 
+          accounts={accounts}
         />
       )}
-      <div className='list-holders'>
-        {
+      <div className='accounts-container'>
 
-        }
+        <div className='list-holders'>
+          <div className='party-name'>
+            {
+              selectedAccount.partyName
+            }
+          </div>
+          <img src={bigNotebook}></img>
+        </div>
+        <div className='account-names'>
+          {accountData?.map((acc, index) => {
+            // console.log(acc)
+            return <div className='account-name-value'>
+              <div onClick={() => {
+                setSelectedAccount(acc);
+              }}>{acc?.partyName?.length > 15 ? acc?.partyName.slice(0, 15) : acc?.partyName}</div>
+              <div onClick={()=>{deleteAccount(index)}}>
+                <DeleteIcon
+                  sx={{
+                    height: "0.7rem",
+                    color: "grey",
+                    "&:hover": {
+                      color: "red"
+                    }
+                  }}
+                  
+                />
+              </div>
+            </div>
+          })}
+        </div>
       </div>
 
     </div>

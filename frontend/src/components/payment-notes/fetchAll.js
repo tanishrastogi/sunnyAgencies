@@ -25,7 +25,7 @@ const FetchAll = () => {
     }
   };
 
-  const handleClick = async(date)=>{
+  const handleClick = async(date  )=>{
     try{
       navigate(`/payment-notes/${date}`)
     }
