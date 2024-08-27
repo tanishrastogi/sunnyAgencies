@@ -1,3 +1,3 @@
-const BACKEND_URL = 'http://localhost:8005'
+const BACKEND_URL = 'https://sunnyagencies-m1wy.onrender.com'
 
 export {BACKEND_URL}
