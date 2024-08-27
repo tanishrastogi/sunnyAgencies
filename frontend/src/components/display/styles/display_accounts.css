@@ -21,7 +21,9 @@
   overflow-x: hidden;
   height: 30vh;
   background: white;
-}
+  box-shadow: 2.5px 3px 5px #00000052;
+  margin: 5px;
+} 
 
 .account_container_content{
   margin: 15px;

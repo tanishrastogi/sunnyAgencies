@@ -8,8 +8,9 @@ import React, { useEffect, useState } from "react";
 
 const CreatePaymentNote = () => {
   const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState({});
   // const [accountID, setAccountID] = useState("");
-
+  console.log(selectedAccount);
   const [details, setDetails] = useState({
     account: "",
     billDate: "",
@@ -47,8 +48,8 @@ const CreatePaymentNote = () => {
     setDetails((prevState) => {
       return {
         ...prevState,
-        account:Account.partyName,
-        partyID:Account._id
+        account:selectedAccount.partyName,
+        partyID:selectedAccount._id
       };
     });
   };
@@ -86,7 +87,7 @@ const CreatePaymentNote = () => {
         ></input>
         {details.account?.length !== 0 ? (
           <div onClick={handleAccountClick}>
-            <Display_Accounts accounts={accounts} />
+            <Display_Accounts accounts={accounts} setSelectedAccount={setSelectedAccount} />
           </div>
         ) : (
           ""

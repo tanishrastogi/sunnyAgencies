@@ -66,9 +66,9 @@ const searchApiForAccounts = async (req, res) => {
         { "details.mobile": { $regex: regex } },
         { searchTags: { $regex: regex } }
       ]
-    })
+    }).limit(50);
 
-    return res.json(new ApiResponse(200, result, "parties fetched successfully"));
+    return res.json(new ApiResponse(200, result.slice(0,50), "parties fetched successfully"));
 
   }
   catch (err) {

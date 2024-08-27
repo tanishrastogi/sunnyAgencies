@@ -3,8 +3,7 @@ import "./styles/display_accounts.css";
 
 let Account = {};
 
-const Display_Accounts = ({ accounts }) => {
-  
+const Display_Accounts = ({ accounts,fetchData , setSelectedAccount,  }) => {
   return (
     <div className="display_accounts">
       {accounts.length !== 0 ? (
@@ -12,8 +11,16 @@ const Display_Accounts = ({ accounts }) => {
           return (
             <div
               className="account_container"
-              onClick={() => {
+              onClick={async() => {
                 Account = account;
+                if(setSelectedAccount){
+                  setSelectedAccount(account)
+                }
+
+                if(fetchData){
+                  await fetchData(account._id)
+                }
+
               }}
             >
               <div className="account_container_content">
@@ -37,5 +44,5 @@ const Display_Accounts = ({ accounts }) => {
     </div>
   );
 };
-export {Account};
+export { Account };
 export default Display_Accounts;
