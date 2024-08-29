@@ -3,7 +3,7 @@ import "./styles/display_accounts.css";
 
 let Account = {};
 
-const Display_Accounts = ({ accounts,fetchData , setSelectedAccount,  }) => {
+const Display_Accounts = ({ accounts,fetchData , setSelectedAccount, setAccountDisplayVisibility  }) => {
   return (
     <div className="display_accounts">
       {accounts.length !== 0 ? (
@@ -15,6 +15,9 @@ const Display_Accounts = ({ accounts,fetchData , setSelectedAccount,  }) => {
                 Account = account;
                 if(setSelectedAccount){
                   setSelectedAccount(account)
+                }
+                if(setAccountDisplayVisibility){
+                  setAccountDisplayVisibility(false)
                 }
 
                 if(fetchData){

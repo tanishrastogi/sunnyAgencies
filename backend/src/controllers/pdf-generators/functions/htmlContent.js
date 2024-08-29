@@ -50,9 +50,8 @@ export const htmlContent = (array) => {
       <tr>
         <th>S.No</th>
         <th>Item Name</th>
-        <th>Item Code</th>
-        <th>Packing</th>
-        <th>Total Quantity</th>
+        <th>Deal</th>
+        <th>Discount</th>
       </tr>
     </thead>
     <tbody>
@@ -60,10 +59,9 @@ export const htmlContent = (array) => {
       array.items?.map((item, index) => {
       return `<tr>
           <td>${index + 1}</td>
-          <td>${item.itemDetails.itemName}</td>
-          <td>${item.itemDetails.itemCode}</td>
-          <td>${item.itemDetails.packing}</td>
-          <td>${item.totalQuantity}</td>
+          <td>${item?.itemDetails?.itemName}</td>
+          <td>${item?.deal?item.deal:"-"}</td>
+          <td>${item?.discount?item.discount:"-"}</td>
         </tr>`
       }) 
     }

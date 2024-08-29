@@ -1,116 +1,156 @@
 import mongoose from "mongoose";
 import { Bill } from "../../models/bill.model.js";
 import { Party } from "../../models/party.model.js";
-import { handleErr } from "../../utils/apiError.js"
+import { handleErr } from "../../utils/apiError.js";
 import { ApiResponse } from "../../utils/apiResponse.js";
 import pdf from "html-pdf";
 import path from "path";
 import { htmlContent } from "./functions/htmlContent.js";
 import { fileURLToPath } from "url";
-import {ist_to_utc} from "../../utils/date_functions.js";
+import { ist_to_utc } from "../../utils/date_functions.js";
+import { transporter } from "../../utils/transporter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PartyItemHistory = async(req,res)=>{
-  try{
-    
-    const {partyID} = req.body;
-    if(!partyID) return res.json(new ApiResponse(404, null, "Party Id not specified."));
-    
+const PartyItemHistory = async (req, res) => {
+  try {
+    const { partyID, email } = req.body;
+    if (!partyID) return res.json(new ApiResponse(404, null, "Party Id not specified."));
+
     const party = await Party.findById(partyID);
-    
-    if(!party) return res.json(new ApiResponse(404, "Party not found."));
-  
+    if (!party) return res.json(new ApiResponse(404, "Party not found."));
+
     const startDate = new Date(ist_to_utc("2024-04-01T00:00:00.000Z"));
     const endDate = new Date(ist_to_utc("2024-07-01T00:00:00.000Z"));
 
     const result = await Bill.aggregate([
-      // Match bills with the specified party ID
       {
         $match: {
-          // party: new mongoose.Types.ObjectId(partyID)
           party: new mongoose.Types.ObjectId(partyID),
           billDate: { $gte: startDate, $lte: endDate }
-          
         }
       },
-      // Unwind the items array
       {
         $unwind: "$items"
       },
-      // Group by item and sum the quantities
       {
         $group: {
           _id: "$items.item",
           totalQuantity: { $sum: { $toDouble: "$items.quantity" } }
         }
       },
-      // Lookup to get item details (optional)
       {
         $lookup: {
-          from: "items", // Name of the items collection
+          from: "items",
           localField: "_id",
           foreignField: "_id",
           as: "itemDetails"
         }
       },
-      
-      // Unwind the item details array
       {
         $unwind: "$itemDetails"
       },
-      
-      // Project the final output
       {
         $project: {
           _id: 0,
           itemId: "$_id",
-          itemName: "$itemDetails.name", // Adjust the field name based on your item schema
+          itemName: "$itemDetails.name",
           totalQuantity: 1,
-          // partyDetails:1,
-          itemDetails:1
+          itemDetails: 1
         }
       },
       {
-        $sort:{
-          totalQuantity:-1
+        $sort: {
+          totalQuantity: -1
         }
       }
     ]);
 
-        
-
     const resultWithPartyName = {
-      partyName:party.partyName,
-      items:[
-        ...result
-      ]
-    }
+      partyName: party.partyName,
+      items: [...result]
+    };
 
-    // console.log(resultWithPartyName.partyName)
-    
-    const filePath = path.join(__dirname, "output.pdf");
+    const filePath = path.join(__dirname, "output1.pdf");
 
-    // pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, response) => {
-    //   if (err) return console.log(err);
-    //   console.log('PDF generated successfully:', response);
-      
-    //   // Send the file to the frontend
-    //   res.sendFile(filePath, (err) => {
-    //     if (err) {
-    //       console.log(err);
-    //       res.status(500).send('Could not send file');
-    //     } else {
-    //       console.log('File sent successfully');
+    // pdf.create(htmlContent(resultWithPartyName), { format: 'A4' }).toFile(filePath, (err, pdfResponse) => {
+    //   if (err) {
+    //     console.log("PDF creation error:", err);
+    //     return res.status(500).send("Error generating PDF");
+    //   }
+
+    //   console.log("PDF generated successfully at:", filePath);
+
+    //   const mailOptions = {
+    //     from: process.env.AUTH_EMAIL,
+    //     to: email,
+    //     subject: `Item History of ${party.partyName}`,
+    //     text: `Please find the attached PDF for the item history of ${party.partyName}.`,
+    //     attachments: [
+    //       {
+    //         filename: `any_requirements?@${party.partyName}.pdf`,
+    //         path: filePath // Correctly attach the generated PDF
+    //       }
+    //     ]
+    //   };
+
+    //   transporter.sendMail(mailOptions, (error, info) => {
+    //     if (error) {
+    //       console.log("Error sending email:", error);
+    //       return res.status(500).send("Error sending email");
     //     }
+    //     console.log('Email sent: ' + info.response);
+    //     return res.status(200).send('Email with PDF sent successfully');
     //   });
     // });
 
-    console.log(resultWithPartyName);
+    return res.json(new ApiResponse(200, resultWithPartyName, "Fetched successfully"));
 
-    return res.json(new ApiResponse(200, resultWithPartyName, "History fetched successfully"));
+  } catch (err) {
+    return handleErr(res, err);
+  }
+};
 
+
+const createAndSendPartyItemHistoryPDF = async(req,res)=>{
+  try{
+    const {data, email}= req.body;
+    // console.log(data);
+    const filePath = path.join(__dirname, "output1.pdf");
+
+    pdf.create(htmlContent(data), { format: 'A4' }).toFile(filePath, (err, pdfResponse) => {
+      if (err) {
+        console.log("PDF creation error:", err);
+        return res.status(500).send("Error generating PDF");
+      }
+
+      // console.log("PDF generated successfully at:", filePath);
+
+      const mailOptions = {
+        from: process.env.AUTH_EMAIL,
+        to: email,
+        subject: `Item History of ${data.partyName}`,
+        text: `Please find the attached PDF for the item history of ${data.partyName}.`,
+        attachments: [
+          {
+            filename: `any_requirements?@${data.partyName}.pdf`,
+            path: filePath // Correctly attach the generated PDF
+          }
+        ]
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("Error sending email:", error);
+          return res.status(500).send("Error sending email");
+        }
+        // console.log('Email sent: ' + info.response);
+        return res.status(200).send('Email with PDF sent successfully');
+      });
+    });
+
+    return res.json(new ApiResponse(200, null, "sent successfully."));
   }
   catch(err){
     return handleErr(res,err);
@@ -118,5 +158,6 @@ const PartyItemHistory = async(req,res)=>{
 }
 
 export {
-  PartyItemHistory
-}
+  PartyItemHistory,
+  createAndSendPartyItemHistoryPDF
+};

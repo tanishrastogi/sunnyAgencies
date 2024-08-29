@@ -198,7 +198,7 @@ const mrOutstandingPDF = async (payload) => {
 
 const fetch_party_item_history = async (payload) => {
   try {
-    const { data } = await api_for_pdf.post("/pdf/create/party-item-history", payload);
+    const { data } = await api.post("/pdf/send/data/party-item-history", payload);
     return data;
   }
   catch (err) {
@@ -206,7 +206,20 @@ const fetch_party_item_history = async (payload) => {
   }
 }
 
+const send_party_item_history_pdf_via_email = async(payload)=>{
+  try{
+    // console.log(payload);
+    const {data} = await api.post("/pdf/create/party-item-history", payload);
+    console.log(data)
+    return data;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 export {
   mrOutstandingPDF,
-  fetch_party_item_history
+  fetch_party_item_history,
+  send_party_item_history_pdf_via_email
 };

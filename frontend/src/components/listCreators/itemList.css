@@ -1,14 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Just+Another+Hand&family=Ubuntu:wght@400;500&display=swap');
 
 .itemList{
-  min-height: 100vh;
+  min-height: 200vh;
   background-image: url("./images/pexels-fwstudio-33348-129731.jpg");
-  background-size: cover;
+  background-size:contain;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
 }
+
+
 .input {
   font-family: "SF Pro";
   max-width: 190px;
@@ -19,14 +21,39 @@
   box-shadow: 2.5px 3px 0 #000;
   outline: none;
   transition: ease 0.25s;
+  margin: 10px;
 }
 
 .input:focus {
   box-shadow: 5.5px 7px 0 black;
 }
 
-.list-holders{
-  
+.accounts-container .list-holders .party-name{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accounts-container .list-holders .party-name p{
+}
+
+.accounts-container .list-holders button {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #000000;
+  text-transform: uppercase;
+  padding: 5px 20px;
+  border-radius: 10px;
+  border: 2px solid #000000;
+  background: #ffffff;
+  box-shadow: 3px 3px #000000;
+  cursor: pointer;
+  margin: 35px 10px;
+}
+
+.accounts-container .list-holders button:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
 
 .account-names{
@@ -82,23 +109,61 @@
   /* background: #000; */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items:flex-end;
   flex-wrap: wrap-reverse;
 }
 
-.accounts-container .list-holders img{
+.accounts-container .list-holders{
   filter: drop-shadow(1px 1px 10px black);
-  z-index: -1;
+  background: white;
+  padding: 0 5rem;
+  margin: 25px;
+  width: 50%;
 }
 
-.accounts-container .list-holders .party-name{
-  position: relative;
-  top: 230px;
-  left: 100px;
-  z-index: 1;
-  font-weight: bold;
+.accounts-container .list-holders>div {
   font-family:"Gochi Hand" , cursive;
 
+}
+
+.accounts-container .list-holders .list-table .headings{
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+
+}
+
+.accounts-container .list-table{
+  display: flex;
+  flex-direction: column;
+}
+
+.accounts-container .list-table .row{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  align-items: center;
+}
+
+.accounts-container .list-table .row>div{
+  width: 200px;
+  margin: 0 30px 0 0;
+}
+
+.accounts-container .list-table .row input {
+  width: 100px;
+  /* height: 10px; */
+  margin: 10px;
+  padding: 10px;
+}
+
+.accounts-container .list-table .row .discount, .accounts-container .list-table .row .deal  {
+  
+}
+
+.accounts-container .disc, .accounts-container .deal{
+  width: 70px;
+  /* background: #000; */
 }
 
 @media (max-width:450px){
