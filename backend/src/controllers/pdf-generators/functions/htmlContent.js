@@ -4,14 +4,11 @@
 export const htmlContent = (array) => {
   return `
   <style>
-    body{
-      transform:scale(0.4);
-    }
     table{
         margin:50px 20px;
         padding:20px;
         // background:red;
-        width:920px;
+        width:720px;
         font-size:1rem;
       }
       .header, .message{
@@ -47,7 +44,7 @@ export const htmlContent = (array) => {
 
   </style>
   <body>
-  <div>
+  <div class="table-container">
   <h1>${array.partyName}</h1>
   <table>
     <thead>
@@ -61,12 +58,12 @@ export const htmlContent = (array) => {
     <tbody>
     ${array.items?.map((item, index) => {
     // console.log(item);
-    return `<tr>
-          <td>${index + 1}</td>
-          <td>${item?.itemDetails?.itemName}</td>
-          <td>${item?.deal ? item.deal : "-"}</td>
-          <td>${item?.discount ? item.discount : "-"}</td>
-        </tr>`
+    // return `<tr>
+    //       <td>${index + 1}</td>
+    //       <td>${item?.itemDetails?.itemName}</td>
+    //       <td>${item?.deal ? item.deal : "-"}</td>
+    //       <td>${item?.discount ? item.discount : "-"}</td>
+    //     </tr>`
   })
     }
     </tbody>
