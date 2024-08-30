@@ -146,10 +146,10 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
           console.log("Error sending email:", error);
           return res.status(500).send("Error sending email");
         }
-        return res.json(new ApiResponse(200, null, "pdf sent successfully."));
       });
     });
 
+    return res.json(new ApiResponse(200, null, "pdf sent successfully."));
 
   }
   catch(err){
