@@ -119,7 +119,26 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
     // console.log(data);
     const filePath = path.join(__dirname, "output1.pdf");
 
-    pdf.create(htmlContent(data), { format: 'A4' }).toBuffer((err, buffer) => {
+    const config = {
+      "format": "A4",
+      "orientation": "portrait",
+      "dpi": 200,
+      "quality": 80,
+      "border": {
+        "left": "1cm",
+        "right": "1cm",
+        "top": "1cm",
+        "bottom": "1cm"
+      },
+      "header": {
+        "height": "10mm"
+      },
+      "footer": {
+        "height": "10mm"
+      }
+  }
+
+    pdf.create(htmlContent(data), config).toBuffer((err, buffer) => {
       if (err) {
         console.error('Error generating PDF:', err);
         return res.status(500).send('Error generating PDF');
