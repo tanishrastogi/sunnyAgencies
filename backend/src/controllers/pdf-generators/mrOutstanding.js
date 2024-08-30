@@ -4,7 +4,7 @@ import { ApiResponse } from "../../utils/apiResponse.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
-import pdf from "html-pdf";
+import pdf from "pdf-creator-node";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
