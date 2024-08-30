@@ -135,7 +135,6 @@ const createAndSendPartyItemHistoryPDF = async (req, res) => {
     const options = {
       format: "A4", // Paper format
       orientation: "landscape", // Portrait or landscape
-      border: "10mm" // Margins
     };
 
     const pdfBuffer = await pdf.create(document, options);

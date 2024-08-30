@@ -5,7 +5,7 @@ export const htmlContent = (array) => {
   return `
   <style>
     body{
-      transform:scale(0.6);
+      transform:scale(0.7);
     }
     table{
         margin:50px 20px;
@@ -46,6 +46,7 @@ export const htmlContent = (array) => {
       }
 
   </style>
+  <body>
   <div>
   <h1>${array.partyName}</h1>
   <table>
@@ -59,7 +60,7 @@ export const htmlContent = (array) => {
     </thead>
     <tbody>
     ${array.items?.map((item, index) => {
-    console.log(item);
+    // console.log(item);
     return `<tr>
           <td>${index + 1}</td>
           <td>${item?.itemDetails?.itemName}</td>
@@ -71,6 +72,7 @@ export const htmlContent = (array) => {
     </tbody>
   </table>
   </div>
+  </body>
   `
 
 }
