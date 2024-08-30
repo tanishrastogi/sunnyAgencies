@@ -122,20 +122,8 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
     const config = {
       "format": "A4",
       "orientation": "portrait",
-      "dpi": 200,
-      "quality": 80,
-      "border": {
-        "left": "1cm",
-        "right": "1cm",
-        "top": "1cm",
-        "bottom": "1cm"
-      },
-      "header": {
-        "height": "10mm"
-      },
-      "footer": {
-        "height": "10mm"
-      }
+      "dpi": 50,
+      "quality": 80
   }
 
     pdf.create(htmlContent(data), config).toBuffer((err, buffer) => {

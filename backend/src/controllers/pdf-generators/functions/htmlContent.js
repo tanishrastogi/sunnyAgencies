@@ -12,11 +12,11 @@ export const htmlContent = (array) => {
         padding:20px;
         // background:red;
         width:920px;
-        font-size:1.2rem;
+        font-size:1rem;
       }
       .header, .message{
         margin:20px;
-        font-size:1.2rem;
+        font-size:1rem;
       }
 
       tr{
@@ -58,15 +58,15 @@ export const htmlContent = (array) => {
       </tr>
     </thead>
     <tbody>
-    ${
-      array.items?.map((item, index) => {
-      return `<tr>
+    ${array.items?.map((item, index) => {
+    console.log(item);
+    return `<tr>
           <td>${index + 1}</td>
           <td>${item?.itemDetails?.itemName}</td>
-          <td>${item?.deal?item.deal:"-"}</td>
-          <td>${item?.discount?item.discount:"-"}</td>
+          <td>${item?.deal ? item.deal : "-"}</td>
+          <td>${item?.discount ? item.discount : "-"}</td>
         </tr>`
-      }) 
+  })
     }
     </tbody>
   </table>
