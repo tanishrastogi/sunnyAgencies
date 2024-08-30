@@ -5,6 +5,7 @@ export const htmlContent = (array) => {
   return `
   <style>
     body{
+      transform:scale(0.6);
     }
     table{
         margin:50px 20px;
