@@ -16,6 +16,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
+    "pdf-creator-node": "^2.3.5",
     "pdfkit": "^0.15.0",
     "pdfreader": "^3.0.2",
     "puppeteer": "^22.13.0",

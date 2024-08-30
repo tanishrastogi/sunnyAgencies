@@ -3,7 +3,7 @@ import { Bill } from "../../models/bill.model.js";
 import { Party } from "../../models/party.model.js";
 import { handleErr } from "../../utils/apiError.js";
 import { ApiResponse } from "../../utils/apiResponse.js";
-import pdf from "html-pdf";
+import pdf from "pdf-creator-node";
 import path from "path";
 import { htmlContent } from "./functions/htmlContent.js";
 import { fileURLToPath } from "url";
@@ -113,9 +113,9 @@ const PartyItemHistory = async (req, res) => {
 };
 
 
-const createAndSendPartyItemHistoryPDF = async(req,res)=>{
-  try{
-    const {data, email}= req.body;
+const createAndSendPartyItemHistoryPDF = async (req, res) => {
+  try {
+    const { data, email } = req.body;
     // console.log(data);
     const filePath = path.join(__dirname, "output1.pdf");
 
@@ -124,43 +124,83 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
       "orientation": "portrait",
       "dpi": 50,
       "quality": 80
-  }
+    }
 
-    pdf.create(htmlContent(data), config).toBuffer((err, buffer) => {
-      if (err) {
-        console.error('Error generating PDF:', err);
-        return res.status(500).send('Error generating PDF');
-      }
+    const document = {
+      html: htmlContent(data),
+      data: data,
+      type: "buffer"
+    };
 
-      // Email options
-      const mailOptions = {
-        from: process.env.AUTH_EMAIL,
-        to: email,
-        subject: `Item History of ${data.partyName}`,
-        text: `Please find the attached PDF for the item history of ${data.partyName}.`,
-        attachments: [
-          {
-            filename: `${data.partyName}_item_history.pdf`,
-            content: buffer,
-            contentType: 'application/pdf'
-          }
-        ]
-      };
+    const options = {
+      format: "A4", // Paper format
+      orientation: "portrait", // Portrait or landscape
+      border: "10mm" // Margins
+    };
 
-      // Send the email
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log("Error sending email:", error);
-          return res.status(500).send("Error sending email");
+    const pdfBuffer = await pdf.create(document, options);
+
+    const mailOptions = {
+      from: process.env.AUTH_EMAIL,
+      to: email || 'charliefernandis28@gmail.com',
+      subject: `Item History of ${data.partyName}`,
+      text: `Please find the attached PDF for the item history of ${data.partyName}.`,
+      attachments: [
+        {
+          filename: `${data.partyName}_item_history.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf'
         }
-      });
+      ]
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return "Error sending email";
+      } else {
+        // console.log('Email sent: ' + info.response);
+        // return res.status(200).json(new ApiResponse(200, null, "PDF sent successfully."));
+      }
     });
+
+    // pdf.create(htmlContent(data), config).toBuffer((err, buffer) => {
+    //   if (err) {
+    //     console.error('Error generating PDF:', err);
+    //     return res.status(500).send('Error generating PDF');
+    //   }
+
+    //   // Email options
+    //   const mailOptions = {
+    //     from: process.env.AUTH_EMAIL,
+    //     to: email,
+    //     subject: `Item History of ${data.partyName}`,
+    //     text: `Please find the attached PDF for the item history of ${data.partyName}.`,
+    //     attachments: [
+    //       {
+    //         filename: `${data.partyName}_item_history.pdf`,
+    //         content: buffer,
+    //         contentType: 'application/pdf'
+    //       }
+    //     ]
+    //   };
+
+    //   // Send the email
+    //   transporter.sendMail(mailOptions, (error, info) => {
+    //     if (error) {
+    //       console.log("Error sending email:", error);
+    //       return res.status(500).send("Error sending email");
+    //     }
+    //   });
+    // });
+
+
 
     return res.json(new ApiResponse(200, null, "pdf sent successfully."));
 
   }
-  catch(err){
-    return handleErr(res,err);
+  catch (err) {
+    return handleErr(res, err);
   }
 }
 
