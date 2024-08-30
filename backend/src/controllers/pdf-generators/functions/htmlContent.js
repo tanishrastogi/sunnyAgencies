@@ -4,6 +4,8 @@
 export const htmlContent = (array) => {
   return `
   <style>
+    body{
+    }
     table{
         margin:50px 20px;
         padding:20px;

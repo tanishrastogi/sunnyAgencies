@@ -119,14 +119,13 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
     // console.log(data);
     const filePath = path.join(__dirname, "output1.pdf");
 
-    pdf.create(htmlContent(data), { format: 'A4' }).toFile(filePath, (err, pdfResponse) => {
+    pdf.create(htmlContent(data), { format: 'A4' }).toBuffer((err, buffer) => {
       if (err) {
-        console.log("PDF creation error:", err);
-        return res.status(500).send("Error generating PDF");
+        console.error('Error generating PDF:', err);
+        return res.status(500).send('Error generating PDF');
       }
 
-      // console.log("PDF generated successfully at:", filePath);
-
+      // Email options
       const mailOptions = {
         from: process.env.AUTH_EMAIL,
         to: email,
@@ -134,21 +133,23 @@ const createAndSendPartyItemHistoryPDF = async(req,res)=>{
         text: `Please find the attached PDF for the item history of ${data.partyName}.`,
         attachments: [
           {
-            filename: `any_requirements?@${data.partyName}.pdf`,
-            path: filePath // Correctly attach the generated PDF
+            filename: `${data.partyName}_item_history.pdf`,
+            content: buffer,
+            contentType: 'application/pdf'
           }
         ]
       };
 
+      // Send the email
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log("Error sending email:", error);
           return res.status(500).send("Error sending email");
         }
-        // console.log('Email sent: ' + info.response);
-        return res.json(new ApiResponse(200, null, "sent successfully."));
+        return res.json(new ApiResponse(200, null, "pdf sent successfully."));
       });
     });
+
 
   }
   catch(err){
