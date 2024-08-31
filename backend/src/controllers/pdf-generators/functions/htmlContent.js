@@ -57,13 +57,12 @@ export const htmlContent = (array) => {
     </thead>
     <tbody>
     ${array.items?.map((item, index) => {
-    // console.log(item);
-    // return `<tr>
-    //       <td>${index + 1}</td>
-    //       <td>${item?.itemDetails?.itemName}</td>
-    //       <td>${item?.deal ? item.deal : "-"}</td>
-    //       <td>${item?.discount ? item.discount : "-"}</td>
-    //     </tr>`
+    return `<tr>
+          <td>${index + 1}</td>
+          <td>${item?.itemDetails?.itemName}</td>
+          <td>${item?.deal ? item.deal : "-"}</td>
+          <td>${item?.discount ? item.discount : "-"}</td>
+        </tr>`
   })
     }
     </tbody>

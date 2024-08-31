@@ -133,7 +133,7 @@ const createAndSendPartyItemHistoryPDF = async (req, res) => {
     };
 
     const options = {
-      format: "A4", // Paper format
+      format: "A3", // Paper format
       orientation: "portrait", // Portrait or landscape
     };
 
