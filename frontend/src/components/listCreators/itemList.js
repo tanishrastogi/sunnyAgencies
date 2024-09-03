@@ -13,9 +13,9 @@ import { Pagination } from '@mui/material';
 const ItemList = () => {
   const [data, setData] = useState([]);
   const [accountDisplayVisibility, setAccountDisplayVisibility] = useState(false);
-  const [inputValues, setInputValues] = useState({ 
-    accountName: "", 
-    email:""
+  const [inputValues, setInputValues] = useState({
+    accountName: "",
+    email: ""
   });
 
   const [accounts, setAccounts] = useState([]);
@@ -26,11 +26,32 @@ const ItemList = () => {
   });
 
   const [selectedAccount, setSelectedAccount] = useState({
-    partyName:"",
-    items:[]
+    partyName: "",
+    items: []
   });
 
+  const [apiCall, setApiCall] = useState(0);
 
+
+  // const start_backend = async () => {
+  //   try {
+  //     const data = await backend_start_api();
+  //     if (data.statusCode === 200) {
+  //       setVisibility(true);
+  //     }
+  //   }
+  //   catch (err) {
+  //     console.log(err)
+  //   }
+  // };
+
+  // setTimeout(async() => {
+  //   console.log(apiCall);
+  //   if (apiCall < 15) {
+  //     await start_backend();
+  //     setApiCall(apiCall + 1);
+  //   }
+  // }, 120000);
 
   const inputRefs = useRef([]); // Create a ref to hold all input refs
 
@@ -63,15 +84,15 @@ const ItemList = () => {
     }
   };
 
-  const sendPDFViaEmail = async()=>{
-    try{
-      const data = await send_party_item_history_pdf_via_email({data:selectedAccount, email:inputValues.email});
-      if(data.statusCode===200){
+  const sendPDFViaEmail = async () => {
+    try {
+      const data = await send_party_item_history_pdf_via_email({ data: selectedAccount, email: inputValues.email });
+      if (data.statusCode === 200) {
         console.log("email sent");
         window.alert("email sent");
-      } 
+      }
     }
-    catch(err){
+    catch (err) {
       console.log(err)
     }
   }
@@ -148,25 +169,25 @@ const ItemList = () => {
   return (
     <div className='itemList'>
       <div>
-      <input
-        type="text"
-        autoComplete="off"
-        name="accountName"
-        className="input"
-        placeholder="Account Name"
-        onChange={(e) => {
-          handleChange(e);
-        }}
-      />
-      <input
-        type="email"
-        name="email"
-        className="input"
-        placeholder="Email"
-        onChange={(e) => {
-          handleChange(e);
-        }}
-      />
+        <input
+          type="text"
+          autoComplete="off"
+          name="accountName"
+          className="input"
+          placeholder="Account Name"
+          onChange={(e) => {
+            handleChange(e);
+          }}
+        />
+        <input
+          type="email"
+          name="email"
+          className="input"
+          placeholder="Email"
+          onChange={(e) => {
+            handleChange(e);
+          }}
+        />
       </div>
       {accountDisplayVisibility && (
         <Display_Accounts

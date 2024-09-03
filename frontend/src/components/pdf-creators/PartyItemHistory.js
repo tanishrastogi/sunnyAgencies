@@ -8,6 +8,8 @@ import "./styles/partyItemHistory.css";
 
 const PartyItemHistoryPDF = () => {
 
+   
+
    const { partyID } = useParams();
    const targetRef = useRef();
 

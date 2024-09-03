@@ -19,17 +19,27 @@ function App() {
 
   const [visibility, setVisibility] = useState(false);
 
-  const [width , setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
 
-  useEffect(()=>{
+  useEffect(() => {
     setWidth(window.innerWidth);
-  }, [window.innerWidth])
+  }, [window.innerWidth]);
+
+  const [apiCall, setApiCall] = useState(0);
+
+  setTimeout(async () => {
+    console.log(apiCall);
+    if (apiCall < 15) {
+      await start_backend();
+    }
+  }, 120000);
 
   const start_backend = async () => {
     try {
       const data = await backend_start_api();
       if (data.statusCode === 200) {
         setVisibility(true);
+        setApiCall(apiCall + 1);
       }
     }
     catch (err) {
@@ -44,28 +54,29 @@ function App() {
 
   return (
 
-    visibility ? 
-    <div style={{width:`${width}px`}}>
-      <Routes>
-      <Route path='/' element={<div><Home /></div>} />
-      <Route path='/analytics' element={<div><Analytics /></div>} />
-      <Route path='/party/list-creator' element={<div><List /></div>} />
-      <Route path='/payment-notes' element={<div><PaymentNotes type="all"/></div>} />
-      <Route path='/payment-notes/create' element={<div><PaymentNotes type="create"/></div>} />
-      <Route path='/payment-notes/:date' element={<div><Note /></div>} />
-      <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
-      <Route path='/pdf-creator/party-item-history/:partyID' element={<div><PartyItemHistoryPDF /></div>} />
-      <Route path='/items' element={<div><Item_table /></div>} />
-      <Route path='/item' element={<div><ItemCard /></div>} />
-      <Route path='/error/:page' element={<div><ErrorPage /></div>} />
-    </Routes>
-    </div>
-    :
-    <div style={{height:"100vh"}}>
-      <Loader />
-    </div>
+    visibility ?
+      <div style={{ width: `${width}px` }}>
+        <Routes>
+          <Route path='/' element={<div><Home /></div>} />
+          <Route path='/analytics' element={<div><Analytics /></div>} />
+          <Route path='/party/list-creator' element={<div><List /></div>} />
+          <Route path='/payment-notes' element={<div><PaymentNotes type="all" /></div>} />
+          <Route path='/payment-notes/create' element={<div><PaymentNotes type="create" /></div>} />
+          <Route path='/payment-notes/:date' element={<div><Note /></div>} />
+          <Route path='/pdf-creator/mrOutstanding' element={<div><MrOutstandingPDF /></div>} />
+          <Route path='/pdf-creator/party-item-history/:partyID' element={<div><PartyItemHistoryPDF /></div>} />
+          <Route path='/items' element={<div><Item_table /></div>} />
+          <Route path='/item' element={<div><ItemCard /></div>} />
+          <Route path='/error/:page' element={<div><ErrorPage /></div>} />
+        </Routes>
+      </div>
+      :
+      <div style={{ height: "100vh" }}>
+        <Loader />
+      </div>
 
   );
+
 }
 
 export default App;
