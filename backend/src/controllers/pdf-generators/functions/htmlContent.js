@@ -103,7 +103,7 @@ export const htmlContent = (array) => {
       }
 
       .table-container h1{
-
+        
       }
 
   </style>
@@ -126,9 +126,9 @@ export const htmlContent = (array) => {
         </div>
         <div class="account-details">
           <p style="top:5px; left:650px; font-size:1.4rem;">Account Details</p>
-          <p style="top:40px; left:650px;">UPI ID: 9235686101@ybl</p>
-          <p style="top:60px; left:650px;">Account Number: 50200011565440</p>
-          <p style="top:80px; left:650px;">IFSC CODE: HDFC0000723</p>
+          <p style="top:80px; left:650px;">UPI ID: 9235686101@ybl</p>
+          <p style="top:120px; left:650px;">Account Number: 50200011565440</p>
+          <p style="top:140px; left:650px;">IFSC CODE: HDFC0000723</p>
         </div>
     </div>
   <div class="table-container">
@@ -147,8 +147,8 @@ export const htmlContent = (array) => {
      `<tr>
           <td>${index + 1}</td>
           <td>${item?.itemDetails?.itemName}</td>
-          <td style="color:'black'">${item?.deal ? item.deal : "____"}</td>
-          <td style="color:'black'">${item?.discount ? item.discount : "__"}</td>
+          <td>${item?.deal ? item.deal : "____"}</td>
+          <td>${item?.discount ? item.discount : "__"}</td>
         </tr>`
   ).join('')}
     </tbody>
