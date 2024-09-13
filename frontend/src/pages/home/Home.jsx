@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { backend_start_api } from '../../api/api'
 import Loader from '../../components/loader/loader';
 
-const Home = () => {
+const  Home = () => {
 
   const [visible , setVisibility] = useState(false);
 
@@ -24,11 +24,11 @@ const Home = () => {
 
   }, []);
 
-  // console.log(visible)
+  
 
   return (
     
-      visible?<div>Home</div>:<Loader />
+      visible?<div >Home</div>:<Loader />
     
   )
 }

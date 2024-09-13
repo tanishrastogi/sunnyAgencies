@@ -30,28 +30,6 @@ const ItemList = () => {
     items: []
   });
 
-  const [apiCall, setApiCall] = useState(0);
-
-
-  // const start_backend = async () => {
-  //   try {
-  //     const data = await backend_start_api();
-  //     if (data.statusCode === 200) {
-  //       setVisibility(true);
-  //     }
-  //   }
-  //   catch (err) {
-  //     console.log(err)
-  //   }
-  // };
-
-  // setTimeout(async() => {
-  //   console.log(apiCall);
-  //   if (apiCall < 15) {
-  //     await start_backend();
-  //     setApiCall(apiCall + 1);
-  //   }
-  // }, 120000);
 
   const inputRefs = useRef([]); // Create a ref to hold all input refs
 
@@ -67,7 +45,7 @@ const ItemList = () => {
       console.error(err);
     }
   }
-  console.log(selectedAccount);
+
   const fetchAccounts = async () => {
     try {
       if (inputValues.accountName?.length !== 0) {
@@ -86,9 +64,14 @@ const ItemList = () => {
 
   const sendPDFViaEmail = async () => {
     try {
+
+      if (inputValues.email.length === 0) {
+        window.alert("Email not specified.");
+        return;
+      }
+
       const data = await send_party_item_history_pdf_via_email({ data: selectedAccount, email: inputValues.email });
       if (data.statusCode === 200) {
-        console.log("email sent");
         window.alert("email sent");
       }
     }
@@ -125,6 +108,24 @@ const ItemList = () => {
     savePartyData(selectedAccount.partyName, updatedItems);
   };
 
+  const handleItemDelete = (item) => {
+    console.log(item);
+    if (window.confirm("Are you sure you want to delete this item?")) {
+
+      const items = selectedAccount.items.filter((med) => {
+        return med.itemDetails._id !== item.itemDetails._id;
+      });
+
+      setSelectedAccount((prev) => ({
+        ...prev,
+        items
+      }));
+
+      savePartyData(selectedAccount.partyName, items);
+    }
+
+  }
+
   // Debounced version of fetchAccounts
   const debouncedFetchAccounts = useCallback(_.debounce(fetchAccounts, 300), [inputValues]);
 
@@ -157,11 +158,18 @@ const ItemList = () => {
   }, [selectedAccount.partyName]);
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.key === "ArrowRight") {
       e.preventDefault();
       const nextIndex = index + 1;
-      if (nextIndex < inputRefs.current.length) {
-        inputRefs.current[nextIndex].focus();
+      if (nextIndex <= inputRefs?.current.length) {
+        inputRefs?.current[nextIndex]?.focus();
+      }
+    }
+    else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const nextIndex = index - 1;
+      if (nextIndex < inputRefs?.current.length) {
+        inputRefs.current[nextIndex]?.focus();
       }
     }
   };
@@ -210,6 +218,7 @@ const ItemList = () => {
               <div>Item Name</div>
               <div className='disc'>Discount</div>
               <div className='deal'>Deal</div>
+              <div className=''></div>
             </div>
             <div className='body'>
               {
@@ -220,7 +229,7 @@ const ItemList = () => {
                       placeholder='Discount'
                       name='discount'
                       ref={(el) => (inputRefs.current[index * 2] = el)}
-                      onKeyDown={(e) => handleKeyDown(e, index * 2)}
+                      onKeyDown={(e) => handleKeyDown(e, index*2)}
                       value={item.discount || ""}
                       onChange={(e) => handleInputChange(e, index, 'discount')}
                     />
@@ -232,6 +241,20 @@ const ItemList = () => {
                       value={item.deal || ""}
                       onChange={(e) => handleInputChange(e, index, 'deal')}
                     />
+                    <div style={{ width: "1px" }} onClick={() => {
+                      handleItemDelete(item)
+                    }}>
+                      <DeleteIcon
+                        sx={{
+                          height: "0.95rem",
+                          color: "grey",
+                          "&:hover": {
+                            color: "red"
+                          }
+                        }}
+                      />
+
+                    </div>
                   </div>
                 })
               }
@@ -240,7 +263,7 @@ const ItemList = () => {
         </div> : <div className='list-holders' style={{ height: "200px", display: "flex", textAlign: "center", alignItems: "center" }}>
           No past items for this party.
         </div>}
-        <div className='account-names'>
+        <div className='account-names company-containers'>
           {accountData?.map((acc, index) => {
             return <div className='account-name-value' key={index}>
               <div onClick={() => {
@@ -262,6 +285,8 @@ const ItemList = () => {
               </div>
             </div>
           })}
+
+
         </div>
       </div>
 
