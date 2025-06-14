@@ -4,6 +4,8 @@ import { ApiError } from "../../utils/apiError.js";
 import { ApiResponse } from "../../utils/apiResponse.js";
 import { ChartJSNodeCanvas } from "chartjs-node-canvas"
 import fs from "fs"
+import { ist_to_utc } from "../../utils/date_functions.js";
+import { Bill } from "../../models/bill.model.js";
 
 
 const barGraph = async (req, res) => {
@@ -102,8 +104,7 @@ const barGraph = async (req, res) => {
 const sale_cumulative_line_chart = async (req, res) => {
   try {
     
-    // const {month} =
-
+    
     const startDate = new Date(ist_to_utc("2024-04-01T00:00:00.000Z"));
     const endDate = new Date(ist_to_utc("2024-06-15T23:59:59.999Z"));
 
@@ -112,6 +113,7 @@ const sale_cumulative_line_chart = async (req, res) => {
     //   { billDate: { $gte: startDate, $lte: endDate } },
     //   [{ $set: { totalAmount: { $toDouble: "$totalAmount" } } }]
     // );
+
 
     const result = await Bill.aggregate([
       {
@@ -126,6 +128,9 @@ const sale_cumulative_line_chart = async (req, res) => {
         }
       }
     ]);
+
+    console.log("result");
+
 
     // const countPipeline = [
     //   {

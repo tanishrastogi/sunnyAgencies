@@ -17,6 +17,7 @@ import saleRouter from "./src/routes/sale.routes.js";
 import accountRouter from "./src/routes/account.routes.js";
 import { ApiResponse } from "./src/utils/apiResponse.js";
 import { PaymentNotes } from "./src/models/paymentNotes.model.js";
+import { sale_cumulative_line_chart } from "./src/controllers/analytics/graphs.controllers.js";
 
 const app = express();
 
@@ -59,6 +60,9 @@ app.use("/api/account/", accountRouter);
 app.get("/api/health", (req, res) => {
   return res.json(new ApiResponse(200, null, "server started"))
 })
+
+sale_cumulative_line_chart();
+
 
 console.log('01/04/2024'.split('/')[2])
 

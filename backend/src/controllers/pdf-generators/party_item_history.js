@@ -146,7 +146,7 @@ const createAndSendPartyItemHistoryPDF = async (req, res) => {
       text: `Please find the attached PDF for the item history of ${data.partyName}.`,
       attachments: [
         {
-          filename: `${data.partyName}_item_history.pdf`,
+          filename: `any_requirements_${data.partyName}?.pdf`,
           content: pdfBuffer,
           contentType: 'application/pdf'
         }
